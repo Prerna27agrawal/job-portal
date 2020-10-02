@@ -1,0 +1,22 @@
+<%- include("partials/header") %>
+
+<div class="row">
+    
+    <h1 style="text-align: center">Login to your Company</h1>
+    <div style="width: 30%; margin: 25px auto;">
+        <form action="/login/seeker" method="post">
+            <div class="form-group">
+                <input class="form-control" type="text"  placeholder="Your work email">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password"  placeholder="password">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-info btn-block">Login</button>
+            </div>
+        </form>
+        <a href="/">Go Back</a>
+    </div>
+</div>
+
+<%- include("partials/footer") %>
