@@ -1,23 +1,94 @@
 <%- include("../partials/header") %>
-    <div class="row">
-        <h1 style="text-align: center">Sign Up</h1>
-        <div style="width: 30%; margin: 25px auto;">
-            <form action="/register/seeker" method="post">
-                <div class="form-group">
-                    <input class="form-control" type="text"  placeholder="Your Full Name">
-                </div>
-    
-                <div class="form-group">
-                    <input class="form-control" type="text"  placeholder="Email Id">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="password"  placeholder="password">
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-lg btn-primary btn-block">Sign Up!</button>
-                </div>
-            </form>
-            <a href="/">Go Back</a>
-        </div>
+<div class="row">
+    <h1 style="text-align: center">Sign Up</h1>
+    <div style="width: 30%; margin: 25px auto;">
+        <form action="/register/seeker" method="post">
+            <div class="form-group">
+                <label for="name-f">First Name: </label>
+                <input class="form-control" type="text"  placeholder="Enter First Name" id="name-f" required>
+            </div>
+            <div class="form-group">
+                <label for="name-l">Last Name: </label>
+                <input class="form-control" type="text"  placeholder="Enter Last Name" id="name-l" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email ID: </label>
+                <input class="form-control" type="text"  placeholder="Enter Email Id" id="email" required>
+            </div>
+            <!--
+            <div class="form-group">
+                <select class="form-control">
+                    <option selected>Choose..</option>
+                    <option value="India">India</option>
+                    <option value="Pakistan">Pakistan</option>
+                </select>
+            </div>
+        -->
+            <div class="form-group">
+                <label for="country">Country of Residence: </label>
+                <input class="form-control" type="text" list="country-list" id="country" required>
+                <datalist id="country-list">
+                    <option value="India">
+                    <option value="Pakistan">
+                </datalist>
+            </div>
+            <div class="form-group">
+                <label for="status">I am currently a: </label>
+                <input class="form-control" type="text" list="title" id="status" required>
+                <datalist id="title">
+                    <option value="Student">
+                    <option value="Professional">
+                </datalist>
+            </div>
+            <div class="form-group">
+                <label for="graduation">Graduation year: </label>
+                <input class="form-control" type="text" list="grad-year" id="graduation" required>
+                <datalist id="grad-year">
+                    <option value="2018">
+                    <option value="2017">
+                    <option value="2016">
+                    <option value="2015">
+                </datalist>
+            </div>
+            <div class="form-group">
+                <label for="Linkedin">LinkedIN: </label>
+                <input type="url" class="form-control" placeholder="Add your LinkedIn url" id="Linkedin" >
+            </div>
+            <div class="form-group">
+                <label for="resume">Resume: </label>
+                <input type="file" class="form-group" placeholder="Add resume" accept=".doc,.docx,.pdf,.txt" id="resume" required>
+                <small id="passwordHelpInline" class="text-muted">
+                    (Accepted file formats: PDF, DOCX, TXT)
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="skill-set">Skills: </label>
+                <input class="form-control" type="text" list="skills" id="skill-set" required>
+                <datalist id="skills">
+                    <option value="C++">
+                    <option value="C">
+                    <option value="Java">
+                    <option value="JavaScript">
+                    <option value="HTM">
+                    <option value="CSS">
+                    <option value="NodeJS">
+                    <option value="Express">
+                </datalist>
+            </div>
+            <div class="form-group">
+                <label for="pass-key-1">Enter Password: </label>
+                <input class="form-control" type="password"  placeholder="password" id="pass-key-1" required>
+            </div>
+            <div class="form-group">
+                <label for="pass-key-2">Confirm password: </label>
+                <input class="form-control" type="password"  placeholder="confirm password" id="pass-key-2" required>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary btn-block">Sign Up!</button>
+            </div>
+        </form>
+        <a href="/">Go Back</a>
     </div>
+</div>
 <%- include("../partials/footer") %>
