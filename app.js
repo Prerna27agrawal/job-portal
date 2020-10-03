@@ -7,32 +7,32 @@ app.get("/", function (req, res) {
 app.get("/login", function (req, res) {
   res.render("login");
 });
-app.get("/login/employee",function(req,res){
-  res.render("employeeLogin");
+app.get("/login/company",function(req,res){
+  res.render("company/companylogin");
 })
 app.get("/login/seeker",function(req,res){
-  res.render("seekerLogin");
+  res.render("seeker/seekerlogin");
 })
 
-app.get("/register/employee",function(req,res){
-  res.render("employeeRegister");
+app.get("/register/company",function(req,res){
+  res.render("company/companyregister");
 })
 app.get("/register/seeker",function(req,res){
-  res.render("seekerRegister");
+  res.render("seeker/seekerregister");
 })
 
 app.get("/register",function(req,res){
   res.render("register");
 });
 
-app.post("/login/employee",function(req,res){
+app.post("/login/company",function(req,res){
   res.send("Let's Hire");
 });
 app.post("/login/seeker",function(req,res){
   res.send("Let's Apply");
 });
 
-app.post("/register/employee",function(req,res){
+app.post("/register/company",function(req,res){
   res.send("Let's Hire");
 })
 app.post("/register/seeker",function(req,res){
