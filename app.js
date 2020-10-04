@@ -39,7 +39,7 @@ app.post("/register/seeker",function(req,res){
   res.send("Let's Apply");
 })
 app.get("/login/seeker/companyname",function(req,res){
-  res.send("let us apply to my company");
+  res.send("let us apply to my company and work ");
 });
 
 var port = process.env.PORT || 3000;
