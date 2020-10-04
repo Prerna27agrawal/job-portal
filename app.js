@@ -29,7 +29,7 @@ app.post("/login/company",function(req,res){
   res.send("Let's Hire");
 });
 app.post("/login/seeker",function(req,res){
-  res.send("Let's Apply");
+  res.render("seeker/index");
 });
 
 app.post("/register/company",function(req,res){
@@ -38,6 +38,9 @@ app.post("/register/company",function(req,res){
 app.post("/register/seeker",function(req,res){
   res.send("Let's Apply");
 })
+app.get("/login/seeker/companyname",function(req,res){
+  res.send("let us apply to my company");
+});
 
 var port = process.env.PORT || 3000;
 app.listen(port, function () {
