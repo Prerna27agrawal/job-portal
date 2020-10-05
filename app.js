@@ -26,7 +26,7 @@ app.get("/register",function(req,res){
 });
 
 app.post("/login/company",function(req,res){
-  res.send("Let's Hire");
+  res.render("createjob");
 });
 app.post("/login/seeker",function(req,res){
   res.render("seeker/index");
