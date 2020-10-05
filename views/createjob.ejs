@@ -1,0 +1,36 @@
+<%- include("../partials/header") %>
+
+<div class="row">
+    <h1 style="text-align: center">Post a Job</h1>
+    <div style="width: 30%; margin: 25px auto;">
+        <form action="/login/company" method="post">
+            <div class="form-group">
+                <input class="form-control" type="text"  placeholder=" Job Title/Position">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password"  placeholder="Company">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password"  placeholder="Job Location">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password"  placeholder="Work-Experience">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password"  placeholder="Job Description">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password"  placeholder="Required Skills">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password"  placeholder="Employement Type">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-info btn-block">Login</button>
+            </div>
+        </form>
+        <a href="/">Go Back</a>
+    </div>
+</div>
+
+<%- include("../partials/footer") %>
