@@ -1,0 +1,30 @@
+<%- include("../partials/header") %>
+<div class="container">
+    <header class="jumbotron">
+        <div class="container">
+            <h1>search job</h1>
+            <!---permanent navbar banana hai isko-->
+            <div class="form-group">
+                <input class="form-control" type="text" name="jobsearch" placeholder="seacrh by name">
+            </div>
+        </div>
+    </header>
+    <div class="row-text-center" style="display: flex; flex-wrap: wrap;">
+        <div class="col-md-3 col-sm-6">
+            <div class="thumbnail">
+                <img src="http://www.logodee.com/wp-content/uploads/2020/03/Modern-Company-Logo-Design-Ideas.jpg" height="200px" width="200px" >
+                <div class="caption">
+                    <h3>company name</h3>
+                    <h5>position</h5>
+                    <h5>place</h5>
+                    <h5>experience</h5>
+                </div>
+                <p>
+                    <!-------comapny ki id jo banegi vo aaegi company name mein-->
+                    <a href="/login/seeker/companyname" class="btn btn-primary">quickly apply</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include("../partials/footer") %>
