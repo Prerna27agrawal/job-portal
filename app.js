@@ -2,7 +2,7 @@ var express = require("express");
 var app = express();
 
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/job_portal");
+mongoose.connect("mongodb://localhost:27017/job_portal");
 
 app.set("view engine", "ejs");
 
@@ -39,22 +39,30 @@ app.get("/register", function (req, res) {
 app.get("/login/seeker/companyname", function (req, res) {
   res.send("let us apply to my company and work ");
 });
+app.get("/login/company/createjob",function(req,res){
+  res.render("company/createjob");
+});
+app.get("/login/company/viewjob",function(req,res){
+    res.send("following are the jobs");
+});
 
 //POST Request
 app.post("/login/company", function (req, res) {
-  res.render("createjob");
+  res.render("company/companyindex");
 });
 app.post("/login/seeker", function (req, res) {
   res.render("seeker/index");
 });
 
 app.post("/register/company", function (req, res) {
-  res.send("Let's Hire");
+  res.send("company/companylogin");
 })
 app.post("/register/seeker", function (req, res) {
-  res.send("Let's Apply");
+  res.send("seeker/seekerlogin");
 })
-
+app.post("/login/company/createjob",function(req,res){
+  res.send("job created");
+});
 
 
 var port = process.env.PORT || 3000;
