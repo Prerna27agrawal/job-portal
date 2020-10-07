@@ -1,3 +1,4 @@
+//"C:\Program Files\MongoDB\Server\4.4\bin\mongo.exe"
 var express = require("express");
 var app = express();
 var bodyParser = require('body-parser');
@@ -16,6 +17,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 const mongoose = require("mongoose");
+const company = require("./models/company");
 mongoose.connect("mongodb://localhost:27017/job_portal");
 
 app.set("view engine", "ejs");
@@ -72,23 +74,38 @@ app.get("/register", function (req, res) {
 app.get("/login/seeker/companyname", function (req, res) {
   res.send("let us apply to my company and work ");
 });
-app.get("/login/company/createjob",function(req,res){
-  res.render("company/createjob");
+//jb company login kre toh usko job create kkre id mil jae compnay ki
+app.get("/login/company/:id/createjob",function(req,res){
+  Company.findById(req.params.id,function(err,company){
+    if(err)
+    console.log(err);
+    else
+    res.render("company/createjob",{Company: company});
+  });
+ // res.render("company/createjob");
 });
-app.get("/login/company/viewjob",function(req,res){
-    res.send("following are the jobs");
+
+//saari jobs uss comapny ki show hongi
+app.get("/login/company/:id/viewjob",function(req,res){
+
+  Company.findById(req.params.id).populate("jobs").exec(function(err,foundcom){
+    if(err)
+    console.log(err);
+    else
+    {
+      console.log(foundcom);
+      res.render("company/viewjob",{Company: foundcom});
+    }
+  }); 
+ // res.send("following are the jobs");
 });
 
 //POST Request
-app.post("/login/company", function (req, res) {
-  res.render("company/companyindex");
-});
 app.post("/login/seeker", function (req, res) {
   res.render("seeker/index");
 });
-
+//company register page 
 app.post("/register/company", function (req, res) {
-
   var name=req.body.name;
   var email=req.body.email;
   var tagline=req.body.tagline;
@@ -108,16 +125,56 @@ app.post("/register/company", function (req, res) {
     console.log(err);
     else
     {
-       res.render("company/companylogin");
+      //res.redirect()
+       res.render("company/companylogin",{Company: newcompanycreate});
     }
   });
   console.log(newCompany);
 });
+
+app.post("/login/company/:id", function (req, res) {
+  Company.findById(req.params.id,function(err,company){
+    if(err)
+    console.log(err);
+    else
+    res.render("company/companyindex",{Company: company});
+  });
+});
+
+
+
 app.post("/register/seeker", function (req, res) {
   res.render("seeker/seekerlogin");
-})
-app.post("/login/company/createjob",function(req,res){
-  res.send("job created");
+});
+
+//after creating job post
+app.post("/login/company/:id/createjob",function(req,res){
+  Company.findById(req.params.id,function(err,company){
+    if(err) 
+    {
+         console.log(err);
+    }
+    else{
+      // var title=req.body.title;
+      // var company=req.body.company;
+      // var location=req.body.location;
+      // var experience=req.body.experience;
+      // var description= req.body.description;
+      // var newJob = new Job({title,company,location,experience,description});
+      Job.create(req.body.job,function(err,job){
+        if(err)
+        console.log(err);
+        else
+        {
+            company.jobs.push(job);
+            company.save();
+            console.log(company);
+            res.redirect('/login/company/'+ company._id+'/viewjob');
+        }
+    });
+  }
+  });
+  //res.send("job created");
 });
 
 

@@ -4,7 +4,7 @@
     
     <h1 style="text-align: center">Login to your Company</h1>
     <div style="width: 30%; margin: 25px auto;">
-        <form action="/login/company" method="post">
+        <form action="/login/company/<%= Company._id %>" method="post">
             <div class="form-group">
                 <input class="form-control" type="text"  placeholder="Your work email">
             </div>

@@ -1,0 +1,7 @@
+<%- include("../partials/header") %>
+<p><%= Company.name %></p>
+<hr>
+<% Company.jobs.forEach(function(job){ %>
+    <p> <%= job.title %></p>
+<% }); %>
+<%- include("../partials/footer") %>

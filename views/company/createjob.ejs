@@ -3,28 +3,28 @@
 <div class="row">
     <h1 style="text-align: center">Post a Job</h1>
     <div style="width: 30%; margin: 25px auto;">
-        <form action="/login/company/createjob" method="post">
+        <form action="/login/company/<%= Company._id %>/createjob" method="post">
             <div class="form-group">
-                <input class="form-control" type="text"  placeholder=" Job Title/Position">
+                <input class="form-control" type="text"  name="job[title]" placeholder=" Job Title/Position">
             </div>
             <div class="form-group">
-                <input class="form-control" type="password"  placeholder="Company">
+                <input class="form-control" type="text" name="job[company]"  placeholder="Company">
             </div>
             <div class="form-group">
-                <input class="form-control" type="password"  placeholder="Job Location">
+                <input class="form-control" type="text"  name="job[location]" placeholder="Job Location">
             </div>
             <div class="form-group">
-                <input class="form-control" type="password"  placeholder="Work-Experience">
+                <input class="form-control" type="text"  name="job[experience]" placeholder="Work-Experience">
             </div>
             <div class="form-group">
-                <input class="form-control" type="password"  placeholder="Job Description">
+                <input class="form-control" type="text"  name="job[description]" placeholder="Job Description">
             </div>
-            <div class="form-group">
+            <!---<div class="form-group">
                 <input class="form-control" type="password"  placeholder="Required Skills">
-            </div>
-            <div class="form-group">
+            </div>-->
+          <!---  <div class="form-group">
                 <input class="form-control" type="password"  placeholder="Employement Type">
-            </div>
+            </div>-->
             <div class="form-group">
                 <button class="btn btn-lg btn-info btn-block">Create</button>
             </div>
