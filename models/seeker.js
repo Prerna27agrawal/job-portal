@@ -16,12 +16,12 @@ var seekerSchema = new mongoose.Schema({
     resume: String,
     skills: [String],
     password: String,
-    jobsApplied: {
+    jobsApplied: [{
       id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Job"
       }
-    }
+    }]
   })
 
   module.exports = mongoose.model("Seeker", seekerSchema);

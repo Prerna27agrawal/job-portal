@@ -5,36 +5,36 @@
         <form action="/register/company" method="post">
             <div class="form-group">
                 <label for="name">Company Name: </label>
-                <input class="form-control" type="text"  placeholder="Company Name" id="name" required> 
+                <input class="form-control" type="text" name="name"  placeholder="Company Name"  required> 
             </div>
 
             <div class="form-group">
                 <label for="email">Work Email ID: </label>
-                <input class="form-control" type="email"  placeholder="Enter Email Id" id="email" required>
+                <input class="form-control" type="email" name="email" placeholder="Enter Email Id"  required>
             </div>
             <div class="form-group">
                 <label for="tagline">Tagline: </label>
-                <input class="form-control" type="text"  placeholder="Briefly describe about your company" id="tagline" required>
+                <input class="form-control" type="text" name="tagline" placeholder="Briefly describe about your company"  required>
             </div>
 
             <div class="form-group">
                 <label for="description">Desrciption: </label>
-                <textarea class="form-control" rows="3" id="description"></textarea>
+                <textarea class="form-control" name="description" rows="3" ></textarea>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="website">Website: </label>
                 <input type="url" class="form-control" placeholder="Add your company website link" id="website" required>
-            </div>
+            </div> -->
             <div class="form-group">
                 <label for="logo">Logo: </label>
-                <input type="file" class="form-group" placeholder="Add logo" accept=".png,.jpg,.jpeg" id="logo" aria-describedby="passwordHelpInline" required>
+                <input type="file" class="form-group"  name="logo" placeholder="Add logo" accept=".png,.jpg,.jpeg"  aria-describedby="passwordHelpInline" required>
                 <small id="passwordHelpInline" class="text-muted">
                     (Accepted file formats: PNG, JPG, JPEG)
                 </small>
             </div>
             <div class="form-group">
                 <label for="password">Enter Password: </label>
-                <input class="form-control" type="password"  placeholder="password" id="password" required>
+                <input class="form-control" type="password"  placeholder="password" name="password" required>
             </div>
             <div class="form-group">
                 <label for="confirm_password">Confirm password: </label>

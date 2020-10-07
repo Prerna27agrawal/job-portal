@@ -10,14 +10,17 @@ var companySchema = new mongoose.Schema({
     tagline: String,
     description: String,
     website: String,
-    image: String,
+    image: {
+        // data:Buffer,
+        // contentType:String
+    },
     password: String,
-    jobsPosted: {
+    jobsPosted:[ {
         id: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Job"
         }
-    }
+    }]
 })
 
-module.exports = mongoose.model("Company", companySchema);
+module.exports =  mongoose.model("Company", companySchema);
