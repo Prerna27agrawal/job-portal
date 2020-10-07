@@ -1,15 +1,46 @@
 var express = require("express");
 var app = express();
 
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+// accept json 
+app.use(bodyParser.json());
+
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/job_portal");
+mongoose.connect("mongodb://localhost:27017/webster");
 
 app.set("view engine", "ejs");
 
+//Image Upload- Mutler
+var fs = require('fs'); 
+var path = require('path');
+var multer = require('multer');  
+require('dotenv/config');
+
+
+var fs = require('fs'); 
+var path = require('path'); 
+var multer = require('multer'); 
+  
+var storage = multer.diskStorage({ 
+    destination: (req, file, cb) => { 
+        cb(null, 'uploads') 
+    }, 
+    filename: (req, file, cb) => { 
+        cb(null, file.fieldname + '-' + Date.now()) 
+    } 
+}); 
+  
+var upload = multer({ storage: storage }); 
+
 //Model
+var Job = require("./models/job");
 var Company= require("./models/company");
 var Seeker = require("./models/seeker");
-var Job = require("./models/job");
+
 
 //GET Request
 app.get("/", function (req, res) {
@@ -54,7 +85,23 @@ app.post("/login/seeker", function (req, res) {
   res.render("seeker/index");
 });
 
-app.post("/register/company", function (req, res) {
+app.post("/register/company",upload.single('company'), function (req, res) {
+
+  var name=req.body.name;
+  var email=req.body.email;
+  var tagline=req.body.tagline;
+  var description=req.body.description;
+  var logo={ 
+    //add karna hai
+  } ;
+  var newCompany = new Company({
+    name,
+    email,
+    tagline,
+    description,
+    logo,
+  });
+  console.log(newCompany);
   res.send("company/companylogin");
 })
 app.post("/register/seeker", function (req, res) {
