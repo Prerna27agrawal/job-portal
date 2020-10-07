@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/webster");
+mongoose.connect("mongodb://localhost:27017/job_portal");
 
 app.set("view engine", "ejs");
 

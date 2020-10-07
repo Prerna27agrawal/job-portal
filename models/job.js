@@ -17,13 +17,13 @@ var jobSchema = new mongoose.Schema({
     appliedBy: [{
       id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Job"
+        ref: "Company"
       }
     }],
     postedBy: {
       id: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Job"
+          ref: "Seeker"
       }
   }
   })
