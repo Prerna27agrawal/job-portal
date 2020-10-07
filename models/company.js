@@ -15,12 +15,6 @@ var companySchema = new mongoose.Schema({
         // contentType:String
     },
     password: String,
-    jobsPosted:[ {
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Job"
-        }
-    }]
 })
 
 module.exports =  mongoose.model("Company", companySchema);

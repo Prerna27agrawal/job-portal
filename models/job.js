@@ -13,7 +13,19 @@ var jobSchema = new mongoose.Schema({
     description: String,
     employementype: String,
     skillsRequired: [String],
-    createdAt: { type: Date, default: Date.now }
+    createdAt: { type: Date, default: Date.now },
+    appliedBy: [{
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Job"
+      }
+    }],
+    postedBy: {
+      id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Job"
+      }
+  }
   })
 
   module.exports = mongoose.model("Job", jobSchema);
