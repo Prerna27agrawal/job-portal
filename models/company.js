@@ -10,10 +10,12 @@ var companySchema = new mongoose.Schema({
     tagline: String,
     description: String,
     website: String,
-    image: {
+    //image: {
         // data:Buffer,
         // contentType:String
-    },
+    //},
+    logo : String,
+    imageId: String,
     password: String,
     jobsPosted:[ {
         id: {
@@ -21,6 +23,12 @@ var companySchema = new mongoose.Schema({
             ref: "Job"
         }
     }]
-})
+});
 
 module.exports =  mongoose.model("Company", companySchema);
+
+
+
+
+
+

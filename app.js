@@ -1,7 +1,13 @@
 var express = require("express");
 var app = express();
-
 var bodyParser = require('body-parser');
+
+
+//Model
+var Job = require("./models/job");
+var Company= require("./models/company");
+var Seeker = require("./models/seeker");
+
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -10,7 +16,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/webster");
+mongoose.connect("mongodb://localhost:27017/job_portal");
 
 app.set("view engine", "ejs");
 
@@ -36,10 +42,6 @@ app.set("view engine", "ejs");
   
 // var upload = multer({ storage: storage }); 
 
-//Model
-var Job = require("./models/job");
-var Company= require("./models/company");
-var Seeker = require("./models/seeker");
 
 
 //GET Request
@@ -91,21 +93,28 @@ app.post("/register/company", function (req, res) {
   var email=req.body.email;
   var tagline=req.body.tagline;
   var description=req.body.description;
-  var logo={ 
-    //add karna hai
-  } ;
+  var logo= req.body.logo;
+  var password =req.body.password;
   var newCompany = new Company({
     name,
     email,
     tagline,
     description,
     logo,
+    password
+  });
+  Company.create(newCompany,function(err,newcompanycreate){
+    if(err) 
+    console.log(err);
+    else
+    {
+       res.render("company/companylogin");
+    }
   });
   console.log(newCompany);
-  res.send("company/companylogin");
-})
+});
 app.post("/register/seeker", function (req, res) {
-  res.send("seeker/seekerlogin");
+  res.render("seeker/seekerlogin");
 })
 app.post("/login/company/createjob",function(req,res){
   res.send("job created");
