@@ -15,26 +15,26 @@ mongoose.connect("mongodb://localhost:27017/webster");
 app.set("view engine", "ejs");
 
 //Image Upload- Mutler
-var fs = require('fs'); 
-var path = require('path');
-var multer = require('multer');  
-require('dotenv/config');
+// var fs = require('fs'); 
+// var path = require('path');
+// var multer = require('multer');  
+// require('dotenv/config');
 
 
-var fs = require('fs'); 
-var path = require('path'); 
-var multer = require('multer'); 
+// var fs = require('fs'); 
+// var path = require('path'); 
+// var multer = require('multer'); 
   
-var storage = multer.diskStorage({ 
-    destination: (req, file, cb) => { 
-        cb(null, 'uploads') 
-    }, 
-    filename: (req, file, cb) => { 
-        cb(null, file.fieldname + '-' + Date.now()) 
-    } 
-}); 
+// var storage = multer.diskStorage({ 
+//     destination: (req, file, cb) => { 
+//         cb(null, 'uploads') 
+//     }, 
+//     filename: (req, file, cb) => { 
+//         cb(null, file.fieldname + '-' + Date.now()) 
+//     } 
+// }); 
   
-var upload = multer({ storage: storage }); 
+// var upload = multer({ storage: storage }); 
 
 //Model
 var Job = require("./models/job");
@@ -85,7 +85,7 @@ app.post("/login/seeker", function (req, res) {
   res.render("seeker/index");
 });
 
-app.post("/register/company",upload.single('company'), function (req, res) {
+app.post("/register/company", function (req, res) {
 
   var name=req.body.name;
   var email=req.body.email;
