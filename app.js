@@ -2,19 +2,14 @@
 var express = require("express");
 var app = express();
 var bodyParser = require('body-parser');
+var passport   = require("passport");
+var LocalStrategy= require("passport-local");
 
 //for keeping the cloud api secret
 //https://www.npmjs.com/package/dotenv
-require('dotenv').config()
-
-//Model
-var Job = require("./models/job");
-var Company= require("./models/company");
-var Seeker = require("./models/seeker");
-
+require('dotenv').config();
 
 //for image handling
-
 var multer = require('multer');
 var storage = multer.diskStorage({
 	  filename: function(req, file, callback) {
@@ -45,9 +40,15 @@ app.use(bodyParser.urlencoded({
 // accept json 
 app.use(bodyParser.json());
 
+const Company = require("./models/company");
+const Seeker = require("./models/company");
+const Job = require("./models/company");
+
 const mongoose = require("mongoose");
-const company = require("./models/company");
-mongoose.connect("mongodb://localhost:27017/job_portal");
+mongoose.connect("mongodb://localhost:27017/jobportal4");
+
+var passportLocalMongoose = require('passport-local-mongoose'); 
+
 
 //GET Request
 app.get("/", function (req, res) {
@@ -141,7 +142,7 @@ app.post("/login/company/", function (req, res) {
     console.log(err);
     else{
       console.log(foundCompany);
-      res.render("company/show",{Company: foundCompany});
+      res.render("company/show",{foundCompany: foundCompany});
     }
   })
 });
