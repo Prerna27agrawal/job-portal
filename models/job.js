@@ -11,20 +11,20 @@ var jobSchema = new mongoose.Schema({
     location: String,
     experience: String,
     description: String,
-   // employementype: String,
-    //createdAt: { type: Date, default: Date.now },
-    //appliedBy: [{
-      //id: {
-  //       type: mongoose.Schema.Types.ObjectId,
-  //       ref: "Seeker"
-  //     }
-  //   }],
-  //   postedBy: {
-  //     id: {
-  //         type: mongoose.Schema.Types.ObjectId,
-  //         ref: "Company"
-  //     }
-  // }
+   employementype: String,
+    createdAt: { type: Date, default: Date.now },
+    appliedBy: [{
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Seeker"
+      }
+    }],
+    postedBy: {
+      id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Company"
+      }
+  }
   });
 
   module.exports = mongoose.model("Job", jobSchema);

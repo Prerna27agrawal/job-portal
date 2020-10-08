@@ -37,12 +37,6 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-
-
-
-
-
-
 app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({
@@ -72,6 +66,10 @@ app.get("/login/seeker", function (req, res) {
   res.render("seeker/seekerlogin");
 });
 
+app.get("/register", function (req, res) {
+  res.render("register");
+});
+
 app.get("/register/company", function (req, res) {
   res.render("company/companyregister");
 });
@@ -80,16 +78,16 @@ app.get("/register/seeker", function (req, res) {
   res.render("seeker/seekerregister");
 });
 
-app.get("/register", function (req, res) {
-  res.render("register");
-});
+app.get("/company/show",function(req,res){
+  res.render("company/show");
+})
 
-app.get("/login/seeker/companyname", function (req, res) {
-  res.send("let us apply to my company and work ");
-});
+// app.get("/login/seeker/companyname", function (req, res) {
+//   res.send("let us apply to my company and work ");
+// });
 
 //jb company login kre toh usko job create karkee id mil jae company ki
-app.get("/login/company/:id/createjob",function(req,res){
+app.get("/company/:id/createjob",function(req,res){
   Company.findById(req.params.id,function(err,company){
     if(err)
     console.log(err);
@@ -99,7 +97,7 @@ app.get("/login/company/:id/createjob",function(req,res){
 });
 
 //saari jobs uss comapny ki show hongi
-app.get("/login/company/:id/viewjob",function(req,res){
+app.get("/company/:id/viewjob",function(req,res){
   Company.findById(req.params.id).populate("jobs").exec(function(err,foundcom){
     if(err)
     console.log(err);
@@ -130,27 +128,22 @@ app.post("/register/company", upload.single('logo'), function (req, res) {
         return res.redirect('back');
       }
       else
-          res.render("company/companylogin",{Company: newcompanycreate});
+          res.render("company/companylogin");
     });
   });
-//   Company.create(req.body.newCompany,function(err,newcompanycreate){
-//     if(err) 
-//     console.log(err);
-//     else
-//     {
-//        res.render("company/companylogin",{Company: newcompanycreate});
-//     }
-//   });
 });
 
 
-app.post("/login/company/:id", function (req, res) {
-  Company.findById(req.params.id,function(err,company){
+app.post("/login/company/", function (req, res) {
+  var foundCompany=Company.find({email:req.body.email});
+  foundCompany.exec(function(err,foundCompany){
     if(err)
     console.log(err);
-    else
-    res.render("company/companyindex",{Company: company});
-  });
+    else{
+      console.log(foundCompany);
+      res.render("company/show",{Company: foundCompany});
+    }
+  })
 });
 
 app.post("/register/seeker", function (req, res) {
