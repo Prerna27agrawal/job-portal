@@ -10,12 +10,7 @@ var companySchema = new mongoose.Schema({
     tagline: String,
     description: String,
     website: String,
-    //image: {
-        // data:Buffer,
-        // contentType:String
-    //},
     logo : String,
-   // imageId: String,
     password: String,
     jobs:[
          {
