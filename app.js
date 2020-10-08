@@ -4,6 +4,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var passport   = require("passport");
 var LocalStrategy= require("passport-local");
+var passportLocalMongoose = require('passport-local-mongoose'); 
 
 //for keeping the cloud api secret
 //https://www.npmjs.com/package/dotenv
@@ -47,8 +48,24 @@ const Job = require("./models/company");
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/jobportal4");
 
-var passportLocalMongoose = require('passport-local-mongoose'); 
 
+//passport-authenticate
+app.use(require("express-session")({
+    secret: "It's a Job Portal",
+    resave :false,
+    saveUninitialized: false	
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(Company.authenticate())); 
+passport.use(new LocalStrategy(Seeker.authenticate())); 
+
+passport.serializeUser(Seeker.serializeUser());
+passport.deserializeUser(Seeker.deserializeUser());
+
+passport.serializeUser(Company.serializeUser());
+passport.deserializeUser(Company.deserializeUser());
 
 //GET Request
 app.get("/", function (req, res) {
@@ -121,15 +138,23 @@ app.post("/login/seeker", function (req, res) {
 app.post("/register/company", upload.single('logo'), function (req, res) {
   cloudinary.uploader.upload(req.file.path, function(result) {
     // add cloudinary url for the image to the campground object under image property
-    req.body.newCompany.logo = result.secure_url;
-    Company.create(req.body.newCompany, function(err, newcompanycreate) {
+    req.body.logo = result.secure_url;
+
+    var newComp=new Company({
+      name:req.body.name,
+      email:req.body.email,
+      tagline:req.body.tagline,
+      description:req.body.description,
+      logo:req.body.logo
+    });
+    Company.register(newComp,req.body.password, function(err, newcompanycreate) {
       if (err) {
          console.log(err);
-        //req.flash('error', err.message);
-        return res.redirect('back');
+        return res.redirect('/');
       }
-      else
+      passport.authenticate('local')(req,res,function(){
           res.render("company/companylogin");
+      })
     });
   });
 });
