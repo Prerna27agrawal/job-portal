@@ -120,6 +120,20 @@ app.get("/seeker/:id/myprofile",function(req,res){
   })
 })
 
+app.get("/seeker/:id/appliedJobs",function(req,res){
+  Seeker.findById(req.params.id,function(err,foundSeeker){
+    if(err)
+    console.log(err);
+    Job.find().where('appliedBy.id').equals(foundSeeker._id).exec(function(err,alljobs){
+      if(err)
+      console.log(err);
+      else{
+           res.render("seeker/appliedJobs",{seeker:foundSeeker,jobs: alljobs});
+      }
+    });
+  })
+})
+
 // app.get("/login/seeker/companyname", function (req, res) {
 //   res.send("let us apply to my company and work ");
 // });

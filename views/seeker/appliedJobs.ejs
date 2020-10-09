@@ -1,0 +1,15 @@
+<%- include("../partials/header") %>
+
+<h1><%= seeker.username%></h1>
+
+<% jobs.forEach(function(job){ %>
+    <p> <%= job.name %></p>
+    <p> <%= job.description %></p>
+    <p> <%= job.location %></p>
+    <p></p>
+    <br>
+    <br>
+<% }); %>
+
+
+<%- include("../partials/footer") %>

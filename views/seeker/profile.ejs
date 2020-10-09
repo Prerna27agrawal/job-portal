@@ -3,6 +3,9 @@
 
 
         <p ><%= foundSeeker.firstname %> <%=foundSeeker.lastname%></p>
+        <p>
+            <a href="/seeker/<%= foundSeeker._id %>/appliedJobs" class="btn btn-primary">Applied Jobs</a>
+        </p>
 
 
 <%- include("../partials/footer") %>

@@ -18,6 +18,12 @@ var seekerSchema = new mongoose.Schema({
     // resume: String,
     skills: [String],
     password: String ,
+    // appliedJobs:[{
+    //   id: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Job"
+    //   },
+    // }]
   });
   
 seekerSchema.plugin(passportLocalMongoose)
