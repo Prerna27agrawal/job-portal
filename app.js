@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 var passport   = require("passport");
 var LocalStrategy= require("passport-local");
+var path= require("path");
 var passportLocalMongoose = require('passport-local-mongoose'); 
 
 
@@ -12,7 +13,7 @@ const Company = require("./models/company");
 const Seeker = require("./models/seeker");
 const Job = require("./models/job");
 
-
+app.use(express.static(path.join(__dirname+"/public")));
 //for keeping the cloud api secret
 //https://www.npmjs.com/package/dotenv
 require('dotenv').config();
