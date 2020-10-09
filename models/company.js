@@ -1,26 +1,27 @@
 var mongoose = require("mongoose");
+var passportLocalMongoose = require('passport-local-mongoose'); 
 
-mongoose.connect("mongodb://localhost:27017/job_portal", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb://localhost:27017/jobportal4", { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
 var companySchema = new mongoose.Schema({
+    username:String,
     name: String,
-    email: String,
+//{type:String ,required:true, unique:true},
+    email: String,//{type:String ,required:true, unique:true},
     tagline: String,
     description: String,
-    website: String,
     logo : String,
-    password: String,
-    jobs:[
-         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Job"
-         }
-    ]
+    password:String, //{type:String ,required:true, unique:true},
+    // jobs:[
+    //      {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: "Job"
+    //      }
+    // ]
 });
 
+companySchema.plugin(passportLocalMongoose);
+
 module.exports =  mongoose.model("Company", companySchema);
-
-
-

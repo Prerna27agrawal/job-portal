@@ -1,20 +1,23 @@
-// "C:\Program Files\MongoDB\Server\4.4\bin\mongo.exe"
+//"C:\Program Files\MongoDB\Server\4.4\bin\mongo.exe"
 var express = require("express");
 var app = express();
 var bodyParser = require('body-parser');
+const mongoose = require("mongoose");
+var passport   = require("passport");
+var LocalStrategy= require("passport-local");
+var passportLocalMongoose = require('passport-local-mongoose'); 
+
+
+const Company = require("./models/company");
+const Seeker = require("./models/seeker");
+const Job = require("./models/job");
+
 
 //for keeping the cloud api secret
 //https://www.npmjs.com/package/dotenv
-require('dotenv').config()
+require('dotenv').config();
 
-//Model
-var Job = require("./models/job");
-var Company= require("./models/company");
-var Seeker = require("./models/seeker");
-
-
-//for image handling
-
+////////////////for image handling
 var multer = require('multer');
 var storage = multer.diskStorage({
 	  filename: function(req, file, callback) {
@@ -29,31 +32,43 @@ var imageFilter = function (req, file, cb) {
     cb(null, true);
 };
 var upload = multer({ storage: storage, fileFilter: imageFilter})
-
 var cloudinary = require('cloudinary');
 cloudinary.config({ 
   cloud_name: 'dhr7wlz2k', 
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
+//////////////////////////////////////////////
 
 
-
-
-
-
-
+mongoose.connect("mongodb://localhost:27017/jobportal4", { useNewUrlParser: true ,useUnifiedTopology: true});
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 app.set("view engine", "ejs");
-
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(bodyParser.urlencoded({extended: true}));
 // accept json 
 app.use(bodyParser.json());
 
-const mongoose = require("mongoose");
-const company = require("./models/company");
-mongoose.connect("mongodb://localhost:27017/job_portal");
+
+
+
+////////passport-authenticate
+app.use(require("express-session")({
+    secret: "It is a Job Portal",
+    resave :false,
+    saveUninitialized: false	
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(Company.authenticate())); 
+//passport.use(new LocalStrategy(Seeker.authenticate())); 
+//passport.serializeUser(Seeker.serializeUser());
+//passport.deserializeUser(Seeker.deserializeUser());
+passport.serializeUser(Company.serializeUser());
+passport.deserializeUser(Company.deserializeUser());
+////////////////////////////////////////
+
+
 
 //GET Request
 app.get("/", function (req, res) {
@@ -72,6 +87,10 @@ app.get("/login/seeker", function (req, res) {
   res.render("seeker/seekerlogin");
 });
 
+app.get("/register", function (req, res) {
+  res.render("register");
+});
+
 app.get("/register/company", function (req, res) {
   res.render("company/companyregister");
 });
@@ -80,35 +99,43 @@ app.get("/register/seeker", function (req, res) {
   res.render("seeker/seekerregister");
 });
 
-app.get("/register", function (req, res) {
-  res.render("register");
+app.get("/company/show",function(req,res){
+
+  res.render("company/show",{company:req.user});
 });
 
-app.get("/login/seeker/companyname", function (req, res) {
-  res.send("let us apply to my company and work ");
-});
+// app.get("/login/seeker/companyname", function (req, res) {
+//   res.send("let us apply to my company and work ");
+// });
 
 //jb company login kre toh usko job create karkee id mil jae company ki
-app.get("/login/company/:id/createjob",function(req,res){
-  Company.findById(req.params.id,function(err,company){
-    if(err)
-    console.log(err);
-    else
-    res.render("company/createjob",{Company: company});
-  });
+app.get("/company/createjob",function(req,res){
+       res.render("company/createjob");//,{Company: req.user});
+  // });
 });
 
 //saari jobs uss comapny ki show hongi
-app.get("/login/company/:id/viewjob",function(req,res){
-  Company.findById(req.params.id).populate("jobs").exec(function(err,foundcom){
+app.get("/company/:id/viewjob",function(req,res){
+  Company.findById(req.params.id,function(err,foundCompany){
     if(err)
     console.log(err);
-    else
-    {
-      console.log(foundcom);
-      res.render("company/viewjob",{Company: foundcom});
-    }
-  }); 
+    Job.find().where('postedBy.id').equals(foundCompany._id).exec(function(err,jobs){
+      if(err)
+      console.log(err);
+      else{
+           res.render("company/viewjob",{Company:foundCompany,jobs: jobs});
+      }
+    });
+  });
+  // Company.findById(req.params.id).populate("jobs").exec(function(err,foundcom){
+  //   if(err)
+  //   console.log(err);
+  //   else
+  //   {
+  //     console.log(foundcom);
+  //     res.render("company/viewjob",{Company: foundcom});
+  //   }
+  // }); 
 });
 
 
@@ -122,62 +149,76 @@ app.post("/login/seeker", function (req, res) {
 app.post("/register/company", upload.single('logo'), function (req, res) {
   cloudinary.uploader.upload(req.file.path, function(result) {
     // add cloudinary url for the image to the campground object under image property
-    req.body.newCompany.logo = result.secure_url;
-    Company.create(req.body.newCompany, function(err, newcompanycreate) {
+    req.body.logo = result.secure_url;
+    var newComp=new Company({
+      username:req.body.username,
+      name: req.body.name,
+      email:req.body.email,
+      tagline:req.body.tagline,
+      description:req.body.description,
+      logo:req.body.logo
+    });
+    Company.register(newComp,req.body.password, function(err, newcompanycreate) {
       if (err) {
          console.log(err);
-        //req.flash('error', err.message);
-        return res.redirect('back');
+          return res.render("company/companyregister");
       }
-      else
-          res.render("company/companylogin",{Company: newcompanycreate});
+      passport.authenticate('local')(req,res,function(){
+       // console.log(newcompanycreate);
+        res.redirect("/login/company");
+         // res.render("company/companylogin");
+      })
     });
   });
-//   Company.create(req.body.newCompany,function(err,newcompanycreate){
-//     if(err) 
+});
+
+//NEW LOGIN POSTROUTE
+//app.post("/login",middleware,callback)
+app.post("/login/company",passport.authenticate("local",
+  {
+    //console.log(req.user);
+    successRedirect: "/company/show",
+    failureRedirect:"/login/company"
+  }),function(req,res){
+});
+
+//OLD LOGIN POST ROUTE
+// app.post("/login/company/", function (req, res) {
+//   var foundCompany=Company.find({email:req.body.email});
+//   foundCompany.exec(function(err,foundCompany){
+//     if(err)
 //     console.log(err);
-//     else
-//     {
-//        res.render("company/companylogin",{Company: newcompanycreate});
+//     else{
+//       console.log(foundCompany);
+//       res.render("company/show",{foundCompany: foundCompany});
 //     }
-//   });
-});
+//   })
+// });
 
 
-app.post("/login/company/:id", function (req, res) {
-  Company.findById(req.params.id,function(err,company){
-    if(err)
-    console.log(err);
-    else
-    res.render("company/companyindex",{Company: company});
-  });
-});
 
 app.post("/register/seeker", function (req, res) {
   res.render("seeker/seekerlogin");
 });
-
+//old create job post route
 //after creating job post
-app.post("/login/company/:id/createjob",function(req,res){
-  Company.findById(req.params.id,function(err,company){
-    if(err) 
-    {
-         console.log(err);
-    }
-    else{
+app.post("/login/company/createjob",function(req,res){
+       console.log(req.body.job);
+       req.body.job.postedBy = {
+        id: req.user._id,
+        username: req.user.username
+      }
+      console.log(req.body.job);
+      console.log(req.body.job.postedBy);
       Job.create(req.body.job,function(err,job){
         if(err)
         console.log(err);
         else
         {
-            company.jobs.push(job);
-            company.save();
-            console.log(company);
-            res.redirect('/login/company/'+ company._id+'/viewjob');
+            console.log(job);
+            res.redirect('/company/'+job.postedBy.id+'/viewjob');//,{jobs:job});
         }
-    });
-  }
-  });
+});
 });
 
 

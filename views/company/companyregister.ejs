@@ -4,22 +4,27 @@
     <div style="width: 30%; margin: 25px auto;">
         <form action="/register/company" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="name">Company Name: </label>
-                <input class="form-control" type="text" id="name" name="newCompany[name]"  placeholder="Company Name"  required> 
+                <label for="name1">UserName: </label>
+                <input class="form-control" type="text" id="name1" name="username"  placeholder=" username"  required> 
             </div>
 
             <div class="form-group">
+                <label for="name">Company Name: </label>
+                <input class="form-control" type="text" id="name" name="name"  placeholder="Company Name"  required> 
+            </div>
+           
+            <div class="form-group">
                 <label for="email">Work Email ID: </label>
-                <input class="form-control" type="email" id="email" name="newCompany[email]" placeholder="Enter Email Id"  required>
+                <input class="form-control" type="email" id="email" name="email" placeholder="Enter Email Id"  required>
             </div>
             <div class="form-group">
                 <label for="tagline">Tagline: </label>
-                <input class="form-control" type="text" id="tagline" name="newCompany[tagline]" placeholder="Briefly describe about your company"  required>
+                <input class="form-control" type="text" id="tagline" name="tagline" placeholder="Briefly describe about your company"  required>
             </div>
 
             <div class="form-group">
                 <label for="description">Desrciption: </label>
-                <textarea class="form-control" id="description" name="newCompany[description]" rows="3" ></textarea>
+                <textarea class="form-control" id="description" name="description" rows="3" ></textarea>
             </div>
             <!-- <div class="form-group">
                 <label for="website">Website: </label>
@@ -36,7 +41,7 @@
             </div>
             <div class="form-group">
                 <label for="password">Enter Password: </label>
-                <input class="form-control" type="password"  id="password"  placeholder="password" name="newCompany[password]" required>
+                <input class="form-control" type="password"  id="password"  placeholder="password" name="password" required>
             </div>
             <div class="form-group">
                 <label for="confirm_password">Confirm password: </label>
@@ -52,7 +57,6 @@
 <script type="text/javascript">
 var password = document.getElementById("password")
 , confirm_password = document.getElementById("confirm_password");
-
 function validatePassword(){
 if(password.value != confirm_password.value) {
   confirm_password.setCustomValidity("Passwords Don't Match");
@@ -60,7 +64,6 @@ if(password.value != confirm_password.value) {
   confirm_password.setCustomValidity('');
 }
 }
-
 password.onchange = validatePassword;
 confirm_password.onkeyup = validatePassword;
 </script>
