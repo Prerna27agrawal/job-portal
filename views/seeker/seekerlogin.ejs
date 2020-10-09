@@ -1,21 +1,43 @@
-<%- include("../partials/header") %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/login.css">
+    <title>Developer login</title>
+</head>
+<body>
+    <form  action="/login/seeker" class='form' method="post" autocomplete="off">
+        <div class='control'>
+          <h1>
+            Sign In
+          </h1>
+        </div>
+        <!--<div class="control">
+        <label for="username">Company : </label>
+        </div>-->
+        <div class='control block-cube block-input'>   
+          <input name='username' placeholder='Username' type='text'>
+          <%- include("../partials/form") %>
+        </div>
 
-<div class="row">
-    <h1 style="text-align: center">Login</h1>
-    <div style="width: 30%; margin: 25px auto;">
-        <form action="/login/seeker" method="post">
-            <div class="form-group">
-                <input class="form-control" type="text"  placeholder="username">
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="password"  placeholder="password">
-            </div>
-            <div class="form-group">
-                <button class="btn btn-lg btn-info btn-block">Login</button>
-            </div>
-        </form>
-        <a href="/">Go Back</a>
-    </div>
-</div>
-
-<%- include("../partials/footer") %>
+        <!--<div class="control">
+            <label for="password">Enter password: </label>
+            </div>-->
+        <div class='control block-cube block-input'>
+          <input name='password' placeholder='Password' type='password'>
+          <%- include("../partials/form") %>
+        </div>
+        <button class='btn block-cube block-cube-hover' type='button'>
+            <%- include("../partials/form") %>
+          <div class='text'>
+            Log In
+          </div>
+        </button>
+        <div class="control">
+           <h2><a href="/">Go Back</a></h2>
+        </div>
+      </form>
+      </body>
+      </html>

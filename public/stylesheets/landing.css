@@ -1,0 +1,106 @@
+body {
+    background-color: #000;
+  }
+  #landing-header {
+    z-index: 1;
+    position: relative;
+    text-align: center;
+    padding-top: 40vh;
+  }
+  
+  #landing-header h1 {
+    color: #FFFAFA;
+      
+  }
+  
+  .slideshow { 
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .slideshow li { 
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-position:center center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    z-index: 0;
+   animation: imageAnimation 42s linear infinite; 
+  }
+  
+  
+  .slideshow li:nth-child(1) { 
+    background-image: url(https://cdn.wallpapersafari.com/57/90/BkLTEQ.jpg)}
+  .slideshow li:nth-child(2) { 
+    background-image: url(https://wallpaperaccess.com/full/656685.jpg
+  );
+    animation-delay: 6s; 
+  }
+  .slideshow li:nth-child(3) { 
+    background-image: url(https://vistapointe.net/images/company-wallpaper-15.jpg
+  );
+    animation-delay: 12s; 
+  }
+  .slideshow li:nth-child(4) { 
+    background-image: url(https://www.wallpaperup.com/uploads/wallpapers/2017/06/20/1092640/7d1c44f3c867421c2b332cd99f881010-700.jpg);
+    animation-delay: 18s; 
+  }
+  .slideshow li:nth-child(5) { 
+    background-image: url(https://becosolutions.com/wp-content/uploads/2015/01/photo-backgrounds-7-hd-background-background-and-wallpaper.jpg);
+    animation-delay: 24s; 
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  @keyframes imageAnimation { 
+    0% { 
+      opacity: 0; 
+      animation-timing-function: ease-in;
+    }
+    10% {
+      opacity: 1;
+      animation-timing-function: ease-out;
+    }
+    20% {
+      opacity: 1
+    }
+    30% {
+      opacity: 0
+    }
+  }
+  
+  
+  /* Older browser support - .no-cssanimations class added by modernizr */
+ /* .no-cssanimations .slideshow li {
+      opacity: 1;
+  }
+  */
