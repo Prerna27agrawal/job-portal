@@ -1,7 +1,7 @@
 <%- include("../partials/header") %>
-<p><%= Company.name %></p>
-<div>
-<hr>
+
+<h1><%= seeker.username%></h1>
+
 <% jobs.forEach(function(job){ %>
     <p> <%= job.name %></p>
     <p> <%= job.description %></p>
@@ -10,6 +10,6 @@
     <br>
     <br>
 <% }); %>
-<a href="/company/show">Go Back</a>
-</div>
+
+
 <%- include("../partials/footer") %>

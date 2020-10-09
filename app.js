@@ -1,4 +1,4 @@
-//"C:\Program Files\MongoDB\Server\4.4\bin\mongo.exe"
+// "C:\Program Files\MongoDB\Server\4.4\bin\mongo.exe"
 var express = require("express");
 var app = express();
 var bodyParser = require('body-parser');
@@ -41,14 +41,16 @@ cloudinary.config({
 });
 //////////////////////////////////////////////
 
-
-mongoose.connect("mongodb://localhost:27017/jobportal4", { useNewUrlParser: true ,useUnifiedTopology: true});
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
-app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 // accept json 
 app.use(bodyParser.json());
+mongoose.connect("mongodb://localhost:27017/jobportalnew", { useNewUrlParser: true ,useUnifiedTopology: true});
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+app.set("view engine", "ejs");
+// app.use(bodyParser.urlencoded({extended: true}));
+// // accept json 
+// app.use(bodyParser.json());
 
 
 
@@ -62,9 +64,9 @@ app.use(require("express-session")({
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(Company.authenticate())); 
-//passport.use(new LocalStrategy(Seeker.authenticate())); 
-//passport.serializeUser(Seeker.serializeUser());
-//passport.deserializeUser(Seeker.deserializeUser());
+passport.use(new LocalStrategy(Seeker.authenticate())); 
+passport.serializeUser(Seeker.serializeUser());
+passport.deserializeUser(Seeker.deserializeUser());
 passport.serializeUser(Company.serializeUser());
 passport.deserializeUser(Company.deserializeUser());
 ////////////////////////////////////////
@@ -105,6 +107,34 @@ app.get("/company/show",function(req,res){
   res.render("company/show",{company:req.user});
 });
 
+app.get("/seeker/index",function(req,res){
+  res.render("seeker/index",{seeker:req.user});
+})
+
+app.get("/seeker/:id/myprofile",function(req,res){
+  Seeker.findById(req.params.id,function(err,foundSeeker){
+    if(err){
+      console.log(err);
+    }else{
+      res.render("seeker/profile",{foundSeeker:foundSeeker});
+    }
+  })
+})
+
+app.get("/seeker/:id/appliedJobs",function(req,res){
+  Seeker.findById(req.params.id,function(err,foundSeeker){
+    if(err)
+    console.log(err);
+    Job.find().where('appliedBy.id').equals(foundSeeker._id).exec(function(err,alljobs){
+      if(err)
+      console.log(err);
+      else{
+           res.render("seeker/appliedJobs",{seeker:foundSeeker,jobs: alljobs});
+      }
+    });
+  })
+})
+
 // app.get("/login/seeker/companyname", function (req, res) {
 //   res.send("let us apply to my company and work ");
 // });
@@ -142,9 +172,6 @@ app.get("/company/:id/viewjob",function(req,res){
 
 
 //POST Request
-app.post("/login/seeker", function (req, res) {
-  res.render("seeker/index");
-});
 
 //company register page 
 app.post("/register/company", upload.single('logo'), function (req, res) {
@@ -183,24 +210,43 @@ app.post("/login/company",passport.authenticate("local",
   }),function(req,res){
 });
 
-//OLD LOGIN POST ROUTE
-// app.post("/login/company/", function (req, res) {
-//   var foundCompany=Company.find({email:req.body.email});
-//   foundCompany.exec(function(err,foundCompany){
-//     if(err)
-//     console.log(err);
-//     else{
-//       console.log(foundCompany);
-//       res.render("company/show",{foundCompany: foundCompany});
-//     }
-//   })
-// });
-
 
 
 app.post("/register/seeker", function (req, res) {
-  res.render("seeker/seekerlogin");
+  var newSeeker=new Seeker({
+    username:req.body.username,
+    firstname:req.body.firstname,
+    lastname:req.body.lastname,
+    email:req.body.email,
+    country:req.body.country,
+    status:req.body.status,
+    gradyear:req.body.gradyear,
+    linkedinId:req.body.linkedinId,
+    skills:req.body.skills
+  });
+
+  Seeker.register(newSeeker,req.body.password, function(err, newseekercreate) {
+    if (err) {
+        console.log(err);
+        return res.render("seeker/seekerregister");
+    }
+    passport.authenticate('local')(req,res,function(){
+     console.log(newseekercreate);
+      res.redirect("/login/seeker");
+      //  res.render("company/companylogin");
+    })
+  });
 });
+
+app.post("/login/seeker",passport.authenticate("local",
+  {
+    // console.log(req.user);
+    successRedirect: "/seeker/index",
+    failureRedirect:"/login/seeker"
+  }),function(req,res){
+});
+
+
 //old create job post route
 //after creating job post
 app.post("/login/company/createjob",function(req,res){
@@ -221,7 +267,6 @@ app.post("/login/company/createjob",function(req,res){
         }
 });
 });
-
 
 
 
