@@ -101,7 +101,7 @@ app.get("/register/seeker", function (req, res) {
 
 app.get("/company/show",function(req,res){
 
-  res.render("company/show");//,{company:req.user});
+  res.render("company/show",{company:req.user});
 });
 
 // app.get("/login/seeker/companyname", function (req, res) {
@@ -115,16 +115,27 @@ app.get("/company/createjob",function(req,res){
 });
 
 //saari jobs uss comapny ki show hongi
-app.get("/company/viewjob",function(req,res){
-  Company.findById(req.params.id).populate("jobs").exec(function(err,foundcom){
+app.get("/company/:id/viewjob",function(req,res){
+  Company.findById(req.params.id,function(err,foundCompany){
     if(err)
     console.log(err);
-    else
-    {
-      console.log(foundcom);
-      res.render("company/viewjob",{Company: foundcom});
-    }
-  }); 
+    Job.find().where('postedBy.id').equals(foundCompany._id).exec(function(err,jobs){
+      if(err)
+      console.log(err);
+      else{
+           res.render("company/viewjob",{Company:foundCompany,jobs: jobs});
+      }
+    });
+  });
+  // Company.findById(req.params.id).populate("jobs").exec(function(err,foundcom){
+  //   if(err)
+  //   console.log(err);
+  //   else
+  //   {
+  //     console.log(foundcom);
+  //     res.render("company/viewjob",{Company: foundcom});
+  //   }
+  // }); 
 });
 
 
@@ -205,7 +216,7 @@ app.post("/login/company/createjob",function(req,res){
         else
         {
             console.log(job);
-            res.render('company/show');
+            res.redirect('/company/'+job.postedBy.id+'/viewjob');//,{jobs:job});
         }
 });
 });
@@ -215,7 +226,7 @@ app.post("/login/company/createjob",function(req,res){
 
 
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 3000;
 app.listen(port, function () {
   console.log("Server has started");
 });

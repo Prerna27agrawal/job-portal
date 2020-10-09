@@ -1,7 +1,14 @@
 <%- include("../partials/header") %>
 <p><%= Company.name %></p>
+<div>
 <hr>
-<% Company.jobs.forEach(function(job){ %>
-    <p> <%= job.title %></p>
+<% jobs.forEach(function(job){ %>
+    <p> <%= job.name %></p>
+    <p> <%= job.description %></p>
+    <p> <%= job.location %></p>
+    <p></p>
+    <br>
+    <br>
 <% }); %>
+</div>
 <%- include("../partials/footer") %>
