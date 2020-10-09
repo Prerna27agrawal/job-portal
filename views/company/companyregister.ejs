@@ -4,10 +4,15 @@
     <div style="width: 30%; margin: 25px auto;">
         <form action="/register/company" method="post" enctype="multipart/form-data">
             <div class="form-group">
+                <label for="name1">UserName: </label>
+                <input class="form-control" type="text" id="name1" name="username"  placeholder=" username"  required> 
+            </div>
+
+            <div class="form-group">
                 <label for="name">Company Name: </label>
                 <input class="form-control" type="text" id="name" name="name"  placeholder="Company Name"  required> 
             </div>
-
+           
             <div class="form-group">
                 <label for="email">Work Email ID: </label>
                 <input class="form-control" type="email" id="email" name="email" placeholder="Enter Email Id"  required>

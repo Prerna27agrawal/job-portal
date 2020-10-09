@@ -6,18 +6,20 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
 var companySchema = new mongoose.Schema({
+    username:String,
     name: String,
-    email: {type:String ,required:true, unique:true},
+//{type:String ,required:true, unique:true},
+    email: String,//{type:String ,required:true, unique:true},
     tagline: String,
     description: String,
     logo : String,
-    password: {type:String ,required:true, unique:true},
-    jobs:[
-         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Job"
-         }
-    ]
+    password:String, //{type:String ,required:true, unique:true},
+    // jobs:[
+    //      {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: "Job"
+    //      }
+    // ]
 });
 
 companySchema.plugin(passportLocalMongoose);

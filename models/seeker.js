@@ -17,8 +17,8 @@ var seekerSchema = new mongoose.Schema({
     resume: String,
     skills: [String],
     password: {type:String ,required:true, unique:true},
-  })
-
-  companySchema.plugin(passportLocalMongoose);
+  });
+  
+seekerSchema.plugin(passportLocalMongoose)
 
   module.exports = mongoose.model("Seeker", seekerSchema);
