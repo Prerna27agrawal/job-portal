@@ -1,17 +1,45 @@
 <%- include("partials/header") %>
-
-<div class="container">
-    <div>
-        <h2>For Companies</h2>
-        <a href="/register/company" class="btn btn-lg btn-success">Sign Up & Hire</a>
-    </div>
-    <hr>
-    <div>
-        <h2>For Developers</h2>
-        <a href="/register/seeker" class="btn btn-lg btn-success">Sign Up & Apply</a>
+<div class="row">
+    <h1 style="text-align: center">Sign Up</h1>
+    <div style="width: 30%; margin: 25px auto;">
+        <form action="/register" method="post" >
+            <div class="form-group">
+                <label for="name1">UserName: </label>
+                <input class="form-control" type="text" id="name1" name="username"  placeholder=" username"  required> 
+            </div>
+            <div class="form-group">
+                <label for="password">Enter Password: </label>
+                <input class="form-control" type="password"  id="password"  placeholder="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Confirm password: </label>
+                <input class="form-control" type="password"  placeholder="confirm password" id="confirm_password" required>
+            </div>
+            <div class="form-group">
+                <p>Please select your role:</p>
+                <input type="radio" id="company" name="role" value="company">
+                <label for="company">Company</label><br>
+                <input type="radio" id="seeker" name="role" value="seeker">
+                <label for="seeker">Seeker</label><br>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary btn-block">Sign Up!</button>
+            </div>
+        </form>
+        <a href="/register">Go Back</a>
     </div>
 </div>
-
-
-
+<script type="text/javascript">
+var password = document.getElementById("password")
+, confirm_password = document.getElementById("confirm_password");
+function validatePassword(){
+if(password.value != confirm_password.value) {
+  confirm_password.setCustomValidity("Passwords Don't Match");
+} else {
+  confirm_password.setCustomValidity('');
+}
+}
+password.onchange = validatePassword;
+confirm_password.onkeyup = validatePassword;
+</script>
 <%- include("partials/footer") %>
