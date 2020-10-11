@@ -76,7 +76,7 @@ api_secret: process.env.CLOUDINARY_API_SECRET
     res.render("seeker/index");//,{seeker:req.user});
   })
   
-  router.get("/seeker/:id/myprofile",function(req,res){
+  router.get("/seeker/:id/myprofile",middleware.checkSeekerOwnership,function(req,res){
     Seeker.findById(req.params.id,function(err,foundSeeker){
       if(err){
         console.log(err);
