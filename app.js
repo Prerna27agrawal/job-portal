@@ -14,7 +14,7 @@ var LocalStrategy= require("passport-local");
 var path= require("path");
 var passportLocalMongoose = require('passport-local-mongoose'); 
 var methodOverride = require("method-override");
-
+var flash = require('connect-flash');
 
 
 var Company = require("./models/company");
@@ -39,7 +39,7 @@ app.use(bodyParser.json());
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname+"/public")));
 app.use(methodOverride("_method"));
-
+app.use(flash());
 
 // ////////passport-authenticate
 app.use(require("express-session")({
@@ -56,6 +56,14 @@ app.use(require("express-session")({
  passport.serializeUser(User.serializeUser());
  passport.deserializeUser(User.deserializeUser());
 // ////////////////////////////////////////
+
+//so that current user data is avialable to every route
+app.use(function(req,res,next){
+	res.locals.currentUser = req.user;
+	res.locals.error = req.flash("error");
+		res.locals.success = req.flash("success");
+	next();
+});
 
 
 app.use(Companyroutes);

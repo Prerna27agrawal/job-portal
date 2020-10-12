@@ -50,6 +50,7 @@ var imageFilter = function (req, file, cb) {
 };
 var upload = multer({ storage: storage, fileFilter: imageFilter})
 var cloudinary = require('cloudinary');
+const middlewareObj = require("../middleware/index.js");
 cloudinary.config({ 
 cloud_name: 'dhr7wlz2k', 
 api_key: process.env.CLOUDINARY_API_KEY,
@@ -66,9 +67,9 @@ router.get("/", function (req, res) {
     res.render("login");
   });
 
- router.post("/login",passport.authenticate('local',{failureRedirect:'/login'}),function(req,res){
-        console.log(req.user);
-        console.log(req.body);
+ router.post("/login",passport.authenticate('local',{failureRedirect:'/login',failureFlash: 'Invalid username or password.'}),function(req,res){
+        //console.log(req.user);
+        //console.log(req.body);
      if(req.user.isCompany == true)
       {
             res.redirect("/company/show");
@@ -87,13 +88,6 @@ router.get("/", function (req, res) {
 //     // `req.user` contains the authenticated user.
 //     res.redirect('/users/' + req.user.username);
 //   });
-
-
-
-
-
-
-
   
 router.get("/register", function (req, res) {
     res.render("register");
@@ -178,16 +172,10 @@ router.post("/register/company", upload.single('logo'), function (req, res) {
 
 
 
-router.get("/company/show",function(req,res){
+router.get("/company/show",middleware.checkCompanyOwnership,function(req,res){
 
-    res.render("company/show");//,{company:req.user});
+    res.render("company/show",{company:req.user});
   });
-
-  //jb company login kre toh usko job create karkee id mil jae company ki
-router.get("/company/createjob",function(req,res){
-    res.render("company/createjob");//,{Company: req.user});
-// });
-});
 
 module.exports = router;
 

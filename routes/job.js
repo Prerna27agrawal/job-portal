@@ -8,18 +8,27 @@ var  Job = require("../models/job");
 var User = require("../models/user");
 
 var middleware = require("../middleware/index.js");
+const company = require("../models/company");
 
 
 //saari jobs uss comapny ki show hongi
-router.get("/company/:id/viewjob",function(req,res){
-    Company.findById(req.params.id,function(err,foundCompany){
+router.get("/company/:id/viewjob",middleware.checkCompanyOwnership,function(req,res){
+    User.findById(req.params.id,function(err,foundUser){
       if(err)
       console.log(err);
-      Job.find().where('postedBy.id').equals(foundCompany._id).exec(function(err,jobs){
+      Job.find().where('postedBy.id').equals(foundUser._id).exec(function(err,jobs){
         if(err)
         console.log(err);
         else{
-             res.render("company/viewjob",{Company:foundCompany,jobs: jobs});
+               Company.find().where('createdBy.id').equals(foundUser._id).exec(function(err,foundCompany){
+                   if(err)
+                   console.log(err);
+                   else
+                   {
+                     console.log(foundCompany);
+                     res.render("company/viewjob",{user:foundUser,jobs: jobs,company: foundCompany});
+                   }
+               });
         }
       });
     });
@@ -34,6 +43,15 @@ router.get("/company/:id/viewjob",function(req,res){
     // }); 
   });
   
+
+
+  
+  //jb company login kre toh usko job create karkee id mil jae company ki
+router.get("/company/createjob",middleware.checkCompanyOwnership,function(req,res){
+  res.render("company/createjob");//,{Company: req.user});
+// });
+});
+
   //old create job post route
 //after creating job post
 router.post("/login/company/createjob",function(req,res){
