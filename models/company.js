@@ -21,6 +21,12 @@ var companySchema = new mongoose.Schema({
     //         ref: "Job"
     //      }
     // ]
+    posts: [
+        {
+            heading :String,
+            des :String,
+            createdAt: {type:Date, default:Date.now}
+        }],
     createdBy: {
         id: {
           type: mongoose.Schema.Types.ObjectId,

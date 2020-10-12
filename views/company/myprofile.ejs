@@ -1,0 +1,61 @@
+<%- include("../partials/header") %>
+<div class="container">
+	<div class="row">
+		<div class="col-md-auto">
+     <% company.forEach(function(company){ %>
+			<strong><h4 class="lead heading"><%= company.name %></h4></strong>
+			<div class="thumbnail">
+				<img class="img-responsive" src="<%= company.logo %>">     
+				<div class="caption-full">
+					<h4><a class="pull-center"><%= company.tagline %></a></h4>
+					<p><%= company.description %></p>
+					<!----current user is dispisplayed in app.js where we passsed current user to evey user------->
+					<% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
+                    <!--company.id is given in below route so that we can edit only tha company details not the user username and password simply or can send the current user also-->
+                        <a class=" btn btn-warning" href="/company/<%= currentUser._id %>/editprofile">Edit</a>
+					<!-----for deleting delete the profile of company from job schema as welll as company schema as well as the user registered with it---->
+					<form class="delete-form pull-right" action="/company/<%= currentUser._id%>?_method=DELETE" method="POST">
+						<button class="btn btn-danger">
+							Delete
+						</button>
+					</form>
+					<% } %>
+				</div>
+			</div>
+			<div class="well">
+				<div class="text-right">
+					<a class="btn btn-success" href="/company/<%= company._id%>/newpost">Add Post</a>
+					
+				</div>
+				<hr>
+				<%  company.posts.forEach(function(posts){%>
+						<div class="row">
+							<div class="col-md-12">
+                                <strong><%= posts.heading %></strong>
+                                <!----- make moment to app.js-->
+								<span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
+								<p>
+									<%= posts.des %>
+								</p>
+                                <!------dont give spaces between href------->
+					<% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
+				<a class="btn btn-xs btn-warning" 	href="/company/<%= company._id%>/posts/<%= posts._id %>/editpost">
+								Edit</a>
+								<form class="delete-form"
+									  action="/company/<%= company._id%>/posts/<%= posts._id %>?_method=DELETE" method="POST">
+									<input class="btn btn-xs btn-danger" type="Submit" value="Delete">
+								</form>
+								<% } %>
+								<hr>
+							</div>
+				</div>
+                 <% }) %>
+			</div>
+			<div>
+				<a href="/" class="back-size" >Go Back</a>
+			</div>
+        </div>
+<% }); %>
+    </div>
+    </div>
+<%- include("../partials/footer") %>

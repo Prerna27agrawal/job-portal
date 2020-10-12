@@ -9,6 +9,7 @@ var User = require("../models/user");
 
 var middleware = require("../middleware/index.js");
 const company = require("../models/company");
+const { route } = require("./company");
 
 
 //saari jobs uss comapny ki show hongi

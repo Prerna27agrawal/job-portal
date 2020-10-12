@@ -41,6 +41,9 @@ app.use(express.static(path.join(__dirname+"/public")));
 app.use(methodOverride("_method"));
 app.use(flash());
 
+app.locals.moment= require("moment");
+
+
 // ////////passport-authenticate
 app.use(require("express-session")({
      secret: "It is a Job Portal",

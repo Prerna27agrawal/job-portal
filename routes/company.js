@@ -170,12 +170,54 @@ router.post("/register/company", upload.single('logo'), function (req, res) {
 //   }),function(req,res){
 // });
 
+router.get("/company/:id/myprofile",function(req,res){
+  User.findById(req.params.id,function(err,foundUser){
+    if(err)
+    console.log(err);
+    else{
+      Company.find().where('createdBy.id').equals(foundUser._id).exec(function(err,foundCompany){
+        if(err)
+        console.log(err);
+        else{
+          res.render("company/myprofile",{user: foundUser,company: foundCompany});
+       
+        }
+      });
+    }
+  });
+});
+
+//search for user model and then for company model
+router.get("/company/:id/editprofile",function(req,res){
+  res.send("this is to edit company profile");
+});
+//deete from all three schema
+router.delete("/company/:id",function(req,res){
+  res.send("delte for company");
+});
+
+
+
+//search for company and the post id in it 
+
+router.get("/company/:id/newpost",function(req,res){
+  res.send("to add new post");
+});
+router.get("/company/:id/posts/:posts_id/editpost",function(req,res){
+  res.send("to edit the post");
+});
+router.delete("/company/:id/posts/:posts_id",function(req,res){
+  res.send("to dlete the post");
+});
+
+
 
 
 router.get("/company/show",middleware.checkCompanyOwnership,function(req,res){
 
     res.render("company/show",{company:req.user});
   });
+
 
 module.exports = router;
 
