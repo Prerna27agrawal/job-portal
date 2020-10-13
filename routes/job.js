@@ -92,10 +92,6 @@ router.get("/seeker/:id/appliedJobs",function(req,res){
   })
 
 
-router.get("/company/:id/show/jobstats",function(req,res){
-  res.send("this page shows all the candidates who applied for that that job");
-
-});
 
 router.delete("/company/jobdelete/:id",middleware.checkCompanyOwnership,function(req,res){
    Job.findById(req.params.id,function(err,job){
@@ -113,7 +109,16 @@ router.delete("/company/jobdelete/:id",middleware.checkCompanyOwnership,function
 });
 
 
+//for applied by seekrs view
+//id of job
+router.get("/company/:id/show/jobstats",middleware.checkCompanyOwnership,
+function(req,res){
+  // Job.findById(req.params.id).populate("appliedBy").exec(function(err,foundJob){
+  //        res.render("company/seekerview",{jobs:foundJob});
+  // });
 
+ res.send("applied by");
+});
 
 
 
