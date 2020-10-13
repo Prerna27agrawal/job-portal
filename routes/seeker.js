@@ -51,6 +51,7 @@ var imageFilter = function (req, file, cb) {
 };
 var upload = multer({ storage: storage, fileFilter: imageFilter})
 var cloudinary = require('cloudinary');
+const job = require("../models/job");
 cloudinary.config({ 
 cloud_name: 'dhr7wlz2k', 
 api_key: process.env.CLOUDINARY_API_KEY,
@@ -58,7 +59,9 @@ api_secret: process.env.CLOUDINARY_API_SECRET
 });
 ////////////
 
-
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 
 
@@ -74,8 +77,60 @@ api_secret: process.env.CLOUDINARY_API_SECRET
   
   
   router.get("/seeker/index",function(req,res){
-    res.render("seeker/index");//,{seeker:req.user});
-  })
+
+    if(req.query.search_name)
+    {
+      const regex = new RegExp(escapeRegex(req.query.search_name), 'gi');
+      job.find({ "name": regex },function(err,alljobs){
+        if(err)
+         console.log(err);
+        else{
+          //console.log(alljobs);
+          res.render("seeker/index",{jobs:alljobs});
+        }
+      });
+    }
+    else if(req.query.search_location){
+      const regex = new RegExp(escapeRegex(req.query.search_location), 'gi');
+      job.find({ "location": regex },function(err,alljobs){
+        if(err)
+         console.log(err);
+        else{
+          //console.log(alljobs);
+          res.render("seeker/index",{jobs:alljobs});
+        }
+      });
+    }
+    else if(req.query.search_keywords){
+      const regex = new RegExp(escapeRegex(req.query.search_keywords), 'gi');
+      job.find({$or:
+        [{"name": regex},
+         { "location": regex },
+         {"company": regex },
+         {"experience": regex}
+        ]
+      },function(err,alljobs){
+        if(err)
+         console.log(err);
+        else{
+          //console.log(alljobs);
+          res.render("seeker/index",{jobs:alljobs});
+        }
+      });
+    }
+    else
+    {
+    job.find({}).exec(function(err,alljobs){
+      if(err)
+       console.log(err);
+      else{
+        //console.log(alljobs);
+        res.render("seeker/index",{jobs:alljobs});
+      }
+    });
+  }
+    //res.render("seeker/index");//,{seeker:req.user});
+  });
   
   router.get("/seeker/:id/myprofile",middleware.checkSeekerOwnership,function(req,res){
     Seeker.findById(req.params.id,function(err,foundSeeker){
