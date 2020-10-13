@@ -6,6 +6,7 @@ var Company = require("../models/company");
 var  Seeker = require("../models/seeker");
 var  Job = require("../models/job");
 var User = require("../models/user");
+var Posts =require("../models/posts");
 
 var middleware = require("../middleware/index.js");
 

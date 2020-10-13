@@ -2,6 +2,8 @@
 var Company = require("../models/company");
 var Seeker = require("../models/seeker");
 var Job = require("../models/job");
+var Posts =require("../models/posts");
+
 var middlewareObj ={};
 middlewareObj.checkCompanyOwnership = function(req,res,next)
 {

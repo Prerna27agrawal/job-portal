@@ -6,6 +6,8 @@ var Company = require("../models/company");
 var  Seeker = require("../models/seeker");
 var  Job = require("../models/job");
 var User = require("../models/user");
+var Posts =require("../models/posts");
+
 
 var middleware = require("../middleware/index.js");
 const company = require("../models/company");
@@ -90,7 +92,25 @@ router.get("/seeker/:id/appliedJobs",function(req,res){
   })
 
 
+router.get("/company/:id/show/jobstats",function(req,res){
+  res.send("this page shows all the candidates who applied for that that job");
 
+});
+
+router.delete("/company/jobdelete/:id",middleware.checkCompanyOwnership,function(req,res){
+   Job.findById(req.params.id,function(err,job){
+    if(err)
+    {
+      console.log(err);
+      return res.redirect("back");
+    }
+   job.remove();
+   console.log("removed the job");
+   req.flash('success',"job removed");
+   res.redirect("/company/"+req.user._id+"/viewjob");
+   });
+  //res.send("this is to delet the job");
+});
 
 
 

@@ -1,9 +1,15 @@
 // "C:\Program Files\MongoDB\Server\4.4\bin\mongo.exe"
 
+//////////////////chaeck use of async and await used in update of profile
+//////////delet se phle confirm krne ka
 
 //for keeping the cloud api secret
 //https://www.npmjs.com/package/dotenv
-require('dotenv').config();
+
+// //added edit and delete profile for company
+// added delete option for job
+// added create delete and update for posts for company
+// require('dotenv').config();
 
 var express = require("express");
 var app = express();
@@ -21,11 +27,13 @@ var Company = require("./models/company");
 var Seeker = require("./models/seeker");
 var Job = require("./models/job");
 var User = require("./models/user");
+var Posts =require("./models/posts");
 
 
 var Companyroutes = require("./routes/company");
 var Seekerroutes = require("./routes/seeker");
 var Jobroutes = require("./routes/job");
+var Postsroutes = require("./routes/posts");
 
 
 
@@ -72,6 +80,7 @@ app.use(function(req,res,next){
 app.use(Companyroutes);
 app.use(Seekerroutes);
 app.use(Jobroutes);
+app.use(Postsroutes);
 
 
 //GET Request

@@ -1,24 +1,49 @@
 <%- include("../partials/header") %>
-<p><%= user.username %></p>
-<div>
-<hr>
-<% company.forEach(function(company){ %>
-    <p> <%= company.name %></p>
-    <br>
-    <br>
-    <br>
-    <br>
+<div class="container">
+	<div class="row">
+		<div class="col-md-auto text-center">
+     <% company.forEach(function(company){ %>
+			<strong><h2 class="lead heading"><%= company.name %></h2></strong>
+			<div class="well">
+                <hr>
+                 <% jobs.forEach(function(job){ %>
+						<div class="row">
+							<div class="col-md-12">
+								<br>
+								<strong><h4>Role: </h4><span><%= job.name %></span></strong>
+								<br>
+								<strong><h4>Location: </h4><%= job.location %></strong>
+								<br>
+								<strong><h4>Experience</h4><%= job.experience %></strong>
+								<br>
+								<h4 class="text-centre">About job</h4>
+								<p>
+									<%= job.description %>
+								</p>
+                                <!------dont give spaces between href------->
+                    <% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
+                        <div class="text-left">
+				<a class="btn btn-xs btn-warning" 	href="/company/<%= job._id %>/show/jobstats">
+                                Applied By</a>
+                                </div>
+                                <!----->
+                                <div class="text-right">
+								<form class="delete-form"
+									  action="/company/jobdelete/<%= job._id %>?_method=DELETE" method="POST">
+									<input class="btn btn-xs btn-danger" type="Submit" value="Delete">
+                                </form>
+                                </div>
+								<% } %>
+								<hr>
+							</div>
+				</div>
+                 <% }); %>
+			</div>
+			<div>
+				<a href="/" class="back-size" >Go Back</a>
+			</div>
+        </div>
 <% }); %>
-</div>
-<div>
-<% jobs.forEach(function(job){ %>
-    <p> <%= job.name %></p>
-    <p> <%= job.description %></p>
-    <p> <%= job.location %></p>
-    <p></p>
-    <br>
-    <br>
-<% }); %>
-<a href="/company/show">Go Back</a>
-</div>
+    </div>
+    </div>
 <%- include("../partials/footer") %>

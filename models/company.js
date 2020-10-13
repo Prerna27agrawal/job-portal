@@ -14,6 +14,7 @@ var companySchema = new mongoose.Schema({
     tagline: String,
     description: String,
     logo : String,
+    logoId :String,
    // password:String, //{type:String ,required:true, unique:true},
     // jobs:[
     //      {
@@ -21,11 +22,10 @@ var companySchema = new mongoose.Schema({
     //         ref: "Job"
     //      }
     // ]
-    posts: [
+     posts: [
         {
-            heading :String,
-            des :String,
-            createdAt: {type:Date, default:Date.now}
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Posts"
         }],
     createdBy: {
         id: {

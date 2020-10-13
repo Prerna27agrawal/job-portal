@@ -1,0 +1,40 @@
+<%- include("../partials/header") %>
+<div class="row">
+    <h1 style="text-align: center">Edit your profile <%= company.name %></h1>
+    <div style="width: 30%; margin: 25px auto;">
+        <form action="/company/updateprofile/<%= company._id %>?_method=PUT" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name">Company Name: </label>
+                <input class="form-control" type="text" id="name" name="name" value="<%= company.name %>" placeholder="Company Name"  required> 
+            </div>
+           
+            <div class="form-group">
+                <label for="email">Work Email ID: </label>
+                <input class="form-control" type="email" id="email" name="email" value="<%= company.email %>" placeholder="Enter Email Id"  required>
+            </div>
+            <div class="form-group">
+                <label for="tagline">Tagline: </label>
+                <input class="form-control" type="text" id="tagline" name="tagline" value="<%= company.tagline %>" placeholder="Briefly describe about your company"  required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Desrciption: </label>
+                <!---text area does not support value so we can get the already done description we need to add the new one or chnage the text area to input tag-->
+                <textarea class="form-control" id="description" name="description" value="<%= company.description %>" rows="3" ></textarea>
+            </div>
+            <div class="form-group">
+                  <label for="logo">Logo: </label>
+                 <input type="file" class="form-group" id="logo" name="logo" placeholder="Add logo" accept=".png,.jpg,.jpeg"  aria-describedby="passwordHelpInline" required>
+                  <small id="passwordHelpInline" class="text-muted">
+                    (Accepted file formats: PNG, JPG, JPEG)
+                  </small> 
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary btn-block">Edit</button>
+            </div>
+        </form>
+        <a href="/register">Go Back</a>
+    </div>
+</div>
+
+<%- include("../partials/footer") %>

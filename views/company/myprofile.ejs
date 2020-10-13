@@ -12,43 +12,49 @@
 					<!----current user is dispisplayed in app.js where we passsed current user to evey user------->
 					<% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
                     <!--company.id is given in below route so that we can edit only tha company details not the user username and password simply or can send the current user also-->
-                        <a class=" btn btn-warning" href="/company/<%= currentUser._id %>/editprofile">Edit</a>
+                        <a class=" btn btn-warning" href="/company/<%= company._id %>/editprofile">Edit</a>
 					<!-----for deleting delete the profile of company from job schema as welll as company schema as well as the user registered with it---->
-					<form class="delete-form pull-right" action="/company/<%= currentUser._id%>?_method=DELETE" method="POST">
+					<form class="delete-form" action="/company/<%= currentUser._id%>?_method=DELETE" method="POST">
+						<div class="text-center">
 						<button class="btn btn-danger">
 							Delete
 						</button>
+					</div>
 					</form>
+
 					<% } %>
 				</div>
 			</div>
 			<div class="well">
 				<div class="text-right">
-					<a class="btn btn-success" href="/company/<%= company._id%>/newpost">Add Post</a>
-					
+					<% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
+					<a class="btn btn-success" href="/company/<%= company._id%>/posts/new">Add Post</a>
+					<% }%>	
 				</div>
 				<hr>
-				<%  company.posts.forEach(function(posts){%>
+				<br>
+				<%  company.posts.forEach(function(post){%>
 						<div class="row">
 							<div class="col-md-12">
-                                <strong><%= posts.heading %></strong>
+								<%= post.heading %>
+                                <strong><%= post.heading %></strong>
                                 <!----- make moment to app.js-->
-								<span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
+								<span class="pull-right"><%= moment(post.createdAt).fromNow() %></span>
 								<p>
-									<%= posts.des %>
+									<%= post.description %>
 								</p>
                                 <!------dont give spaces between href------->
 					<% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
-				<a class="btn btn-xs btn-warning" 	href="/company/<%= company._id%>/posts/<%= posts._id %>/editpost">
+				<a class="btn btn-xs btn-warning" 	href="/company/<%= company._id%>/posts/<%= post._id %>/edit">
 								Edit</a>
 								<form class="delete-form"
-									  action="/company/<%= company._id%>/posts/<%= posts._id %>?_method=DELETE" method="POST">
+									  action="/company/<%= company._id%>/postsdelete/<%= post._id %>?_method=DELETE" method="POST">
 									<input class="btn btn-xs btn-danger" type="Submit" value="Delete">
 								</form>
 								<% } %>
 								<hr>
 							</div>
-				</div>
+				        </div>
                  <% }) %>
 			</div>
 			<div>
