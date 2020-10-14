@@ -120,7 +120,37 @@ function(req,res){
  res.send("applied by");
 });
 
+router.get("/seeker/:id/applyjob",function(req,res){
+  Job.findById(req.params.id,function(err,job){
+    company.find({}).exec(function(err,allcompanies){
+    if(err)
+     console.log(err);
+    else
+    {
+      console.log(req.user);
+      res.render("seeker/applyjob",{job:job,companies:allcompanies});
+      //Company.find().where('createdBy.id').equals(job.posted)
+    }
+   });
+  });
+});
 
+
+router.post("/seeker/:id/applyjob",function(req,res){
+  Job.findById(req.params.id,function(err,job){
+    if(err)
+     console.log(err);
+    else
+    {
+      console.log(req.user);
+
+      //Company.find().where('createdBy.id').equals(job.posted)
+      job.appliedBy.push(req.user);
+      job.save();
+      res.redirect("/seeker/index");
+    }
+  });
+});
 
 
 module.exports = router;

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <title>Document</title>
+    <style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f1f1f1;
+  padding: 20px;
+  font-family: Arial;
+}
+hr{
+    color:rgb(0, 10, 4);
+}
+/* Center website */
+.main {
+  padding:20px 5% 20px;
+  margin: auto;
+}
+
+h1 {
+  font-size: 40px;
+  word-break: break-all;
+}
+h2{
+    margin-bottom: 10px;
+    margin-left:25px;
+}
+.thumbnail{
+    padding: 20px ;
+    box-shadow: 0 3px 10px 0 rgba(0,0,0,.1);
+    background-color: white;
+}
+.row{
+    margin: 0;
+}
+    </style>
+</head>
+<body>
+    <div class="main">
+        <% companies.forEach(function(company) { %>
+            <% if(String(company.createdBy.id) == String(job.postedBy.id)){ %>
+        <h1><img src="https://tppwebsolutions.com/wp-content/uploads/logo-demo3.png" height="50px" width="50px"><%= company.name %></h1>
+        <hr>
+        <h2><%= job.name %></h2>
+        <br>
+        <div class="container">
+            <div class="row" style="display: flex; flex-wrap: wrap;padding: 10px;">
+            <div class="col-lg-4 col-sm-12">
+                <div class="thumbnail" >
+                    <div class="caption">
+                        <p><b>JOB POSITION:  </b><%= job.name %></p>
+                        <p><b>JOB LOCATION:  </b><%= job.location %></p>
+                        <p><b>JOB EXPERIENCE: </b><%= job.experience %>+ years of experience</p>
+                    </div>
+                    <br><br>
+                    <form action="/seeker/<%= job._id %>/applyjob" method="POST">
+                      <input type="submit" name="submit" value="Apply" class="btn btn-success">
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-8 col-sm-12">
+                <div class="row">
+                <div class="thumbnail">
+                    <h4><b>JOB DESCRIPTION:</b></h4>
+                    <p><%= job.description %></p>
+                    <br><br>
+                </div>
+                </div>
+                <div class="row">
+                <div class="thumbnail">
+                    <h4><b>ABOUT <%= company.name %>: </b></h4>
+                    <p><%= company.description %></p>
+                    <form action="/company/<%= job.postedBy.id %>/myprofile" method="GET">
+                       <input type="submit" value="Visit Company website" name="submit2" class="btn btn-info">
+                    </form>
+                </div>
+                </div>
+            </div>
+            </div>
+            </div>
+            <% }; %>
+            <% }); %>
+        </div>
+</body>
+</html>
+
+<%- include("../partials/footer") %>
