@@ -52,6 +52,7 @@ var imageFilter = function (req, file, cb) {
 var upload = multer({ storage: storage, fileFilter: imageFilter})
 var cloudinary = require('cloudinary');
 const job = require("../models/job");
+const company = require("../models/company");
 cloudinary.config({ 
 cloud_name: 'dhr7wlz2k', 
 api_key: process.env.CLOUDINARY_API_KEY,
@@ -77,7 +78,8 @@ function escapeRegex(text) {
   
   
   router.get("/seeker/index",function(req,res){
-
+    console.log(req.user);
+    company.find({}).exec(function(err,allcompany){
     if(req.query.search_name)
     {
       const regex = new RegExp(escapeRegex(req.query.search_name), 'gi');
@@ -86,7 +88,7 @@ function escapeRegex(text) {
          console.log(err);
         else{
           //console.log(alljobs);
-          res.render("seeker/index",{jobs:alljobs});
+          res.render("seeker/index",{jobs:alljobs,companies:allcompany});
         }
       });
     }
@@ -97,7 +99,7 @@ function escapeRegex(text) {
          console.log(err);
         else{
           //console.log(alljobs);
-          res.render("seeker/index",{jobs:alljobs});
+          res.render("seeker/index",{jobs:alljobs,companies:allcompany});
         }
       });
     }
@@ -114,7 +116,7 @@ function escapeRegex(text) {
          console.log(err);
         else{
           //console.log(alljobs);
-          res.render("seeker/index",{jobs:alljobs});
+          res.render("seeker/index",{jobs:alljobs,companies:allcompany});
         }
       });
     }
@@ -125,10 +127,12 @@ function escapeRegex(text) {
        console.log(err);
       else{
         //console.log(alljobs);
-        res.render("seeker/index",{jobs:alljobs});
-      }
-    });
+        //console.log(allcompany);
+        res.render("seeker/index",{jobs:alljobs,companies:allcompany});
+    }
+  });
   }
+});
     //res.render("seeker/index");//,{seeker:req.user});
   });
   
