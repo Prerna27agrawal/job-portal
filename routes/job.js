@@ -113,11 +113,18 @@ router.delete("/company/jobdelete/:id",middleware.checkCompanyOwnership,function
 //id of job
 router.get("/company/:id/show/jobstats",middleware.checkCompanyOwnership,
 function(req,res){
-  // Job.findById(req.params.id).populate("appliedBy").exec(function(err,foundJob){
-  //        res.render("company/seekerview",{jobs:foundJob});
-  // });
-
- res.send("applied by");
+  Job.findById(req.params.id).populate("appliedBy").exec(function(err,foundJob){
+     Seeker.find({}).exec(function(err,seekers){
+           if(err)
+           console.log(err);
+           else{
+             console.log(foundJob);
+             console.log(seekers);
+    res.render("company/seekerview",{job:foundJob,seekers:seekers});
+           }
+      } );  
+  });
+ //res.send("applied by");
 });
 
 router.get("/seeker/:id/applyjob",function(req,res){
@@ -156,11 +163,4 @@ router.post("/seeker/:id/applyjob",function(req,res){
 module.exports = router;
 
 
-
-
-
-
-
-
-module.exports = router;
 
