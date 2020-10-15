@@ -12,6 +12,7 @@ var Posts =require("../models/posts");
 var middleware = require("../middleware/index.js");
 const company = require("../models/company");
 const { route } = require("./company");
+const job = require("../models/job");
 
 
 //saari jobs uss comapny ki show hongi
@@ -23,6 +24,7 @@ router.get("/company/:id/viewjob",middleware.checkCompanyOwnership,function(req,
         if(err)
         console.log(err);
         else{
+               console.log(jobs);
                Company.find().where('createdBy.id').equals(foundUser._id).exec(function(err,foundCompany){
                    if(err)
                    console.log(err);
@@ -77,19 +79,28 @@ router.post("/login/company/createjob",function(req,res){
 });
 
  
-router.get("/seeker/:id/appliedJobs",function(req,res){
-    Seeker.findById(req.params.id,function(err,foundSeeker){
+router.get("/seeker/appliedJobs",function(req,res){
+  //console.log(req.user._id);
+    Job.find({}).exec(function(err,alljobs){
       if(err)
-      console.log(err);
-      Job.find().where('appliedBy.id').equals(foundSeeker._id).exec(function(err,alljobs){
-        if(err)
-        console.log(err);
-        else{
-             res.render("seeker/appliedJobs",{seeker:foundSeeker,jobs: alljobs});
-        }
-      });
-    })
-  })
+       console.log(err);
+      else{
+        console.log(alljobs);
+        res.render("seeker/appliedJobs",{jobs:alljobs,currentUser:req.user});
+      }
+    });
+    // Seeker.findById(req.params.id,function(err,foundSeeker){
+    //   if(err)
+    //   console.log(err);
+    //   Job.find().where('appliedBy.id').equals(foundSeeker._id).exec(function(err,alljobs){
+    //     if(err)
+    //     console.log(err);
+    //     else{
+    //          res.render("seeker/appliedJobs",{seeker:foundSeeker,jobs: alljobs});
+    //     }
+    //   });
+    // })
+  });
 
 
 

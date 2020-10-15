@@ -109,7 +109,8 @@ function escapeRegex(text) {
         [{"name": regex},
          { "location": regex },
          {"company": regex },
-         {"experience": regex}
+         {"experience": regex},
+         {"description": regex},
         ]
       },function(err,alljobs){
         if(err)
