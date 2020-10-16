@@ -4,8 +4,9 @@
 <% jobs.forEach(function(job){ 
     var bool=false;
     job.appliedBy.forEach(function(thisuser){
-        if(thisuser._id.equals(currentUser._id)){
+        if(currentUser._id.equals(thisuser.postedBy.id)){
             bool=true;
+           // console.log("yes");
         }
     });
     if(bool){ %>
