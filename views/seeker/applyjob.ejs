@@ -43,6 +43,7 @@ h2{
     </style>
 </head>
 <body>
+    <%- include("../partials/navbarSeeker")%>
     <div class="main">
         <% companies.forEach(function(company) { %>
             <% if(String(company.createdBy.id) == String(job.postedBy.id)){ %>
