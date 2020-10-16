@@ -19,15 +19,29 @@
         </div>
 
 <div>
-            <%= user._id %>
             <br>
             <% if((currentUser && currentUser.isCompany)){ %>
-            <a class=" btn btn-warning" href="/job/<%= job._id %>/selected/<%= user._id %>/seeker/<%= seeker._id %>">Select</a>
-           
+            <form onsubmit="return confirm('Do you really want to Accept the following?');" action="/job/<%= job._id %>/selected/<%= user._id %>/seeker/<%= seeker._id %>" method="Post">
+                <div>
+                <button  id="demo" class="btn btn-success" name="accept" value="" <% if(user.isStatus != 'pending'){%> disabled <%}%> >
+                    Select
+                </button>
+            </div>
+            </form>
            <% } %>
            <% if((currentUser && currentUser.isCompany)){ %>
-            <a class=" btn btn-warning" href="/job/<%= job._id %>/rejected/<%= user._id %>/seeker/<%= seeker._id %>">Reject</a>
+            <form  onsubmit="return confirm('Do you really want to Reject the following?');" action="/job/<%= job._id %>/rejected/<%= user._id %>/seeker/<%= seeker._id %>" method="Post">
+                <div >
+                <button  id="demo1" <% if(user.isStatus != 'pending'){%> disabled <%}%> class="btn btn-danger">
+                    Reject
+                </button>
+            </div>
+            </form>
            <% } %>
+           <br>
+           <p>
+               status: <%= user.isStatus %>
+           </p>
 </div>
              
 
@@ -37,5 +51,31 @@
     </div>
     </div>
 </div>
+ <!-- <script type="text/javascript">
+
+document.getElementById("demo").addEventListener("click",myFunction);
+    function myFunction(){
+       // console.log("hi");
+        var check = confirm("Are you sure You want to accept this: Click ok to confirm");
+       // console.log(check);
+        if(check == false)
+        {
+        document.getElementById("demo").value = "notaccepted";
+        //console.log(document.getElementById("demo").value);
+        }
+        else{
+            document.getElementById("demo").style.color="blue";
+        document.getElementById("demo").value = "accepted";
+        }
+   }
+    function myFunction1(){
+        var check= prompt("Are you sure You want to reject this: Click ok to confirm","Yes");
+        if(check != null )
+        {
+        document.getElementById("demo1").style.color = "red";
+        //document.getElementById("demo").disabled = true;
+        }
+    }
+</script>  -->
 
 <%- include("../partials/footer") %>

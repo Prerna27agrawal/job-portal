@@ -175,7 +175,7 @@ router.post("/seeker/:id/applyjob",function(req,res){
 //id is for the selected job
 //:seeker_id is for the selected seeker
 //:applied by_id is for the array object id that is been slecetd not the user schema id
-router.get("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.checkCompanyOwnership,function(req,res){
+router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.checkCompanyOwnership,function(req,res){
   Seeker.findById(req.params.seeker_id,function(err,foundSeeker){
     Job.findById(req.params.id,function(err,foundjob){
          Company.findOne().where('createdBy.id').equals(foundjob.postedBy.id).exec(function(err,foundCompany){
@@ -239,17 +239,18 @@ router.get("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.c
                   console.log('Message sent: %s',info.messageId);
                   console.log('Preview Url : %s',nodemailer.getTestMessageUrl(info));
                  // res.render("company/seekerview");
-                  res.redirect("back");
+           res.redirect("/company/"+req.params.id+"/show/jobstats");
+                  //res.redirect("back");
              });
          });
     });
   });
-  
+
   });
   
   
   /////reject a job
-  router.get("/job/:id/rejected/:appliedByarray_id/seeker/:seeker_id",middleware.checkCompanyOwnership,function(req,res){
+  router.post("/job/:id/rejected/:appliedByarray_id/seeker/:seeker_id",middleware.checkCompanyOwnership,function(req,res){
     Seeker.findById(req.params.seeker_id,function(err,foundSeeker){
       Job.findById(req.params.id,function(err,foundjob){
            Company.findOne().where('createdBy.id').equals(foundjob.postedBy.id).exec(function(err,foundCompany){
@@ -311,7 +312,8 @@ router.get("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.c
                     return console.log(error);
                     console.log('Message sent: %s',info.messageId);
                     console.log('Preview Url : %s',nodemailer.getTestMessageUrl(info));
-                    res.redirect("back");
+           res.redirect("/company/"+req.params.id+"/show/jobstats");
+          // res.redirect("back");
                });
            });
       });
