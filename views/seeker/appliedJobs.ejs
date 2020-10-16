@@ -1,24 +1,33 @@
 <%- include("../partials/header")%>
 
+<div class="container">
+    <h2 style="text-align: center;"><b>My Applications</b></h2>
+    <div class="row">
+    <% jobs.forEach(function(job){ 
+        var bool=false;
+        job.appliedBy.forEach(function(thisuser){
+            if(currentUser._id.equals(thisuser.postedBy.id)){ %>
+                <div class="col-6">
+                    <ul class="list-group"></ul>
+    <p><b><%= job.name %></b></p>
+    <p><%= job.location %></p>
+    <p><%= job.experience %></p>
+    <p><%= job.description %></p>
+    <br>
+    Status: <b><%= thisuser.isStatus %></b>
+    <br>
+    <br>
+</div>
+    <!-- bool=true;
+               // console.log("yes"); -->
+    <% }
+        });
+    }); %>
 
-<% jobs.forEach(function(job){ 
-    var bool=false;
-    job.appliedBy.forEach(function(thisuser){
-        if(currentUser._id.equals(thisuser.postedBy.id)){ %>
-            <p><%= job.name %></p>
-        <p><%= job.location %></p>
-        <p><%= job.experience %></p>
-        <p><%= job.description %></p>
-    <br>
-    status: <%= thisuser.isStatus %>
-    <br>
-    <br>
-            <!-- bool=true;
-           // console.log("yes"); -->
-        <% }
-    });
-}); %>
-    
+</div>
+</div>
+
+
 
 
 <%- include("../partials/footer") %>

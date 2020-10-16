@@ -43,7 +43,7 @@ h2{
     </style>
 </head>
 <body>
-    <%- include("../partials/navbarSeeker")%>
+    <%- include("../partials/header")%>
     <div class="main">
         <% companies.forEach(function(company) { %>
             <% if(String(company.createdBy.id) == String(job.postedBy.id)){ %>
@@ -62,7 +62,7 @@ h2{
                     </div>
                     <br><br>
                     <form action="/seeker/<%= job._id %>/applyjob" method="POST">
-                      <input type="submit" name="submit" value="Apply" class="btn btn-success">
+                      <input type="submit" name="submit" value="Apply" class="btn btn-success active">
                     </form>
                 </div>
             </div>
@@ -79,7 +79,7 @@ h2{
                     <h4><b>ABOUT <%= company.name %>: </b></h4>
                     <p><%= company.description %></p>
                     <form action="/company/<%= job.postedBy.id %>/myprofile" method="GET">
-                       <input type="submit" value="Visit Company website" name="submit2" class="btn btn-info">
+                       <input type="submit" value="Visit Company website" name="submit2" class="btn btn-info active">
                     </form>
                 </div>
                 </div>

@@ -22,28 +22,28 @@
                     <span class="icon-bar"></span>
                 </button>
 
-                <a style="color: floralwhite;" class="navbar-brand" href="/">WeHire</a>
+                <a style="color:floralwhite" class="navbar-brand" href="/"><i class="fab fa-hive"></i>WeHire</a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <% if(currentUser){ %>
                     <% if(currentUser.isCompany) { %>
-                    <li class="<%= typeof page !== 'undefined' && page === 'campgrounds' ? 'active' : '' %>"><a
+                    <li class="nav-item"><a
                             style="color: floralwhite;" href="/company/show">Home</a></li>
                     <% } else { %>
-                    <li class="<%= typeof page !== 'undefined' && page === 'campgrounds' ? 'active' : '' %>"><a
+                    <li class="nav-item"><a
                             style="color: floralwhite;" href="/seeker/index">Home</a></li>
                     <% } %>
                     <% }else { %>
-                    <li class="<%= typeof page !== 'undefined' && page === 'campgrounds' ? 'active' : '' %>"><a
+                    <li class="nav-item"><a
                             style="color: floralwhite;" href="/">Home</a></li>
                     <% } %>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <% if(!currentUser){ %>
-                    <li class="<%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>"><a
+                    <li class="nav-item"><a
                             style="color: floralwhite;" href="/login">Login</a></li>
-                    <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>"><a
+                    <li class="nav-item"><a
                             style="color: floralwhite;" href="/register">Sign Up</a></li>
                     <% } else { %>
                     <% if(currentUser.isCompany) { %>
