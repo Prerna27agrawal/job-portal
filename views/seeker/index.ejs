@@ -38,7 +38,7 @@
                 <% if(String(company.createdBy.id) == String(job.postedBy.id)){ %>
             <div class="col-md-3 col-sm-6" >
                 <div class="thumbnail" style="padding-left: 20px;box-shadow: 0 3px 10px 0 rgba(0,0,0,.1)">
-                <img src="<%= company.logo %>" height="75px" width="75px" >
+                <img src="<%=company.logo%>" height="75px" width="75px" >
 
                     <div class="caption">
                         <h3 style="padding-left:10%;font-weight: 500;text-transform: capitalize;color:#0e141e;"><%- job.name %></h3>
@@ -63,6 +63,7 @@
             <% }); %>
             <% }); %>
     </div>
+    <a class="btn btn-success" type="button" href="/seeker/appliedJobs">View previous applications</a>  
 <a href="/">Go Back</a>
 
         </div>

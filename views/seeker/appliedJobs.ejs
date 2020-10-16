@@ -1,15 +1,21 @@
 <%- include("../partials/header") %>
 
-<h1><%= seeker.username%></h1>
 
-<% jobs.forEach(function(job){ %>
-    <p> <%= job.name %></p>
-    <p> <%= job.description %></p>
-    <p> <%= job.location %></p>
-    <p></p>
-    <br>
-    <br>
-<% }); %>
+<% jobs.forEach(function(job){ 
+    var bool=false;
+    job.appliedBy.forEach(function(thisuser){
+        if(thisuser._id.equals(currentUser._id)){
+            bool=true;
+        }
+    });
+    if(bool){ %>
+        <p><%= job.name %></p>
+        <p><%= job.location %></p>
+        <p><%= job.experience %></p>
+        <p><%= job.description %></p>
+    <% }
+}); %>
+    
 
 
 <%- include("../partials/footer") %>

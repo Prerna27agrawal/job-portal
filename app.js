@@ -9,7 +9,7 @@
 // //added edit and delete profile for company
 // added delete option for job
 // added create delete and update for posts for company
-// require('dotenv').config();
+require('dotenv').config();
 
 var express = require("express");
 var app = express();
