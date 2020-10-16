@@ -7,7 +7,7 @@
         </p>
 <% job.appliedBy.forEach(function(user){%>
 <%   seekers.forEach(function(seeker){%>
-    <% if(seeker.seekerBy.id.equals(user.id)){%>
+    <% if(seeker.seekerBy.id.equals(user.postedBy.id)){%>
 
         <div class="row">
             <div class="col-md-12">
@@ -17,6 +17,20 @@
                 <hr>
             </div>
         </div>
+
+<div>
+            <%= user._id %>
+            <br>
+            <% if((currentUser && currentUser.isCompany)){ %>
+            <a class=" btn btn-warning" href="/job/<%= job._id %>/selected/<%= user._id %>/seeker/<%= seeker._id %>">Select</a>
+           
+           <% } %>
+           <% if((currentUser && currentUser.isCompany)){ %>
+            <a class=" btn btn-warning" href="/job/<%= job._id %>/rejected/<%= user._id %>/seeker/<%= seeker._id %>">Reject</a>
+           <% } %>
+</div>
+             
+
 <% } %>
 <% }); %>
 <% }); %>
