@@ -1,7 +1,6 @@
 var express = require("express");
 var router = express.Router();
 
-
 var Company = require("../models/company");
 var  Seeker = require("../models/seeker");
 var  Job = require("../models/job");
@@ -158,16 +157,33 @@ router.get("/seeker/:id/applyjob",function(req,res){
 });
 
 router.post("/seeker/:id/applyjob",function(req,res){
-  Job.findOneAndUpdate({_id:req.params.id},{$push:{"appliedBy":{"isStatus":"pending","postedBy":req.user}} },{new:true},function(err,job){
-    if(err)
-     console.log(err);
-    else
-    {
-      console.log(req.user);
-      console.log(job);
-      res.redirect("/seeker/index");
-    }
-  });
+   Job.findById(req.params.id).populate('postedBy').populate("appliedBy.postedBy").exec(function(err,foundJob){
+     //console.log(foundJob);
+     var find = false;
+      foundJob.appliedBy.forEach(function(eachSeeker){
+       // console.log(req.user._id);
+       // console.log(eachSeeker.postedBy.id);
+        if(String(eachSeeker.postedBy.id) == String(req.user._id))
+        {
+          console.log("you have applied");
+          req.flash("YOU have applied already");
+          find = true;
+        }
+      });
+      if(find == false)
+      {
+        Job.findOneAndUpdate({_id:req.params.id},{$push:{"appliedBy":{"isStatus":"pending","postedBy":req.user}} },{new:true},function(err,job){
+          if(err)
+           console.log(err);
+          else
+          {
+            console.log(req.user);
+            console.log(job);
+            res.redirect("/seeker/index");
+          }
+        });
+      }
+   });
 });
 
 
@@ -175,7 +191,7 @@ router.post("/seeker/:id/applyjob",function(req,res){
 //id is for the selected job
 //:seeker_id is for the selected seeker
 //:applied by_id is for the array object id that is been slecetd not the user schema id
-router.get("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.checkCompanyOwnership,function(req,res){
+router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.checkCompanyOwnership,function(req,res){
   Seeker.findById(req.params.seeker_id,function(err,foundSeeker){
     Job.findById(req.params.id,function(err,foundjob){
          Company.findOne().where('createdBy.id').equals(foundjob.postedBy.id).exec(function(err,foundCompany){
@@ -239,17 +255,18 @@ router.get("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.c
                   console.log('Message sent: %s',info.messageId);
                   console.log('Preview Url : %s',nodemailer.getTestMessageUrl(info));
                  // res.render("company/seekerview");
-                  res.redirect("back");
+           res.redirect("/company/"+req.params.id+"/show/jobstats");
+                  //res.redirect("back");
              });
          });
     });
   });
-  
+
   });
   
   
   /////reject a job
-  router.get("/job/:id/rejected/:appliedByarray_id/seeker/:seeker_id",middleware.checkCompanyOwnership,function(req,res){
+  router.post("/job/:id/rejected/:appliedByarray_id/seeker/:seeker_id",middleware.checkCompanyOwnership,function(req,res){
     Seeker.findById(req.params.seeker_id,function(err,foundSeeker){
       Job.findById(req.params.id,function(err,foundjob){
            Company.findOne().where('createdBy.id').equals(foundjob.postedBy.id).exec(function(err,foundCompany){
@@ -311,7 +328,8 @@ router.get("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.c
                     return console.log(error);
                     console.log('Message sent: %s',info.messageId);
                     console.log('Preview Url : %s',nodemailer.getTestMessageUrl(info));
-                    res.redirect("back");
+           res.redirect("/company/"+req.params.id+"/show/jobstats");
+          // res.redirect("back");
                });
            });
       });

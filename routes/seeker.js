@@ -53,6 +53,7 @@ var upload = multer({ storage: storage, fileFilter: imageFilter})
 var cloudinary = require('cloudinary');
 const job = require("../models/job");
 const company = require("../models/company");
+const { populate } = require("../models/company");
 cloudinary.config({ 
 cloud_name: 'dhr7wlz2k', 
 api_key: process.env.CLOUDINARY_API_KEY,
@@ -123,7 +124,7 @@ function escapeRegex(text) {
     }
     else
     {
-    job.find({}).exec(function(err,alljobs){
+    job.find({}).populate('postedBy').populate('appliedBy.postedBy').exec(function(err,alljobs){
       if(err)
        console.log(err);
       else{
