@@ -1,7 +1,6 @@
 var express = require("express");
 var router = express.Router();
 
-
 var Company = require("../models/company");
 var  Seeker = require("../models/seeker");
 var  Job = require("../models/job");
@@ -158,16 +157,33 @@ router.get("/seeker/:id/applyjob",function(req,res){
 });
 
 router.post("/seeker/:id/applyjob",function(req,res){
-  Job.findOneAndUpdate({_id:req.params.id},{$push:{"appliedBy":{"isStatus":"pending","postedBy":req.user}} },{new:true},function(err,job){
-    if(err)
-     console.log(err);
-    else
-    {
-      console.log(req.user);
-      console.log(job);
-      res.redirect("/seeker/index");
-    }
-  });
+   Job.findById(req.params.id).populate('postedBy').populate("appliedBy.postedBy").exec(function(err,foundJob){
+     //console.log(foundJob);
+     var find = false;
+      foundJob.appliedBy.forEach(function(eachSeeker){
+       // console.log(req.user._id);
+       // console.log(eachSeeker.postedBy.id);
+        if(String(eachSeeker.postedBy.id) == String(req.user._id))
+        {
+          console.log("you have applied");
+          req.flash("YOU have applied already");
+          find = true;
+        }
+      });
+      if(find == false)
+      {
+        Job.findOneAndUpdate({_id:req.params.id},{$push:{"appliedBy":{"isStatus":"pending","postedBy":req.user}} },{new:true},function(err,job){
+          if(err)
+           console.log(err);
+          else
+          {
+            console.log(req.user);
+            console.log(job);
+            res.redirect("/seeker/index");
+          }
+        });
+      }
+   });
 });
 
 

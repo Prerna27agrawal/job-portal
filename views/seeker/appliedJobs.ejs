@@ -4,17 +4,19 @@
 <% jobs.forEach(function(job){ 
     var bool=false;
     job.appliedBy.forEach(function(thisuser){
-        if(currentUser._id.equals(thisuser.postedBy.id)){
-            bool=true;
-           // console.log("yes");
-        }
-    });
-    if(bool){ %>
-        <p><%= job.name %></p>
+        if(currentUser._id.equals(thisuser.postedBy.id)){ %>
+            <p><%= job.name %></p>
         <p><%= job.location %></p>
         <p><%= job.experience %></p>
         <p><%= job.description %></p>
-    <% }
+    <br>
+    status: <%= thisuser.isStatus %>
+    <br>
+    <br>
+            <!-- bool=true;
+           // console.log("yes"); -->
+        <% }
+    });
 }); %>
     
 
