@@ -56,6 +56,12 @@ router.get("/", function (req, res) {
     res.render("login");
   });
 
+  router.get("/logout",function(req,res){
+    req.logout();
+    //flash message
+    res.redirect("/");
+  })
+
  router.post("/login",passport.authenticate('local',{failureRedirect:'/login',failureFlash: 'Invalid username or password.'}),function(req,res){
         //console.log(req.user);
         //console.log(req.body);
