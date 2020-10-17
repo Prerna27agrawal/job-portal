@@ -139,14 +139,20 @@ function escapeRegex(text) {
   });
   
   router.get("/seeker/:id/myprofile",middleware.checkSeekerOwnership,function(req,res){
-    Seeker.findById(req.params.id,function(err,foundSeeker){
-      if(err){
-        console.log(err);
-      }else{
-        res.render("seeker/profile",{foundSeeker:foundSeeker});
+    User.findById(req.params.id,function(err,foundUser){
+      if(err)
+      console.log(err);
+      else{
+        Seeker.findOne().where('seekerBy.id').equals(foundUser._id).exec(function(err,foundSeeker){
+          if(err)
+          console.log(err);
+          else{
+        res.render("seeker/profile",{foundSeeker:foundSeeker,foundUser:foundUser});      
+          }
+        });
       }
-    })
-  })
+    });
+  });
  
   
   // router.get("/login/seeker/companyname", function (req, res) {
