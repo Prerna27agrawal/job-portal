@@ -15,7 +15,7 @@ var seekerSchema = new mongoose.Schema({
     status: String,
     gradyear: String,
     linkedinId:String ,
-    // resume: String,
+    resume: String,
     skills: [String],
    // password: String ,
     // appliedJobs:[{

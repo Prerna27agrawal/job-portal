@@ -4,6 +4,12 @@
 
         <p ><%= foundSeeker.firstname %> <%=foundSeeker.lastname%></p>
         <p>
+            <a href="/resume_folder/<%= foundSeeker.resume %>" download width="100%" height="500px">
+          with a tag</a>
+                <!-- <a href="" class="btn btn-primary" download>download resume</a> -->
+                <embed src="/resume_folder/<%= foundSeeker.resume %>" alt="image" type="application/pdf"   height="700px" width="500">
+        </p>
+        <p>
             <a href="/seeker/<%= foundSeeker._id %>/appliedJobs" class="btn btn-primary">Applied Jobs</a>
         </p>
 
