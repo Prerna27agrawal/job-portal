@@ -81,7 +81,7 @@ router.post("/login/company/createjob",function(req,res){
 });
 
  
-router.get("/seeker/appliedJobs",function(req,res){
+router.get("/seeker/:seeker_id/appliedJobs",function(req,res){
   //console.log(req.user._id);
     Job.find({}).populate('postedBy').populate("appliedBy.postedBy").exec(function(err,alljobs){
       if(err)

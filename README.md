@@ -1,4 +1,4 @@
-# job-portal
+# WeHire - Job Portal
 
  TOOLS/ TECHNOLOGIES :- Front End – HTML, CSS,JavasScript
    Back End – NodeJS, Express, Mongo DB
