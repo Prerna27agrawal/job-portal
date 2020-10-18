@@ -33,7 +33,14 @@ var companySchema = new mongoose.Schema({
           ref: "User"
       },
       username:String
-    }
+    },
+    subscribedBy:[{
+        id:{
+            type : mongoose.Schema.Types.ObjectId,
+            ref: "Seeker"
+        },
+        username:String
+    }]
 });
 
 //companySchema.plugin(passportLocalMongoose);
