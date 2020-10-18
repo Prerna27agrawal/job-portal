@@ -41,17 +41,40 @@ router.use(express.static(__dirname+"./public/"));
    callback(null, file.fieldname+'_'+Date.now() + "_"+path.extname(file.originalname));
  }
 });
-var pdfFilter = function (req, file, cb) {
+var uploadsFilter = function (req, file, cb) {
   // accept image files only
-  if (!file.originalname.match(/\.(pdf)$/i)) {
-      return cb(new Error('Only pdf files are allowed!'), false);
+  if(file.fieldname == "resume")
+  {
+      if (!file.originalname.match(/\.(pdf)$/i)) {
+          return cb(new Error('Only pdf files are allowed!'), false);
+      }
+      else
+        cb(null, true);
   }
-  cb(null, true);
+  else if(file.fieldname == "image")
+  {
+    if(file.mimetype === 'image/png' ||file.mimetype === 'image/jpg' ||file.mimetype === 'image/jpeg')
+    {
+         cb(null,true);
+    }
+    else{
+      return cb(new Error("only images are allowed"),false);
+    }
+  }
 };
 var upload = multer({ 
   storage: storage,
   limits:{fileSize:1000000},
-   fileFilter: pdfFilter}).single('resume');
+   fileFilter: uploadsFilter}).fields([
+     {
+       name:'resume',
+       maxCount:1
+     },
+     {
+       name:'image',
+       maxCount:1
+     }
+   ]);
 var cloudinary = require('cloudinary');
 const job = require("../models/job");
 const company = require("../models/company");
@@ -171,7 +194,7 @@ function escapeRegex(text) {
   
   
   router.post("/register/seeker",upload, function (req, res) {
-            console.log(req.file);
+            console.log(req.files);
             //var resume_file =`public/resume_folder/${req.file.filename}`;
     // var file = req.files.resume,
     //     filename = file.name;
@@ -190,7 +213,8 @@ function escapeRegex(text) {
       gradyear:req.body.gradyear,
       linkedinId:req.body.linkedinId,
       skills:req.body.skills,
-      resume:req.file.filename
+      resume:req.files.resume[0].filename,
+      image:req.files.image[0].filename
     });
     newSeeker.seekerBy = {
       id : req.user._id,

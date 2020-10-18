@@ -193,6 +193,7 @@ router.post("/seeker/:id/applyjob",function(req,res){
 //:applied by_id is for the array object id that is been slecetd not the user schema id
 router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.checkCompanyOwnership,function(req,res){
   Seeker.findById(req.params.seeker_id,function(err,foundSeeker){
+  //User.findOne().where('_id').equals('foundSeeker.seekerBy.id').exec(function(err,foundUser){
     Job.findById(req.params.id,function(err,foundjob){
          Company.findOne().where('createdBy.id').equals(foundjob.postedBy.id).exec(function(err,foundCompany){
          foundjob.appliedBy.forEach(function(user){
@@ -242,7 +243,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
              });
   
              let mailOptions = {
-               from :'"JobPortal" <jobportal916@gmail.com>',
+               from :'"JobPortal" <jobporta2525@gmail.com>',
                to :foundSeeker.email,
                subject : 'Job Offer',
                text : '',
@@ -261,7 +262,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
          });
     });
   });
-
+  //});
   });
   
   
