@@ -2,18 +2,20 @@
 <div class="row">
     <h1 style="text-align: center">Sign Up</h1>
     <div style="width: 30%; margin: 25px auto;">
-        <form action="/register" method="post" >
+        <form action="/register" method="post">
             <div class="form-group">
                 <label for="name1">UserName: </label>
-                <input class="form-control" type="text" id="name1" name="username"  placeholder=" username"  required> 
+                <input class="form-control" type="text" id="name1" name="username" placeholder=" username" required>
             </div>
             <div class="form-group">
                 <label for="password">Enter Password: </label>
-                <input class="form-control" type="password"  id="password"  placeholder="password" name="password" required>
+                <input class="form-control" type="password" id="password" placeholder="password" name="password"
+                    required>
             </div>
             <div class="form-group">
                 <label for="confirm_password">Confirm password: </label>
-                <input class="form-control" type="password"  placeholder="confirm password" id="confirm_password" required>
+                <input class="form-control" type="password" placeholder="confirm password" id="confirm_password"
+                    required>
             </div>
             <div class="form-group">
                 <p>Please select your role:</p>
@@ -29,16 +31,16 @@
     </div>
 </div>
 <script type="text/javascript">
-var password = document.getElementById("password")
-, confirm_password = document.getElementById("confirm_password");
-function validatePassword(){
-if(password.value != confirm_password.value) {
-  confirm_password.setCustomValidity("Passwords Don't Match");
-} else {
-  confirm_password.setCustomValidity('');
-}
-}
-password.onchange = validatePassword;
-confirm_password.onkeyup = validatePassword;
+    var password = document.getElementById("password")
+        , confirm_password = document.getElementById("confirm_password");
+    function validatePassword() {
+        if (password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("Passwords Don't Match");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
 </script>
 <%- include("partials/footer") %>
