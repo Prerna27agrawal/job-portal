@@ -40,14 +40,33 @@ h2{
 .row{
     margin: 0;
 }
+span{
+    position: relative;
+    bottom: 0;
+    right: 0;
+    float: right;
+}
     </style>
 </head>
 <body>
-    <%- include("../partials/header")%>
     <div class="main">
-        <% companies.forEach(function(company) { %>
-            <% if(String(company.createdBy.id) == String(job.postedBy.id)){ %>
-        <h1><img src="https://tppwebsolutions.com/wp-content/uploads/logo-demo3.png" height="50px" width="50px"><%= company.name %></h1>
+        <% companies.forEach(function(company) {
+             if(String(company.createdBy.id) == String(job.postedBy.id)){ 
+                 var bool=true;
+                    company.subscribedBy.forEach(function(seeker){
+                        if(String(seeker.username) == String(currentUser.username))
+                         bool=false;
+                    }); %>
+
+        <h1><img src="https://tppwebsolutions.com/wp-content/uploads/logo-demo3.png" height="50px" width="50px"><%= company.name %><span>
+            <% if(currentUser){ %>
+            <% if(bool){ %>
+                 <a href="/seeker/<%= company._id %>/subscribe/<%= job._id %>" type="button" class="btn btn-danger">Subscribe</a>
+             <% } else { %>
+                <a href="/seeker/<%= company._id %>/unsubscribe/<%= job._id %>" type="button" class="btn btn-primary" style="opacity: 0.7;">Subscribed</a>
+            <% } %>
+            <% } %>
+        </span></h1>
         <hr>
         <h2><%= job.name %></h2>
         <br>
@@ -86,7 +105,7 @@ h2{
             </div>
             </div>
             </div>
-            <% }; %>
+            <% } %>
             <% }); %>
         </div>
 </body>
