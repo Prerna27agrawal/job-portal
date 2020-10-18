@@ -1,7 +1,5 @@
 var express = require("express");
 var router = express.Router();
-
-
 var Company = require("../models/company");
 var  Seeker = require("../models/seeker");
 var  Job = require("../models/job");
@@ -9,7 +7,6 @@ var User = require("../models/user");
 var Posts =require("../models/posts");
 
 var middleware = require("../middleware/index.js");
-
 
 
 // var passport   = require("passport");
@@ -35,31 +32,60 @@ var path= require("path");
 // //passport.deserializeUser(Company.deserializeUser());
 // ////////////////////////////////////////
 
-/////
-var multer = require('multer');
-var storage = multer.diskStorage({
-    filename: function(req, file, callback) {
-  callback(null, Date.now() + file.originalname);
-}
+// /////
+router.use(express.static(__dirname+"./public/"));
+ var multer = require('multer');
+ var storage = multer.diskStorage({
+     destination: "./public/resume_folder/",
+     filename: function(req, file, callback) {
+   callback(null, file.fieldname+'_'+Date.now() + "_"+path.extname(file.originalname));
+ }
 });
-var imageFilter = function (req, file, cb) {
+var uploadsFilter = function (req, file, cb) {
   // accept image files only
-  if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
-      return cb(new Error('Only image files are allowed!'), false);
+  if(file.fieldname == "resume")
+  {
+      if (!file.originalname.match(/\.(pdf)$/i)) {
+          return cb(new Error('Only pdf files are allowed!'), false);
+      }
+      else
+        cb(null, true);
   }
-  cb(null, true);
+  else if(file.fieldname == "image")
+  {
+    if(file.mimetype === 'image/png' ||file.mimetype === 'image/jpg' ||file.mimetype === 'image/jpeg')
+    {
+         cb(null,true);
+    }
+    else{
+      return cb(new Error("only images are allowed"),false);
+    }
+  }
 };
-var upload = multer({ storage: storage, fileFilter: imageFilter})
+var upload = multer({ 
+  storage: storage,
+  limits:{fileSize:1000000},
+   fileFilter: uploadsFilter}).fields([
+     {
+       name:'resume',
+       maxCount:1
+     },
+     {
+       name:'image',
+       maxCount:1
+     }
+   ]);
 var cloudinary = require('cloudinary');
 const job = require("../models/job");
 const company = require("../models/company");
-const { populate } = require("../models/company");
-cloudinary.config({ 
-cloud_name: 'dhr7wlz2k', 
-api_key: process.env.CLOUDINARY_API_KEY,
-api_secret: process.env.CLOUDINARY_API_SECRET
-});
-////////////
+const { runInContext } = require("vm");
+// const { populate } = require("../models/company");
+// cloudinary.config({ 
+// cloud_name: 'dhr7wlz2k', 
+// api_key: process.env.CLOUDINARY_API_KEY,
+// api_secret: process.env.CLOUDINARY_API_SECRET
+// });
+// ////////////
 
 function escapeRegex(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -167,7 +193,16 @@ function escapeRegex(text) {
   //router.post("/login",middleware,callback)
   
   
-  router.post("/register/seeker", function (req, res) {
+  router.post("/register/seeker",upload, function (req, res) {
+            console.log(req.files);
+            //var resume_file =`public/resume_folder/${req.file.filename}`;
+    // var file = req.files.resume,
+    //     filename = file.name;
+    //     file.mv("../resume_folder"+filename,function(err){
+    //       if(err)
+    //       console.log(err);
+    //       console.log("error occured while uploading resume to folder");
+    //     });
     var newSeeker=new Seeker({
      // username:req.body.username,
       firstname:req.body.firstname,
@@ -177,7 +212,9 @@ function escapeRegex(text) {
       status:req.body.status,
       gradyear:req.body.gradyear,
       linkedinId:req.body.linkedinId,
-      skills:req.body.skills
+      skills:req.body.skills,
+      resume:req.files.resume[0].filename,
+      image:req.files.image[0].filename
     });
     newSeeker.seekerBy = {
       id : req.user._id,
@@ -188,6 +225,7 @@ function escapeRegex(text) {
          console.log(err);
           return res.render("seeker/seekerregister");
       }
+      console.log(newSeekercreate);
        res.redirect("/login");
       });
     });

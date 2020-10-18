@@ -1,8 +1,8 @@
-<%- include("../partials/navbarSeeker")%>
+<%- include("../partials/header")%>
 <div class="row">
     <h1 style="text-align: center">Sign Up</h1>
     <div style="width: 30%; margin: 25px auto;">
-        <form action="/register/seeker" method="post">
+        <form action="/register/seeker" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="name-f">First Name: </label>
                 <input class="form-control" type="text"  placeholder="Enter First Name" name="firstname" id="name-f" required>
@@ -55,13 +55,13 @@
                 <label for="Linkedin">LinkedIN: </label>
                 <input type="url" class="form-control" placeholder="Add your LinkedIn url" name="linkedinId" >
             </div>
-            <!-- <div class="form-group">
+            <div class="form-group">
                 <label for="resume">Resume: </label>
                 <input type="file" class="form-group" placeholder="Add resume" accept=".doc,.docx,.pdf,.txt" name="resume" required>
                 <small id="passwordHelpInline" class="text-muted">
                     (Accepted file formats: PDF, DOCX, TXT)
                 </small>
-            </div> -->
+            </div>
             <div class="form-group">
                 <label for="skill-set">Skills: </label>
                 <input class="form-control" type="text" list="skills" name="skills" required>

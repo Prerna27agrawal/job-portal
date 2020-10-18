@@ -39,6 +39,7 @@ var imageFilter = function (req, file, cb) {
 };
 var upload = multer({ storage: storage, fileFilter: imageFilter})
 var cloudinary = require('cloudinary');
+const { emitWarning } = require("process");
 
 cloudinary.config({ 
 cloud_name: 'dhr7wlz2k', 
@@ -121,7 +122,7 @@ router.post("/register/company", upload.single('logo'), function (req, res) {
       var newComp=new Company({
        // username:req.body.username,
         name: req.body.name,
-        email:req.body.email,
+       email:req.body.email,
         tagline:req.body.tagline,
         description:req.body.description,
         logo:req.body.logo,
