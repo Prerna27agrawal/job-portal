@@ -190,18 +190,22 @@ router.post("/seeker/:id/applyjob",function(req,res){
 ///select a candidate for a particlar job
 //id is for the selected job
 //:seeker_id is for the selected seeker
-//:applied by_id is for the array object id that is been slecetd not the user schema id
+//:applied by_id is for the array object id that is the user schema id
 router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.checkCompanyOwnership,function(req,res){
   Seeker.findById(req.params.seeker_id,function(err,foundSeeker){
-  //User.findOne().where('_id').equals('foundSeeker.seekerBy.id').exec(function(err,foundUser){
-    Job.findById(req.params.id,function(err,foundjob){
+  User.findById(req.params.appliedByarray_id,function(err,foundUser){
+    console.log("user found");
+    console.log(foundUser);
+    Job.findById(req.params.id).populate('appliedBy.postedBy').exec(function(err,foundjob){
          Company.findOne().where('createdBy.id').equals(foundjob.postedBy.id).exec(function(err,foundCompany){
          foundjob.appliedBy.forEach(function(user){
-                  if(user._id.equals(req.params.appliedByarray_id))
+           console.log(String(user.postedBy.id));
+           console.log(String(foundUser._id));
+                  if(String(user.postedBy.id) == String(foundUser._id))
                   {
-                   // console.log(user.isStatus);
+                   console.log(user.isStatus);
                       user.isStatus = 'Accepted';
-                     // console.log(user.isStatus);
+                      console.log(user.isStatus);
                       foundjob.save();
                       //console.log(foundjob);
                   }
@@ -244,7 +248,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
   
              let mailOptions = {
                from :'"JobPortal" <jobporta2525@gmail.com>',
-               to :foundSeeker.email,
+               to :foundUser.email,
                subject : 'Job Offer',
                text : '',
                html :output
@@ -262,17 +266,18 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
          });
     });
   });
-  //});
+  });
   });
   
   
   /////reject a job
   router.post("/job/:id/rejected/:appliedByarray_id/seeker/:seeker_id",middleware.checkCompanyOwnership,function(req,res){
     Seeker.findById(req.params.seeker_id,function(err,foundSeeker){
+  User.findById(req.params.appliedByarray_id,function(err,foundUser){
       Job.findById(req.params.id,function(err,foundjob){
            Company.findOne().where('createdBy.id').equals(foundjob.postedBy.id).exec(function(err,foundCompany){
            foundjob.appliedBy.forEach(function(user){
-                    if(user._id.equals(req.params.appliedByarray_id))
+                    if(user.postedBy.id.equals(req.params.appliedByarray_id))
                     {
                       console.log(user.isStatus);
                         user.isStatus = 'Rejected';
@@ -318,7 +323,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
     
                let mailOptions = {
                  from :'"JobPortal" <jobportal916@gmail.com>',
-                 to :foundSeeker.email,
+                 to :foundUser.email,
                  subject : 'Job Offer',
                  text : '',
                  html :output
@@ -336,6 +341,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
       });
     });
   });
+});
 
 
 
