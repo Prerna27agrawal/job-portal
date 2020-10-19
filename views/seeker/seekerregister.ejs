@@ -27,11 +27,6 @@
                 <input class="form-control" type="text" placeholder="Enter Last Name" name="lastname" id="name-l"
                     required>
             </div>
-
-            <div class="form-group">
-                <label for="email">Email ID </label>
-                <input class="form-control" type="text" placeholder="Enter Email Id" name="email" required>
-            </div>
             <div class="form-group">
                 <label for="gender">Sex </label>
                 <input class="form-control" type="text" list="gender-list" name="gender">
@@ -41,15 +36,30 @@
                     <option value="Other">
                 </datalist>
             </div>
+<!-- 
+            <div class="form-group">
+                <label for="email">Email ID: </label>
+                <input class="form-control" type="text"  placeholder="Enter Email Id" name="email" required>
+            </div> -->
 
             <div class="form-group">
+                <label for="logo">Logo: </label>
+               <input type="file" class="form-group" id="logo" name="image" placeholder="Add image" accept=".png,.jpg,.jpeg"  aria-describedby="passwordHelpInline" required>
+                <small id="passwordHelpInline" class="text-muted">
+                  (Accepted file formats: PNG, JPG, JPEG)
+                </small> 
+          </div>
+
+            <!-- <div class="form-group">
                 <label for="logo">Logo </label>
                 <input type="file" class="form-group" id="logo" name="image" placeholder="Add image"
                     accept=".png,.jpg,.jpeg" aria-describedby="passwordHelpInline" required>
                 <small id="passwordHelpInline" class="text-muted">
                     (Accepted file formats: PNG, JPG, JPEG)
                 </small>
-            </div>
+            </div> -->
+
+
             <!-- <div class="form-group">
                 <label for="country">Country of Residence </label>
                 <input class="form-control" type="text" list="country-list" name="country" required>

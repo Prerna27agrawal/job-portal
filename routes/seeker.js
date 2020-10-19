@@ -213,6 +213,7 @@ function escapeRegex(text) {
       state:req.body.ownState,
       city:req.body.ownCity,
       phone:req.body.phone,
+      //email:req.body.email,
       status:req.body.status,
       gradyear:req.body.gradyear,
       education:req.body.education,
@@ -229,13 +230,23 @@ function escapeRegex(text) {
       id : req.user._id,
       username : req.user.username
     }
+    // User.findOne().where('_id').equals('req.user._id').exec(function(err,user){
+    //   console.log(user);    
+    //   user.isFill=true;
+    //        user.save();
+    //        console.log(user);
+    // });
+    req.user.isFill=true;
+    req.user.save();
+    console.log("to check is fill");
+    console.log(req.user);
     Seeker.create(newSeeker,function(err, newSeekercreate) {
       if (err) {
          console.log(err);
           return res.render("seeker/seekerregister");
       }
       console.log(newSeekercreate);
-       res.redirect("/login");
+       res.redirect("/seeker/index");
       });
     });
   

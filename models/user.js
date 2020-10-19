@@ -8,7 +8,11 @@ mongoose.set('useCreateIndex', true);
 var userSchema = new mongoose.Schema({
     username:String,
    password:String, //{type:String ,required:true, unique:true},
-   isCompany :{type: Boolean,default: false}
+   isCompany :{type: Boolean,default: false},
+   isVerified :{type: Boolean,default: false},
+   isFill :{type: Boolean,default: false},
+   email: String,
+   role:String
 });
 
 userSchema.plugin(passportLocalMongoose);

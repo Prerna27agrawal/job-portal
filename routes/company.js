@@ -4,6 +4,10 @@ var async = require("async");
 //crypto is part of express no need to install is
 var crypto = require("crypto");
 
+const jwt = require('jsonwebtoken');
+const JWT_KEY = "jwtactive987";
+const JWT_RESET_KEY = "jwtreset987";
+const bcryptjs = require('bcryptjs');
 
 var Company = require("../models/company");
 var  Seeker = require("../models/seeker");
@@ -11,7 +15,7 @@ var  Job = require("../models/job");
 var User = require("../models/user");
 var Posts =require("../models/posts");
 
-
+var nodemailer = require("nodemailer");
 
 var middleware = require("../middleware/index.js");
 
@@ -40,6 +44,7 @@ var imageFilter = function (req, file, cb) {
 var upload = multer({ storage: storage, fileFilter: imageFilter})
 var cloudinary = require('cloudinary');
 const { emitWarning } = require("process");
+const company = require("../models/company");
 
 cloudinary.config({ 
 cloud_name: 'dhr7wlz2k', 
@@ -64,9 +69,21 @@ router.get("/", function (req, res) {
   })
 
  router.post("/login",passport.authenticate('local',{failureRedirect:'/login',failureFlash: 'Invalid username or password.'}),function(req,res){
-        //console.log(req.user);
-        //console.log(req.body);
+        console.log(req.user);
+        console.log(req.body);
+  if(req.user.isVerified == true  && req.user.isFill == false){
      if(req.user.isCompany == true)
+      {
+            res.redirect("/register/company");
+      }
+      else
+      {
+       res.redirect("/register/seeker");
+      }
+    }
+    else if(req.user.isVerified == true && req.user.isFill == true)
+    {
+      if(req.user.isCompany == true)
       {
             res.redirect("/company/show");
       }
@@ -74,6 +91,11 @@ router.get("/", function (req, res) {
       {
        res.redirect("/seeker/index");
       }
+    }
+    else{
+      console.log("first fill your details and verify yourself");
+       res.redirect("/register");
+    }
  });
 
 
@@ -81,34 +103,120 @@ router.get("/register", function (req, res) {
     res.render("register");
   });
 router.post("/register",function(req,res){
-   var newUser = new User(
-     {
-       username:req.body.username
-     });
-     if(req.body.role == "company")
-     {
-         newUser.isCompany =true;
-     }
-     User.register(newUser,req.body.password,function(err,user){
-       if(err)
-       console.log(err);
-       else
-       {
-          passport.authenticate("local")(req,res,function()
-          {
-               console.log(user);
-               if(user.isCompany == true)
-               {
-                    res.redirect("/register/company");
-               }
-               else{
-                       res.redirect("/register/seeker");
-               }
-          });
-       }
-     });
-   
-})
+  User.findOne({email:req.body.email}).then(user=>{
+    if(user)
+    {
+      console.log("this email id alreasy exist");
+      req.flash("error","'Email ID already registered'");
+      res.redirect("/register");
+    }
+    else{
+        //eemail verification
+ const token = jwt.sign({username:req.body.username,password:req.body.password,email:req.body.email,role:req.body.role}, JWT_KEY,{expiresIn: '60m'});
+ const CLIENT_URL ='http://'+ req.headers.host;
+ const output = `
+                <h2>Please click on below link to activate your account</h2>
+                <p>${CLIENT_URL}/activate/${token}</p>
+                <p><b>NOTE: </b> The above activation link expires in 60 minutes.</p>
+                `;
+const transporter = nodemailer.createTransport({
+                  // host: 'mail.google.com',
+                   host:'smtp.gmail.com',
+                   port: 587,
+                   secure :false,
+                   //service: 'Gmail',
+                   auth: {
+                     user :'jobportal2525@gmail.com',
+                     pass :'shaifali2727'
+                   },
+                   tls: {
+                     rejectUnauthorized :false
+                   }
+                 });
+  
+  const mailOptions = {
+                   from :'"JobPortal" <jobportal916@gmail.com>',
+                   to :req.body.email,
+                   subject : 'Account Verification:',
+                   text : '',
+                   html :output
+                 };
+   transporter.sendMail(mailOptions, (error,info)=>{
+                      if(error)
+                      {
+                        console.log(err);
+                        req.flash('error',"something went wrong on our end.please register again");
+                        res.redirect('/login');
+                      }
+                      else
+                      {
+                           console.log('Message sent: %s',info.messageId);
+                           req.flash('success',"'Activation link sent to registered email ID. Please activate to log in.");
+                           res.redirect('/login');
+                      }
+                 });
+    }
+  });
+});
+router.get("/activate/:token",function(req,res){
+   const token = req.params.token;
+   if(token){
+   jwt.verify(token,JWT_KEY, function(err,decodedToken){
+    if(err)
+    {
+         console.log(err);
+         req.flash('error','Incorrect or expired link!please register again.');
+         res.redirect('/register');
+    }
+    else
+    {
+      console.log("169");
+      console.log(decodedToken.email);
+      console.log(decodedToken.username);
+         User.findOne({email:decodedToken.email}).then(foundUser=>{
+              if(foundUser){
+                     //user already exists
+                     req.flash('error','Email ID already registered! Please log in.');
+                     res.redirect('/login');
+              }
+              else{
+                     const newUser = new User({
+                     username:decodedToken.username,
+                     email:decodedToken.email,
+                     role:decodedToken.role,
+                     password:decodedToken.password
+                     });
+                     if(newUser.role == "company")
+                          {
+                              newUser.isCompany =true;
+                          }
+                    newUser.isVerified = true;
+                    bcryptjs.genSalt(10, (err, salt) => {
+                      bcryptjs.hash(newUser.password, salt, (err, hash) => {
+                          if (err) throw err;
+                          newUser.password = hash;
+                          newUser.save().then(user => {
+                                  req.flash(
+                                      'success_msg',
+                                      'Account activated. You can now log in.'
+                                  );
+                                  res.redirect('/login');
+                              })
+                              .catch(err => console.log(err));
+                      });
+                  });
+                     //create kr denge company ko
+              }
+         });
+    }
+});
+   }
+else
+{
+console.log("Account activation error");
+}
+});
+
   
 router.get("/register/company", function (req, res) {
     res.render("company/companyregister");
@@ -122,7 +230,7 @@ router.post("/register/company", upload.single('logo'), function (req, res) {
       var newComp=new Company({
        // username:req.body.username,
         name: req.body.name,
-       email:req.body.email,
+       // email:req.body.email,
         tagline:req.body.tagline,
         description:req.body.description,
         logo:req.body.logo,
@@ -132,16 +240,19 @@ router.post("/register/company", upload.single('logo'), function (req, res) {
         id: req.user._id,
         username : req.user.username
       }
+      req.user.isFill=true;
+      req.user.save();
+      console.log(req.user);
       Company.create(newComp,function(err, newcompanycreate) {
         if (err) {
            console.log(err);
             return res.render("company/companyregister");
         }
-         res.redirect("/login");
+         res.redirect("/company/show");
            // res.render("company/companylogin");
       });
     });
-  });
+});
  
 
 router.get("/company/:id/myprofile",function(req,res){
@@ -193,7 +304,7 @@ upload.single('logo'),function(req,res){
             return res.redirect("back");
           }
           company.name = req.body.name;
-          company.email = req.body.email;
+          //company.email = req.body.email;
           company.tagline = req.body.tagline;
           company.description = req.body.description;
           company.save();

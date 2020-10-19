@@ -21,7 +21,8 @@ var path= require("path");
 var passportLocalMongoose = require('passport-local-mongoose'); 
 var methodOverride = require("method-override");
 var flash = require('connect-flash');
-
+//const expressLayouts = require('express-ejs-layouts');
+const bcrypt = require('bcryptjs');
 
 var Company = require("./models/company");
 var Seeker = require("./models/seeker");
@@ -48,7 +49,7 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname+"/public")));
 app.use(methodOverride("_method"));
 app.use(flash());
-
+//app.use(expressLayouts);
 app.locals.moment= require("moment");
 
 
@@ -60,13 +61,41 @@ app.use(require("express-session")({
  }));
  app.use(passport.initialize());
  app.use(passport.session());
- passport.use(new LocalStrategy(User.authenticate())); 
+ passport.use(new LocalStrategy({ usernameField: 'username' }, (username, password, done) => {
+  //------------ User Matching ------------//
+  User.findOne({
+      username: username
+  }).then(user => {
+      if (!user) {
+          return done(null, false, { message: 'This email ID is not registered' });
+      }
+
+      //------------ Password Matching ------------//
+      bcrypt.compare(password, user.password, (err, isMatch) => {
+          if (err) throw err;
+          if (isMatch) {
+              return done(null, user);
+          } else {
+              return done(null, false, { message: 'Password incorrect! Please try again.' });
+          }
+      });
+  });
+})); 
  //passport.use(new LocalStrategy(Seeker.authenticate())); 
  //passport.serializeUser(Seeker.serializeUser());
  //passport.deserializeUser(Seeker.deserializeUser());
- passport.serializeUser(User.serializeUser());
- passport.deserializeUser(User.deserializeUser());
+//  passport.serializeUser(User.serializeUser());
+//  passport.deserializeUser(User.deserializeUser());
 // ////////////////////////////////////////
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
+      done(err, user);
+  });
+});
 
 //so that current user data is avialable to every route
 app.use(function(req,res,next){

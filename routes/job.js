@@ -26,13 +26,13 @@ router.get("/company/:id/viewjob",middleware.checkCompanyOwnership,function(req,
         if(err)
         console.log(err);
         else{
-               console.log(jobs);
+              // console.log(jobs);
                Company.find().where('createdBy.id').equals(foundUser._id).exec(function(err,foundCompany){
                    if(err)
                    console.log(err);
                    else
                    {
-                     console.log(foundCompany);
+                     //console.log(foundCompany);
                      res.render("company/viewjob",{user:foundUser,jobs: jobs,company: foundCompany});
                    }
                });
@@ -62,20 +62,76 @@ router.get("/company/createjob",middleware.checkCompanyOwnership,function(req,re
   //old create job post route
 //after creating job post
 router.post("/login/company/createjob",function(req,res){
-    console.log(req.body.job);
+    //console.log(req.body.job);
     req.body.job.postedBy = {
      id: req.user._id,
      username: req.user.username
    }
-   console.log(req.body.job);
-   console.log(req.body.job.postedBy);
+   //console.log(req.body.job);
+   //console.log(req.body.job.postedBy);
    Job.create(req.body.job,function(err,job){
      if(err)
      console.log(err);
      else
      {
-         console.log(job);
-         res.redirect('/company/'+job.postedBy.id+'/viewjob');//,{jobs:job});
+        // console.log(job);
+         Company.findOne().where('createdBy.id').equals(req.user._id).populate('subscribedBy.id').exec(function(err,company){
+           var users=[];
+           company.subscribedBy.forEach(function(eachuser){
+              users.push(eachuser.id.email);
+           });
+          //console.log(users);
+          const output= `
+          <p>Hello Seeker,</p>
+          <p> ${company.name} is hiring ${job.name} for the following job profile</p>
+          <h3>Job details</h3>
+          <ul>
+          <li><b>Role</b>: ${job.name} </li>
+          <li><b>Location</b>: ${job.location} </li>
+          <li><b>Experience</b>: ${job.experience}+ years of experience </li>
+          <li><b>Description</b>: ${job.description} </li>
+          </ul>
+          <p>
+          All the best!!
+          </p>
+          <p>NOTE: You are receiving this mail because you are subscribed to this company </p>
+      `;
+      let transporter = nodemailer.createTransport({
+        // host: 'mail.google.com',
+         host:'smtp.gmail.com',
+         port: 587,
+         secure :false,
+         //service: 'Gmail',
+         auth: {
+           user :'jobportal2525@gmail.com',
+           pass :'shaifali2727'
+         },
+         tls: {
+           rejectUnauthorized :false
+         }
+       });
+       
+       let mailOptions = {
+        from :'"WeHire" <jobportal2525@gmail.com>',
+        to :users,
+        subject : 'New Job Opening !!',
+        text : '',
+        html :output
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+          if (error)
+            return console.log(error);
+          console.log('Message sent: %s', info.messageId);
+          console.log('Preview Url : %s', nodemailer.getTestMessageUrl(info));
+          // res.render("company/seekerview");
+          res.redirect('/company/' + job.postedBy.id + '/viewjob'); //,{jobs:job});
+
+
+          //res.redirect("back");
+        });
+        
+        });
      }
 });
 });
@@ -190,18 +246,22 @@ router.post("/seeker/:id/applyjob",function(req,res){
 ///select a candidate for a particlar job
 //id is for the selected job
 //:seeker_id is for the selected seeker
-//:applied by_id is for the array object id that is been slecetd not the user schema id
+//:applied by_id is for the array object id that is the user schema id
 router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.checkCompanyOwnership,function(req,res){
   Seeker.findById(req.params.seeker_id,function(err,foundSeeker){
-  //User.findOne().where('_id').equals('foundSeeker.seekerBy.id').exec(function(err,foundUser){
-    Job.findById(req.params.id,function(err,foundjob){
+  User.findById(req.params.appliedByarray_id,function(err,foundUser){
+    console.log("user found");
+    console.log(foundUser);
+    Job.findById(req.params.id).populate('appliedBy.postedBy').exec(function(err,foundjob){
          Company.findOne().where('createdBy.id').equals(foundjob.postedBy.id).exec(function(err,foundCompany){
          foundjob.appliedBy.forEach(function(user){
-                  if(user._id.equals(req.params.appliedByarray_id))
+           console.log(String(user.postedBy.id));
+           console.log(String(foundUser._id));
+                  if(String(user.postedBy.id) == String(foundUser._id))
                   {
-                   // console.log(user.isStatus);
+                   console.log(user.isStatus);
                       user.isStatus = 'Accepted';
-                     // console.log(user.isStatus);
+                      console.log(user.isStatus);
                       foundjob.save();
                       //console.log(foundjob);
                   }
@@ -244,7 +304,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
   
              let mailOptions = {
                from :'"JobPortal" <jobporta2525@gmail.com>',
-               to :foundSeeker.email,
+               to :foundUser.email,
                subject : 'Job Offer',
                text : '',
                html :output
@@ -262,17 +322,18 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
          });
     });
   });
-  //});
+  });
   });
   
   
   /////reject a job
   router.post("/job/:id/rejected/:appliedByarray_id/seeker/:seeker_id",middleware.checkCompanyOwnership,function(req,res){
     Seeker.findById(req.params.seeker_id,function(err,foundSeeker){
+  User.findById(req.params.appliedByarray_id,function(err,foundUser){
       Job.findById(req.params.id,function(err,foundjob){
            Company.findOne().where('createdBy.id').equals(foundjob.postedBy.id).exec(function(err,foundCompany){
            foundjob.appliedBy.forEach(function(user){
-                    if(user._id.equals(req.params.appliedByarray_id))
+                    if(user.postedBy.id.equals(req.params.appliedByarray_id))
                     {
                       console.log(user.isStatus);
                         user.isStatus = 'Rejected';
@@ -318,7 +379,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
     
                let mailOptions = {
                  from :'"JobPortal" <jobportal916@gmail.com>',
-                 to :foundSeeker.email,
+                 to :foundUser.email,
                  subject : 'Job Offer',
                  text : '',
                  html :output
@@ -336,10 +397,48 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
       });
     });
   });
+});
 
 
+router.get("/seeker/:id/subscribe/:job_id",function(req,res){
+ 
+    Seeker.findOne().where('seekerBy.id').equals(req.user._id).exec(function(err,seeker){
+    Company.findOneAndUpdate({_id:req.params.id},{$push:{"subscribedBy":{"id":seeker._id,"username":req.user.username}} },{new:true},function(err,company){
+      if(err)
+       console.log(err);
+      else
+      {
+        //company.save();
+        res.redirect("/seeker/"+req.params.job_id+"/applyjob");
+      }
+    });
+  });
+});
 
 
+router.get("/seeker/:id/unsubscribe/:job_id",function(req,res){
+  Company.findById(req.params.id,function(err,company){
+    if(err)
+     console.log(err);
+    else
+    {
+      //console.log(thisuser);
+      //thisuser.remove();
+      //console.log(company);
+      company.subscribedBy.forEach(function(thisuser){
+       
+        if(String(thisuser.username) == String(req.user.username))
+        {
+          //console.log(thisuser);
+          thisuser.remove();
+          company.save();
+        }  
+      });
+      //console.log(company);
+      res.redirect("/seeker/"+req.params.job_id+"/applyjob");
+    }
+  });
+});
 
 module.exports = router;
 
