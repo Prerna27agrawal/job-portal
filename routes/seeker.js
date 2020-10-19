@@ -7,32 +7,9 @@ var User = require("../models/user");
 var Posts =require("../models/posts");
 
 var middleware = require("../middleware/index.js");
-
-
-// var passport   = require("passport");
-// var LocalStrategyS= require("passport-local");
+const { runInContext } = require("vm");
 var path= require("path");
-//var passportLocalMongooseS = require('passport-local-mongoose'); 
-
-
-
-// ////////passport-authenticate
-// router.use(require("express-session")({
-//     secret: "It is a Job Portal seeker page",
-//     resave :false,
-//     saveUninitialized: false	
-// }));
-// router.use(passport.initialize());
-// router.use(passport.session());
-// //passport.use(new LocalStrategy(Company.authenticate())); 
-// passport.use(new LocalStrategyS(Seeker.authenticate())); 
-// passport.serializeUser(Seeker.serializeUser());
-// passport.deserializeUser(Seeker.deserializeUser());
-// //passport.serializeUser(Company.serializeUser());
-// //passport.deserializeUser(Company.deserializeUser());
-// ////////////////////////////////////////
-
-// /////
+////Multer config
 router.use(express.static(__dirname+"./public/"));
  var multer = require('multer');
  var storage = multer.diskStorage({
@@ -42,7 +19,6 @@ router.use(express.static(__dirname+"./public/"));
  }
 });
 var uploadsFilter = function (req, file, cb) {
-  // accept image files only
   if(file.fieldname == "resume")
   {
       if (!file.originalname.match(/\.(pdf)$/i)) {
@@ -76,102 +52,160 @@ var upload = multer({
      }
    ]);
 var cloudinary = require('cloudinary');
-const job = require("../models/job");
-const company = require("../models/company");
-const { runInContext } = require("vm");
-// const { populate } = require("../models/company");
-// cloudinary.config({ 
-// cloud_name: 'dhr7wlz2k', 
-// api_key: process.env.CLOUDINARY_API_KEY,
-// api_secret: process.env.CLOUDINARY_API_SECRET
-// });
-// ////////////
+//////////
+
 
 function escapeRegex(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-
-
-// router.get("/login/seeker", function (req, res) {
-//     res.render("seeker/seekerlogin");
-//   });
-  
-  
-  
-  router.get("/register/seeker", function (req, res) {
+router.get("/register/seeker", middleware.checkSeekerOwnership,function (req, res) {
     res.render("seeker/seekerregister");
   });
   
+   
+ router.post("/register/seeker",middleware.checkSeekerOwnership,upload, function (req, res) {
+    var newSeeker=new Seeker({
+          firstname:req.body.firstname,
+          lastname:req.body.lastname,
+          email:req.body.email,
+          gender:req.body.gender,
+          country:req.body.ownCountry,
+          state:req.body.ownState,
+          city:req.body.ownCity,
+          phone:req.body.phone,
+          status:req.body.status,
+          gradyear:req.body.gradyear,
+          education:req.body.education,
+          stream:req.body.stream,
+          cgpa:req.body.cgpa,
+          linkedinId:req.body.linkedinId,
+          githubId:req.body.githubId,
+          website:req.body.website,
+          skills:req.body.skills,
+          resume:req.files.resume[0].filename,
+          image:req.files.image[0].filename
+          });
+          newSeeker.seekerBy = {
+          id : req.user._id,
+          username : req.user.username
+          }
+          req.user.isFill=true;
+          req.user.save();
+Seeker.create(newSeeker,function(err, newSeekercreate) {
+    if (err) {
+      console.log(err);
+      req.flash("error","err.message");
+      res.redirect("back");
+    }
+      console.log(newSeekercreate);
+      req.flash("success","You are successfully registered .");
+      res.redirect("/seeker/index");
+  });
+});
+
   
-  router.get("/seeker/index",function(req,res){
-    console.log(req.user);
-    company.find({}).exec(function(err,allcompany){
-    if(req.query.search_name)
-    {
-      const regex = new RegExp(escapeRegex(req.query.search_name), 'gi');
-      job.find({ "name": regex },function(err,alljobs){
-        if(err)
-         console.log(err);
-        else{
-          //console.log(alljobs);
-          res.render("seeker/index",{jobs:alljobs,companies:allcompany});
-        }
-      });
-    }
-    else if(req.query.search_location){
-      const regex = new RegExp(escapeRegex(req.query.search_location), 'gi');
-      job.find({ "location": regex },function(err,alljobs){
-        if(err)
-         console.log(err);
-        else{
-          //console.log(alljobs);
-          res.render("seeker/index",{jobs:alljobs,companies:allcompany});
-        }
-      });
-    }
-    else if(req.query.search_keywords){
-      const regex = new RegExp(escapeRegex(req.query.search_keywords), 'gi');
-      job.find({$or:
-        [{"name": regex},
-         { "location": regex },
-         {"company": regex },
-         {"experience": regex},
-         {"description": regex},
-        ]
-      },function(err,alljobs){
-        if(err)
-         console.log(err);
-        else{
-          //console.log(alljobs);
-          res.render("seeker/index",{jobs:alljobs,companies:allcompany});
-        }
-      });
-    }
+router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
+    //console.log(req.user);
+  Company.find({}).exec(function(err,allcompany){
+      if (err) {
+        console.log(err);
+        req.flash("error","err.message")
+        return res.redirect("back");
+    }else{
+          if(req.query.search_name)
+          {
+            const regex = new RegExp(escapeRegex(req.query.search_name), 'gi');
+            Job.find({ "name": regex },function(err,alljobs){
+              if (err) {
+                console.log(err);
+                req.flash("error","err.message")
+                return res.redirect("back");
+            }
+              else{
+               // console.log(alljobs);
+              //  var len=Number(alljobs.length);
+              //   if(len == 0)
+              //   {
+              //     console.log("no such job");
+              //     req.flash("error","No such Job found");
+              //     res.redirect("back");
+              //   }else{
+              //     req.flash("success","Following Jobs match with your search");
+                res.render("seeker/index",{jobs:alljobs,companies:allcompany});
+                }
+              //}
+            });
+          }
+          else if(req.query.search_location){
+            const regex = new RegExp(escapeRegex(req.query.search_location), 'gi');
+            Job.find({ "location": regex },function(err,alljobs){
+              if (err) {
+                console.log(err);
+                req.flash("error","err.message")
+                return res.redirect("back");
+            }
+            else{
+              // console.log(alljobs);
+                 res.render("seeker/index",{jobs:alljobs,companies:allcompany});
+               }
+             
+            });
+          }
+          else if(req.query.search_keywords){
+              const regex = new RegExp(escapeRegex(req.query.search_keywords), 'gi');
+              Job.find({$or:
+                [{"name": regex},
+                { "location": regex },
+                {"company": regex },
+                {"experience": regex},
+                {"description": regex},
+                ]
+              },function(err,alljobs){
+                if (err) {
+                  console.log(err);
+                  req.flash("error","err.message")
+                  return res.redirect("back");
+              }
+              else{
+               
+                 res.render("seeker/index",{jobs:alljobs,companies:allcompany});
+                 }
+               
+              });
+          }
     else
     {
-    job.find({}).populate('postedBy').populate('appliedBy.postedBy').exec(function(err,alljobs){
-      if(err)
-       console.log(err);
-      else{
-        //console.log(alljobs);
-        //console.log(allcompany);
-        res.render("seeker/index",{jobs:alljobs,companies:allcompany});
+        Job.find({}).populate('postedBy').populate('appliedBy.postedBy').exec(function(err,alljobs){
+          if (err) {
+            console.log(err);
+            req.flash("error","err.message")
+            return res.redirect("back");
+          }
+          else{
+            req.flash("success","Following Jobs are available");
+            res.render("seeker/index",{jobs:alljobs,companies:allcompany});
+          }
+      });
     }
-  });
   }
-});
-    //res.render("seeker/index");//,{seeker:req.user});
   });
+ });
   
-  router.get("/seeker/:id/myprofile",middleware.checkSeekerOwnership,function(req,res){
+router.get("/seeker/:id/myprofile",function(req,res){
     User.findById(req.params.id,function(err,foundUser){
-      if(err)
-      console.log(err);
+      if (err) {
+        console.log(err);
+        req.flash("error","err.message")
+        return res.redirect("back");
+    }
       else{
         Seeker.findOne().where('seekerBy.id').equals(foundUser._id).exec(function(err,foundSeeker){
-          if(err)
-          console.log(err);
+          if (err) {
+            console.log(err);
+            req.flash("error","err.message")
+            return res.redirect("back");
+        }
           else{
         res.render("seeker/profile",{foundSeeker:foundSeeker,foundUser:foundUser});      
           }
@@ -181,85 +215,44 @@ function escapeRegex(text) {
   });
  
   
-  // router.get("/login/seeker/companyname", function (req, res) {
-  //   res.send("let us routerly to my company and work ");
-  // });
-  
-  
-  
-  //POST Request
-  
-  //NEW LOGIN POSTROUTE
-  //router.post("/login",middleware,callback)
-  
-  
-  router.post("/register/seeker",upload, function (req, res) {
-            console.log(req.files);
-            //var resume_file =`public/resume_folder/${req.file.filename}`;
-    // var file = req.files.resume,
-    //     filename = file.name;
-    //     file.mv("../resume_folder"+filename,function(err){
-    //       if(err)
-    //       console.log(err);
-    //       console.log("error occured while uploading resume to folder");
-    //     });
-    var newSeeker=new Seeker({
-     // username:req.body.username,
-      firstname:req.body.firstname,
-      lastname:req.body.lastname,
-      email:req.body.email,
-      gender:req.body.gender,
-      country:req.body.ownCountry,
-      state:req.body.ownState,
-      city:req.body.ownCity,
-      phone:req.body.phone,
-      //email:req.body.email,
-      status:req.body.status,
-      gradyear:req.body.gradyear,
-      education:req.body.education,
-      stream:req.body.stream,
-      cgpa:req.body.cgpa,
-      linkedinId:req.body.linkedinId,
-      githubId:req.body.githubId,
-      website:req.body.website,
-      skills:req.body.skills,
-      resume:req.files.resume[0].filename,
-      image:req.files.image[0].filename
-    });
-    newSeeker.seekerBy = {
-      id : req.user._id,
-      username : req.user.username
+router.get("/seeker/:id/subscribe/:job_id",middleware.checkSeekerOwnership,function(req,res){
+  Seeker.findOne().where('seekerBy.id').equals(req.user._id).exec(function(err,seeker){
+  Company.findOneAndUpdate({_id:req.params.id},{$push:{"subscribedBy":{"id":seeker._id,"username":req.user.username}} },{new:true},function(err,company){
+    if (err) {
+      console.log(err);
+      req.flash("error","err.message")
+      return res.redirect("back");
+  }
+    else
+    {
+      //company.save();
+      req.flash("success","Further updates will be mailed to you as you subscribed this company")
+      res.redirect("/seeker/"+req.params.job_id+"/applyjob");
     }
-    // User.findOne().where('_id').equals('req.user._id').exec(function(err,user){
-    //   console.log(user);    
-    //   user.isFill=true;
-    //        user.save();
-    //        console.log(user);
-    // });
-    req.user.isFill=true;
-    req.user.save();
-    console.log("to check is fill");
-    console.log(req.user);
-    Seeker.create(newSeeker,function(err, newSeekercreate) {
-      if (err) {
-         console.log(err);
-          return res.render("seeker/seekerregister");
-      }
-      console.log(newSeekercreate);
-       res.redirect("/seeker/index");
-      });
+  });
+});
+});
+
+
+router.get("/seeker/:id/unsubscribe/:job_id",middleware.checkSeekerOwnership,function(req,res){
+Company.findById(req.params.id,function(err,company){
+  if (err) {
+    console.log(err);
+    req.flash("error","err.message")
+    return res.redirect("back");
+}
+  else
+  {
+    company.subscribedBy.forEach(function(thisuser){
+      if(String(thisuser.username) == String(req.user.username))
+      {
+        thisuser.remove();
+        company.save();
+      }  
     });
-  
-  // router.post("/login/seeker",passport.authenticate("local",
-  //   {
-  //     // console.log(req.user);
-  //     successRedirect: "/seeker/index",
-  //     failureRedirect:"/login/seeker"
-  //   }),function(req,res){
-  // });
-  
-  
-  
-
-
+    req.flash("success","You unsubscribed this company");
+    res.redirect("/seeker/"+req.params.job_id+"/applyjob");
+  }
+});
+});
 module.exports = router;

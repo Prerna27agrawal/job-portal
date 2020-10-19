@@ -14,7 +14,7 @@ middlewareObj.checkCompanyOwnership = function(req,res,next)
    else
    {
       req.flash("error","You don't have permission to do that");
-      res.redirect("back");
+      res.redirect("/");
    }
 }
 
@@ -27,7 +27,7 @@ middlewareObj.checkSeekerOwnership = function(req,res,next)
    else
    {
       req.flash("error","You don't have permission to do that");
-      res.redirect("back");
+      res.redirect("/");
    }
 }
 
@@ -43,6 +43,6 @@ middlewareObj.checkSeekerOwnership = function(req,res,next)
         //  }
           return next();
      }
-     res.redirect("/login");
+     res.redirect("/");
  }
  module.exports = middlewareObj;

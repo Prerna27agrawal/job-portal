@@ -17,84 +17,49 @@ var nodemailer = require("nodemailer");
 const { use } = require("passport");
 const { response } = require("express");
 
-//saari jobs uss comapny ki show hongi
-router.get("/company/:id/viewjob",middleware.checkCompanyOwnership,function(req,res){
-    User.findById(req.params.id,function(err,foundUser){
-      if(err)
-      console.log(err);
-      Job.find().where('postedBy.id').equals(foundUser._id).exec(function(err,jobs){
-        if(err)
-        console.log(err);
-        else{
-              // console.log(jobs);
-               Company.find().where('createdBy.id').equals(foundUser._id).exec(function(err,foundCompany){
-                   if(err)
-                   console.log(err);
-                   else
-                   {
-                     //console.log(foundCompany);
-                     res.render("company/viewjob",{user:foundUser,jobs: jobs,company: foundCompany});
-                   }
-               });
-        }
-      });
-    });
-    // Company.findById(req.params.id).populate("jobs").exec(function(err,foundcom){
-    //   if(err)
-    //   console.log(err);
-    //   else
-    //   {
-    //     console.log(foundcom);
-    //     res.render("company/viewjob",{Company: foundcom});
-    //   }
-    // }); 
-  });
-  
 
 
   
   //jb company login kre toh usko job create karkee id mil jae company ki
 router.get("/company/createjob",middleware.checkCompanyOwnership,function(req,res){
-  res.render("company/createjob");//,{Company: req.user});
-// });
+  res.render("company/createjob");
 });
 
-  //old create job post route
 //after creating job post
-router.post("/login/company/createjob",function(req,res){
-    //console.log(req.body.job);
+router.post("/login/company/createjob",middleware.checkCompanyOwnership,function(req,res){
     req.body.job.postedBy = {
      id: req.user._id,
      username: req.user.username
    }
-   //console.log(req.body.job);
-   //console.log(req.body.job.postedBy);
    Job.create(req.body.job,function(err,job){
-     if(err)
-     console.log(err);
+    if (err) {
+      console.log(err);
+      req.flash("error","err.message")
+      return res.redirect("back");
+  }
      else
      {
-        // console.log(job);
+       req.flash("success","Successfully Created New Job");
          Company.findOne().where('createdBy.id').equals(req.user._id).populate('subscribedBy.id').exec(function(err,company){
            var users=[];
            company.subscribedBy.forEach(function(eachuser){
               users.push(eachuser.id.email);
            });
-          //console.log(users);
-          const output= `
-          <p>Hello Seeker,</p>
-          <p> ${company.name} is hiring ${job.name} for the following job profile</p>
-          <h3>Job details</h3>
-          <ul>
-          <li><b>Role</b>: ${job.name} </li>
-          <li><b>Location</b>: ${job.location} </li>
-          <li><b>Experience</b>: ${job.experience}+ years of experience </li>
-          <li><b>Description</b>: ${job.description} </li>
-          </ul>
-          <p>
-          All the best!!
-          </p>
-          <p>NOTE: You are receiving this mail because you are subscribed to this company </p>
+           //email for notification of new job
+      const output= `
+      <p>Hello Seeker,</p>
+      <p> ${company.name} is hiring ${job.name} for the following job profile</p>
+      <h3>Job details</h3>
+      <ul>
+      <li><b>Role</b>: ${job.name} </li>
+      <li><b>Location</b>: ${job.location} </li>
+      <li><b>Experience</b>: ${job.experience}+ years of experience </li>
+      <li><b>Description</b>: ${job.description} </li>
+      </ul>
+      <p>
+      All the best!!
+      </p>
+      <p>NOTE: You are receiving this mail because you are subscribed to this company </p>
       `;
       let transporter = nodemailer.createTransport({
         // host: 'mail.google.com',
@@ -118,63 +83,51 @@ router.post("/login/company/createjob",function(req,res){
         text : '',
         html :output
       };
-
       transporter.sendMail(mailOptions, (error, info) => {
-          if (error)
-            return console.log(error);
+        if (err) {
+          console.log(err);
+          req.flash("error","err.message")
+          return res.redirect("back");
+      }
           console.log('Message sent: %s', info.messageId);
           console.log('Preview Url : %s', nodemailer.getTestMessageUrl(info));
-          // res.render("company/seekerview");
-          res.redirect('/company/' + job.postedBy.id + '/viewjob'); //,{jobs:job});
-
-
-          //res.redirect("back");
+          req.flash('success',"Notification sent to all the Subscribed Users");
+          res.redirect('/company/' + job.postedBy.id + '/viewjob');
         });
-        
         });
      }
 });
 });
 
  
-router.get("/seeker/:seeker_id/appliedJobs",function(req,res){
-  //console.log(req.user._id);
+router.get("/seeker/:seeker_id/appliedJobs",middleware.checkSeekerOwnership,function(req,res){
     Job.find({}).populate('postedBy').populate("appliedBy.postedBy").exec(function(err,alljobs){
-      if(err)
-       console.log(err);
+      if (err) {
+        console.log(err);
+        req.flash("error","err.message")
+        return res.redirect("back");
+    }
       else{
-        console.log(alljobs);
+       // console.log(alljobs);
         res.render("seeker/appliedJobs",{jobs:alljobs,currentUser:req.user});
       }
     });
-    // Seeker.findById(req.params.id,function(err,foundSeeker){
-    //   if(err)
-    //   console.log(err);
-    //   Job.find().where('appliedBy.id').equals(foundSeeker._id).exec(function(err,alljobs){
-    //     if(err)
-    //     console.log(err);
-    //     else{
-    //          res.render("seeker/appliedJobs",{seeker:foundSeeker,jobs: alljobs});
-    //     }
-    //   });
-    // })
   });
 
 
 
 router.delete("/company/jobdelete/:id",middleware.checkCompanyOwnership,function(req,res){
    Job.findById(req.params.id,function(err,job){
-    if(err)
-    {
+    if (err) {
       console.log(err);
+      req.flash("error","err.message")
       return res.redirect("back");
-    }
+  }
    job.remove();
    console.log("removed the job");
-   req.flash('success',"job removed");
+   req.flash('success',"Job removed");
    res.redirect("/company/"+req.user._id+"/viewjob");
    });
-  //res.send("this is to delet the job");
 });
 
 
@@ -184,61 +137,70 @@ router.get("/company/:id/show/jobstats",middleware.checkCompanyOwnership,
 function(req,res){
   Job.findById(req.params.id).populate('postedBy').populate("appliedBy.postedBy").exec(function(err,foundJob){
      Seeker.find({}).exec(function(err,seekers){
-           if(err)
-           console.log(err);
+      if (err) {
+        console.log(err);
+        req.flash("error","err.message")
+        return res.redirect("back");
+    }
            else{
-             //console.log(foundJob.appliedBy);
-             //console.log(JSON.stringify(foundJob,null,"\t"));
-            // console.log(seekers);
     res.render("company/seekerview",{job:foundJob,seekers:seekers});
            }
       } );  
   });
- //res.send("applied by");
 });
 
-router.get("/seeker/:id/applyjob",function(req,res){
+router.get("/seeker/:id/applyjob",middleware.checkSeekerOwnership,function(req,res){
   Job.findById(req.params.id,function(err,job){
     company.find({}).exec(function(err,allcompanies){
-    if(err)
-     console.log(err);
+      if (err) {
+        console.log(err);
+        req.flash("error","err.message")
+        return res.redirect("back");
+    }
     else
     {
       console.log(req.user);
       res.render("seeker/applyjob",{job:job,companies:allcompanies});
-      //Company.find().where('createdBy.id').equals(job.posted)
     }
    });
   });
 });
 
-router.post("/seeker/:id/applyjob",function(req,res){
+router.post("/seeker/:id/applyjob",middleware.checkSeekerOwnership,function(req,res){
    Job.findById(req.params.id).populate('postedBy').populate("appliedBy.postedBy").exec(function(err,foundJob){
-     //console.log(foundJob);
+    if (err) {
+      console.log(err);
+      req.flash("error","err.message")
+      return res.redirect("back");
+  }else{
      var find = false;
       foundJob.appliedBy.forEach(function(eachSeeker){
-       // console.log(req.user._id);
-       // console.log(eachSeeker.postedBy.id);
         if(String(eachSeeker.postedBy.id) == String(req.user._id))
         {
           console.log("you have applied");
-          req.flash("YOU have applied already");
+          req.flash("error","You have already applied for this job");
           find = true;
+          break;
         }
       });
       if(find == false)
       {
         Job.findOneAndUpdate({_id:req.params.id},{$push:{"appliedBy":{"isStatus":"pending","postedBy":req.user}} },{new:true},function(err,job){
-          if(err)
-           console.log(err);
+          if (err) {
+            console.log(err);
+            req.flash("error","err.message")
+            return res.redirect("back");
+        }
           else
           {
             console.log(req.user);
             console.log(job);
+            req.flash("success","You have applied for this job.");
             res.redirect("/seeker/index");
           }
         });
       }
+    }
    });
 });
 
@@ -250,8 +212,6 @@ router.post("/seeker/:id/applyjob",function(req,res){
 router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.checkCompanyOwnership,function(req,res){
   Seeker.findById(req.params.seeker_id,function(err,foundSeeker){
   User.findById(req.params.appliedByarray_id,function(err,foundUser){
-    console.log("user found");
-    console.log(foundUser);
     Job.findById(req.params.id).populate('appliedBy.postedBy').exec(function(err,foundjob){
          Company.findOne().where('createdBy.id').equals(foundjob.postedBy.id).exec(function(err,foundCompany){
          foundjob.appliedBy.forEach(function(user){
@@ -263,17 +223,13 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
                       user.isStatus = 'Accepted';
                       console.log(user.isStatus);
                       foundjob.save();
-                      //console.log(foundjob);
                   }
-                  //console.log(user.isStatus);
-
          });
-          if(err)
-             console.log(err);
-             //console.log("your data");
-             //console.log(foundjob);
-             //console.log(foundSeeker);
-             //console.log(foundCompany);
+         if (err) {
+          console.log(err);
+          req.flash("error","err.message")
+          return res.redirect("back");
+      }
              const output= `
                  <p> You have been  seleceted for the following job</p>
                  <h3>Job details</h3>
@@ -311,13 +267,15 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
              };
   
              transporter.sendMail(mailOptions, (error,info)=>{
-                  if(error)
-                  return console.log(error);
+              if (err) {
+                console.log(err);
+                req.flash("error","err.message")
+                return res.redirect("back");
+            }
                   console.log('Message sent: %s',info.messageId);
                   console.log('Preview Url : %s',nodemailer.getTestMessageUrl(info));
-                 // res.render("company/seekerview");
-           res.redirect("/company/"+req.params.id+"/show/jobstats");
-                  //res.redirect("back");
+                  req.flash("success","Mail has been sent to the Seeker Regarding your Decision");
+                  res.redirect("/company/"+req.params.id+"/show/jobstats");
              });
          });
     });
@@ -339,19 +297,14 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
                         user.isStatus = 'Rejected';
                         console.log(user.isStatus);
                         foundjob.save();
-                        //console.log(foundjob);
                     }
-                    //console.log(user.isStatus);
   
            });
-            //foundjob.appliedBy.isStatus = "Rejected";
-            if(err)
-              console.log(err);
-              //  console.log("your data");
-              //  console.log(foundjob);
-              //  console.log(foundSeeker);
-              //  console.log(foundCompany);
-           
+           if (err) {
+            console.log(err);
+            req.flash("error","err.message")
+            return res.redirect("back");
+        }
                const output= `
                    <p> Sorry!You have been  rejected for the following job</p>
                    <h3>Job details</h3>
@@ -389,9 +342,9 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
                     if(error)
                     return console.log(error);
                     console.log('Message sent: %s',info.messageId);
+                  req.flash("success","Mail has been sent to the Seeker Regarding your Decision");
                     console.log('Preview Url : %s',nodemailer.getTestMessageUrl(info));
            res.redirect("/company/"+req.params.id+"/show/jobstats");
-          // res.redirect("back");
                });
            });
       });
@@ -400,45 +353,6 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
 });
 
 
-router.get("/seeker/:id/subscribe/:job_id",function(req,res){
- 
-    Seeker.findOne().where('seekerBy.id').equals(req.user._id).exec(function(err,seeker){
-    Company.findOneAndUpdate({_id:req.params.id},{$push:{"subscribedBy":{"id":seeker._id,"username":req.user.username}} },{new:true},function(err,company){
-      if(err)
-       console.log(err);
-      else
-      {
-        //company.save();
-        res.redirect("/seeker/"+req.params.job_id+"/applyjob");
-      }
-    });
-  });
-});
-
-
-router.get("/seeker/:id/unsubscribe/:job_id",function(req,res){
-  Company.findById(req.params.id,function(err,company){
-    if(err)
-     console.log(err);
-    else
-    {
-      //console.log(thisuser);
-      //thisuser.remove();
-      //console.log(company);
-      company.subscribedBy.forEach(function(thisuser){
-       
-        if(String(thisuser.username) == String(req.user.username))
-        {
-          //console.log(thisuser);
-          thisuser.remove();
-          company.save();
-        }  
-      });
-      //console.log(company);
-      res.redirect("/seeker/"+req.params.job_id+"/applyjob");
-    }
-  });
-});
 
 module.exports = router;
 
