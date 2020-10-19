@@ -12,7 +12,8 @@ var userSchema = new mongoose.Schema({
    isVerified :{type: Boolean,default: false},
    isFill :{type: Boolean,default: false},
    email: String,
-   role:String
+   role:String,
+   resetLink :{type: String,default:''}
 });
 
 userSchema.plugin(passportLocalMongoose);

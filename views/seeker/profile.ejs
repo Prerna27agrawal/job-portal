@@ -99,9 +99,14 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <img src="/resume_folder/<%= foundSeeker.image %>"
-                                alt="https://i0.wp.com/www.mvhsoracle.com/wp-content/uploads/2018/08/default-avatar.jpg?ssl=1"
-                                class="rounded-circle" width="150">
+                            <%  var str1= foundSeeker.image; %>
+                           <% if(str1.startsWith('https')){ %>
+                                <img src="<%= str1 %>" alt="Admin" class="rounded-circle"
+                                width="150">
+                           <% } else{ %>
+                            <img src="/resume_folder/<%= foundSeeker.image %>" alt="Admin" class="rounded-circle"
+                                width="150">
+                            <% } %>
                             <div class="mt-3">
                                 <h4><%= foundSeeker.firstname%> <%= foundSeeker.lastname%></h4>
                                 <p class="text-secondary mb-1"><%= foundSeeker.status%></p>

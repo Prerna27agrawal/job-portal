@@ -65,7 +65,9 @@ router.get("/register/seeker", middleware.checkSeekerOwnership,function (req, re
   
    
  router.post("/register/seeker",middleware.checkSeekerOwnership,upload, function (req, res) {
-    var newSeeker=new Seeker({
+  //console.log(req.files); 
+  //console.log(req.files.image);
+  var newSeeker=new Seeker({
           firstname:req.body.firstname,
           lastname:req.body.lastname,
           email:req.body.email,
@@ -86,11 +88,21 @@ router.get("/register/seeker", middleware.checkSeekerOwnership,function (req, re
           website:req.body.website,
           skills:req.body.skills,
           resume:req.files.resume[0].filename,
-          image:req.files.image[0].filename
+         // image:req.files.image[0].filename
           });
           newSeeker.seekerBy = {
           id : req.user._id,
           username : req.user.username
+          }
+          //console.log(req.files.image);
+          if(req.files.image)
+          {
+            console.log(" image given");
+            newSeeker.image = req.files.image[0].filename;
+          }
+          if(!req.files.image)
+          {
+            console.log("no image given");
           }
           req.user.isFill=true;
           req.user.save();
