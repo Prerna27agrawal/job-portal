@@ -30,6 +30,7 @@
     "express-ejs-layouts": "^2.5.0",
     "express-method-override": "0.0.3",
     "express-session": "^1.17.1",
+    "intl-tel-input": "^17.0.6",
     "jsonwebtoken": "^8.5.1",
     "locus": "^2.0.4",
     "method": "^2.0.0",
