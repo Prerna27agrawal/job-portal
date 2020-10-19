@@ -92,9 +92,15 @@ router.get("/register/seeker", middleware.checkSeekerOwnership,function (req, re
           id : req.user._id,
           username : req.user.username
           }
+          //console.log(req.files.image);
+          if(req.files.image)
+          {
+            console.log(" image given");
+            newSeeker.image = req.files.image[0].filename;
+          }
           if(!req.files.image)
           {
-             newSeeker.image = req.files.resume[0].filename;
+            console.log("no image given");
           }
           req.user.isFill=true;
           req.user.save();
