@@ -15,6 +15,11 @@ var companySchema = new mongoose.Schema({
     description: String,
     logo : String,
     logoId :String,
+    company_url:String,
+    establishmentDate:String,
+    linkedinId:String,
+    facebookId:String,
+    contactno:String,
    // password:String, //{type:String ,required:true, unique:true},
     // jobs:[
     //      {

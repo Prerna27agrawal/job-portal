@@ -159,8 +159,18 @@
                 <input type="text" class="form-control" placeholder="Stream or Major Subject" name="stream">
             </div>
             <div class="form-group">
-                <label>Year of Study</label>
+                <label for="studyyear">Year of Study</label>
                 <!-- Graduate,final year,fourth year,third year,second year,first year -->
+                <input class="form-control" type="text" list="studyyear" name="studyyear" required/>
+                <datalist id="studyyear">
+                    <option value="First Year">
+                    <option value="Second Year">
+                    <option value="Third Year">
+                    <option value="Fourth Year">
+                    <option value="Fifth Year">
+                    <option value="Undergraduate Complete">
+                    <option value="Postgraduate Complete">
+                </datalist>
             </div>
             <div class="form-group">
                 <label>CPI</label>
@@ -236,39 +246,39 @@
     //     $('#select-name').selectize({
     //         plugins: ['remove_button']
     //     });
-        google.maps.event.addDomListener(window, 'load', function () {
-            var places = new google.maps.places.Autocomplete(document.getElementById('ownCountry'));
-            google.maps.event.addListener(places, 'place_changed', function () {
-                console.log(places.getPlace());
-                var getaddress = places.getPlace();
-                //alert(getaddress.address_components[0].long_name);
-                //alert(getaddress.formatted_address);
-                var whole_address = getaddress.formatted_address;
-                var split_whole_address = whole_address.split(',');
-                //alert(split_whole_address);
-                var whole_address_length = split_whole_address.length;
-                //alert(whole_address_length);
+    google.maps.event.addDomListener(window, 'load', function () {
+        var places = new google.maps.places.Autocomplete(document.getElementById('ownCountry'));
+        google.maps.event.addListener(places, 'place_changed', function () {
+            console.log(places.getPlace());
+            var getaddress = places.getPlace();
+            //alert(getaddress.address_components[0].long_name);
+            //alert(getaddress.formatted_address);
+            var whole_address = getaddress.formatted_address;
+            var split_whole_address = whole_address.split(',');
+            //alert(split_whole_address);
+            var whole_address_length = split_whole_address.length;
+            //alert(whole_address_length);
 
-                if (whole_address_length == 2) {
-                    var ownCity = split_whole_address[0]; //alert(ownCity+'ownCity');
-                    var ownState = split_whole_address[0]; //alert(ownState+'ownState');
-                    var ownCountry = split_whole_address[1]; //alert(ownCountry+'ownCountry');
+            if (whole_address_length == 2) {
+                var ownCity = split_whole_address[0]; //alert(ownCity+'ownCity');
+                var ownState = split_whole_address[0]; //alert(ownState+'ownState');
+                var ownCountry = split_whole_address[1]; //alert(ownCountry+'ownCountry');
 
-                    $('#ownCity').val(ownCity);
-                    $('#ownState').val(ownState);
-                    $('#ownCountry').val(ownCountry);
-                }
-                else {
-                    var ownCity = split_whole_address[0]; //alert(ownCity+'ownCity');
-                    var ownState = split_whole_address[1]; //alert(ownState+'ownState');
-                    var ownCountry = split_whole_address[2]; //alert(ownCountry+'ownCountry');
+                $('#ownCity').val(ownCity);
+                $('#ownState').val(ownState);
+                $('#ownCountry').val(ownCountry);
+            }
+            else {
+                var ownCity = split_whole_address[0]; //alert(ownCity+'ownCity');
+                var ownState = split_whole_address[1]; //alert(ownState+'ownState');
+                var ownCountry = split_whole_address[2]; //alert(ownCountry+'ownCountry');
 
-                    $('#ownCity').val(ownCity);
-                    $('#ownState').val(ownState);
-                    $('#ownCountry').val(ownCountry);
-                }
-            });
+                $('#ownCity').val(ownCity);
+                $('#ownState').val(ownState);
+                $('#ownCountry').val(ownCountry);
+            }
         });
+    });
 </script>
 
 

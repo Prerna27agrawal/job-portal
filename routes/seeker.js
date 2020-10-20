@@ -80,6 +80,7 @@ router.get("/register/seeker", middleware.checkSeekerOwnership,function (req, re
           gradyear:req.body.gradyear,
           education:req.body.education,
           degree:req.body.degree,
+          studyYear:req.body.studyyear,
           stream:req.body.stream,
           studyYear:req.body.year,
           cgpa:req.body.cgpa,
