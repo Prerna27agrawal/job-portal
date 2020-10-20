@@ -1,40 +1,47 @@
 <%- include("partials/header")%>
-<div class="row">
-    <h1 style="text-align: center">Sign Up</h1>
-    <div style="width: 50%;height:100%; margin: 25px auto;">
+<div class="row mt-3">
+    <div class="col-md-8 m-auto">
+        <h1 class="display-4 mb-2" style="text-align: center;">Sign Up</h1>
+    <!-- <div style="width: 50%;height:100%; margin: 25px auto;"> -->
+        <div class="card card-body text-center" style="background:#303030;">
+            <h1 class="mb-3">
+                <img src="https://wickes.scene7.com/is/image/travisperkins/300819-Wickes-Log-In-TradePro-Icon?fmt=png-alpha" alt="icon" width="20%" />
+            </h1>
         <form action="/register" method="post">
             <div class="form-group">
-                <label for="name1">UserName: </label>
+                <label for="name1" style="color:white;">UserName: </label>
                 <input class="form-control" type="text" id="name1" name="username" placeholder=" username" required>
             </div>
             <div class="form-group">
-                <label for="password">Enter Password: </label>
+                <label for="password" style="color:white;">Enter Password: </label>
                 <input class="form-control" type="password" id="password" placeholder="password" name="password"
                     required>
             </div>
             <div class="form-group">
-                <label for="confirm_password">Confirm password: </label>
+                <label for="confirm_password" style="color:white;">Confirm password: </label>
                 <input class="form-control" type="password" placeholder="confirm password" id="confirm_password"
                     required>
             </div>
             
             <div class="form-group">
-                <label for="email">Work Email ID: </label>
+                <label for="email" style="color:white;">Work Email ID: </label>
                 <input class="form-control" type="email" id="email" name="email" placeholder="Enter Email Id"  required>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="color:white;">
                 <p>Please select your role:</p>
                 <input type="radio" id="company" name="role" value="company">
-                <label for="company">Company</label><br>
+                <label for="company" style="color:white;">Company</label><br>
                 <input type="radio" id="seeker" name="role" value="seeker">
-                <label for="seeker">Seeker</label><br>
+                <label for="seeker" style="color:white;">Seeker</label><br>
             </div>
             <div class="form-group">
-                <button class="btn btn-lg btn-secondary active btn-block">Sign Up!</button>
+                <button class="btn btn-lg btn-primary active btn-block" style="color:white;">Sign Up!</button>
             </div>
         </form>
-        <p class="mt-4 text-center">Already have an account? <a href="/login">Login</a></p>
+        <p class="mt-2 text-center" style="color:white;">Already have an account? <a href="/login">Login</a></p>
     </div>
+    <!-- </div> -->
+</div>
 </div>
 <script type="text/javascript">
     var password = document.getElementById("password")

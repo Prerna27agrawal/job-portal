@@ -26,7 +26,9 @@ router.get("/", function (req, res) {
     res.render("landing");
   });
   
-
+router.get("/aboutus",function(req,res){
+   res.render("aboutus"); 
+});
 router.get('/forgot', function(req, res) {
     res.render('forgot');
   });

@@ -215,8 +215,6 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
     Job.findById(req.params.id).populate('appliedBy.postedBy').exec(function(err,foundjob){
          Company.findOne().where('createdBy.id').equals(foundjob.postedBy.id).exec(function(err,foundCompany){
          foundjob.appliedBy.forEach(function(user){
-           console.log(String(user.postedBy.id));
-           console.log(String(foundUser._id));
                   if(String(user.postedBy.id) == String(foundUser._id))
                   {
                    console.log(user.isStatus);
@@ -288,10 +286,10 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
   router.post("/job/:id/rejected/:appliedByarray_id/seeker/:seeker_id",middleware.checkCompanyOwnership,function(req,res){
     Seeker.findById(req.params.seeker_id,function(err,foundSeeker){
   User.findById(req.params.appliedByarray_id,function(err,foundUser){
-      Job.findById(req.params.id,function(err,foundjob){
+    Job.findById(req.params.id).populate('appliedBy.postedBy').exec(function(err,foundjob){
            Company.findOne().where('createdBy.id').equals(foundjob.postedBy.id).exec(function(err,foundCompany){
            foundjob.appliedBy.forEach(function(user){
-                    if(user.postedBy.id.equals(req.params.appliedByarray_id))
+            if(String(user.postedBy.id) == String(foundUser._id))
                     {
                       console.log(user.isStatus);
                         user.isStatus = 'Rejected';
@@ -302,7 +300,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
            });
            if (err) {
             console.log(err);
-            req.flash("error","err.message")
+            req.flash("error",err.message);
             return res.redirect("back");
         }
                const output= `
