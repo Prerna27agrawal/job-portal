@@ -352,6 +352,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
                });
               // res.redirect("/company/"+req.params.id+"/show/jobstats");
            });
+          });
     });
   });
 });
