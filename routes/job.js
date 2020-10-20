@@ -47,8 +47,8 @@ router.post("/login/company/createjob",middleware.checkCompanyOwnership,function
               users.push(eachuser.email);
            });
            //email for notification of new job
-           if(users.length>0)
-           {
+    if(users.length>0)
+    {
       const output= `
       <p>Hello Seeker,</p>
       <p> ${company.name} is hiring ${job.name} for the following job profile</p>
@@ -92,12 +92,13 @@ router.post("/login/company/createjob",middleware.checkCompanyOwnership,function
           req.flash("error","err.message")
           return res.redirect("back");
       }
-      //console.log('Message sent: %s', info.messageId);
-      console.log('Preview Url : %s', nodemailer.getTestMessageUrl(info));
-      req.flash('success',"Notification sent to all the Subscribed Users");
+      console.log('Message sent: %s', info.messageId);
+      //console.log('Preview Url : %s', nodemailer.getTestMessageUrl(info));
+      //res.redirect('/company/' + job.postedBy.id + '/viewjob');
         });
         
-      }
+    }
+         req.flash('success',"Notification sent to all the Subscribed Users");
           res.redirect('/company/' + job.postedBy.id + '/viewjob');
         
         });
@@ -149,7 +150,7 @@ function(req,res){
         return res.redirect("back");
     }
            else{
-    res.render("company/seekerview",{job:foundJob,seekers:seekers});
+           res.render("company/seekerview",{job:foundJob,seekers:seekers});
            }
       } );  
   });
@@ -185,7 +186,6 @@ router.post("/seeker/:id/applyjob",middleware.checkSeekerOwnership,function(req,
           console.log("you have applied");
           req.flash("error","You have already applied for this job");
           find = true;
-          break;
         }
       });
       if(find == false)
@@ -227,14 +227,9 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
                       console.log(user.isStatus);
                       foundjob.save();
                   }
-         });
-         if (err) {
-          console.log(err);
-          req.flash("error","err.message")
-          return res.redirect("back");
-      }
+               });
              const output= `
-                 <p> You have been  seleceted for the following job</p>
+                 <p> You have been  selected for the following job</p>
                  <h3>Job details</h3>
                  <ul>
                  <li>Company: ${foundCompany.name} </li>
@@ -246,7 +241,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
                  </p>
              `;
      
-             let transporter = nodemailer.createTransport({
+             const transporter = nodemailer.createTransport({
               // host: 'mail.google.com',
                host:'smtp.gmail.com',
                port: 587,
@@ -261,7 +256,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
                }
              });
   
-             let mailOptions = {
+             const mailOptions = {
                from :'"JobPortal" <jobporta2525@gmail.com>',
                to :foundUser.email,
                subject : 'Job Offer',
@@ -270,17 +265,20 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
              };
   
              transporter.sendMail(mailOptions, (error,info)=>{
-              if (err) {
+              if (error) {
                 console.log(err);
-                req.flash("error","err.message")
+                req.flash("error",err.message);
                 return res.redirect("back");
             }
+            else{
                   console.log('Message sent: %s',info.messageId);
                   console.log('Preview Url : %s',nodemailer.getTestMessageUrl(info));
-                  req.flash("success","Mail has been sent to the Seeker Regarding your Decision");
-                  
+                  req.flash('success',"Mail has been sent to the Seeker Regarding your Decision");
+                  res.redirect("back");
+                  //console.log("hi");
+            }     
              });
-             res.redirect("/company/"+req.params.id+"/show/jobstats");
+             //res.redirect("/company/"+req.params.id+"/show/jobstats");
          });
     });
   });
@@ -304,11 +302,6 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
                     }
   
            });
-           if (err) {
-            console.log(err);
-            req.flash("error",err.message);
-            return res.redirect("back");
-        }
                const output= `
                    <p> Sorry!You have been  rejected for the following job</p>
                    <h3>Job details</h3>
@@ -319,7 +312,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
                    </ul>
                `;
        
-               let transporter = nodemailer.createTransport({
+               const transporter = nodemailer.createTransport({
                 // host: 'mail.google.com',
                  host:'smtp.gmail.com',
                  port: 587,
@@ -334,23 +327,28 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
                  }
                });
     
-               let mailOptions = {
+               const mailOptions = {
                  from :'"JobPortal" <jobportal916@gmail.com>',
                  to :foundUser.email,
                  subject : 'Job Offer',
                  text : '',
                  html :output
                };
-    
                transporter.sendMail(mailOptions, (error,info)=>{
-                    if(error)
-                    return console.log(error);
+                if(error) {
+                  console.log(err);
+                  req.flash("error",err.message);
+                  return res.redirect("back");
+              }
+              else{
                     console.log('Message sent: %s',info.messageId);
-                  req.flash("success","Mail has been sent to the Seeker Regarding your Decision");
-                    console.log('Preview Url : %s',nodemailer.getTestMessageUrl(info));
-           
+                    //console.log('Preview Url : %s',nodemailer.getTestMessageUrl(info));
+                   // req.flash('success',"Password reset link sent to email ID. Please follow the instructions.");
+                    req.flash('success',"Mail has been sent to the Seeker Regarding your Decision");
+                   res.redirect("/company/"+req.params.id+"/show/jobstats");
+              }     
                });
-               res.redirect("/company/"+req.params.id+"/show/jobstats");
+              // res.redirect("/company/"+req.params.id+"/show/jobstats");
            });
       });
     });
