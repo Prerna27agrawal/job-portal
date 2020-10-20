@@ -108,7 +108,8 @@ router.post("/login/company/createjob",middleware.checkCompanyOwnership,function
 
  
 router.get("/seeker/:seeker_id/appliedJobs",middleware.checkSeekerOwnership,function(req,res){
-    Job.find({}).populate('postedBy').populate("appliedBy.postedBy").exec(function(err,alljobs){
+    Job.find({}).exec(function(err,alljobs){
+      company.find({}).exec(function(err,allcompanies){
       if (err) {
         console.log(err);
         req.flash("error","err.message")
@@ -116,8 +117,9 @@ router.get("/seeker/:seeker_id/appliedJobs",middleware.checkSeekerOwnership,func
     }
       else{
        // console.log(alljobs);
-        res.render("seeker/appliedJobs",{jobs:alljobs,currentUser:req.user});
+        res.render("seeker/appliedJobs",{jobs:alljobs,companies:allcompanies});
       }
+    });
     });
   });
 
@@ -190,7 +192,7 @@ router.post("/seeker/:id/applyjob",middleware.checkSeekerOwnership,function(req,
       });
       if(find == false)
       {
-        Job.findOneAndUpdate({_id:req.params.id},{$push:{"appliedBy":{"isStatus":"pending","postedBy":req.user}} },{new:true},function(err,job){
+        Job.findOneAndUpdate({_id:req.params.id},{$push:{"appliedBy":{"isStatus":"Pending","postedBy":req.user}} },{new:true},function(err,job){
           if (err) {
             console.log(err);
             req.flash("error","err.message")
@@ -350,7 +352,6 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
                });
               // res.redirect("/company/"+req.params.id+"/show/jobstats");
            });
-      });
     });
   });
 });
