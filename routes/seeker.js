@@ -79,7 +79,9 @@ router.get("/register/seeker", middleware.checkSeekerOwnership,function (req, re
           status:req.body.status,
           gradyear:req.body.gradyear,
           education:req.body.education,
+          degree:req.body.degree,
           stream:req.body.stream,
+          studyYear:req.body.year,
           cgpa:req.body.cgpa,
           linkedinId:req.body.linkedinId,
           githubId:req.body.githubId,
@@ -225,6 +227,32 @@ router.get("/seeker/:id/myprofile",function(req,res){
       }
     });
   });
+
+  //POST route for adding new projects
+  router.post("/seeker/:id/addproject",function(req,res){
+      var newproject={
+        title:req.body.project_title,
+        url:req.body.project_url,
+        starttime:`${req.body.project_start_month} ${req.body.project_start_year}`,
+        endtime:`${req.body.project_end_month} ${req.body.project_end_year}`,
+        description:req.body.project_description,
+      }
+      if(newproject.endtime=="Current Current"){
+        newproject.endtime="Current";
+      }
+
+      Seeker.findOne().where('seekerBy.id').equals(req.user._id).exec(function(err,seeker){
+        if(err){
+          console.log(err);
+          req.flash("error","err.message");
+        }else{
+          seeker.projects.push(newproject);
+          seeker.save();
+          // console.log(seeker);
+          res.redirect("/seeker/"+req.user._id+"/myprofile");
+        }
+      })
+  })  
  
   
 router.get("/seeker/:id/subscribe/:job_id",middleware.checkSeekerOwnership,function(req,res){

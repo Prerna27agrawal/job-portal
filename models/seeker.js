@@ -8,8 +8,8 @@ mongoose.set('useCreateIndex', true);
 
 var seekerSchema = new mongoose.Schema({
    // username:String,
-    firstname: {type:String,uppercase:true},
-    lastname: {type:String, uppercase:true},
+    firstname:String,
+    lastname: String,
     email: String ,
     status: String,
     gradyear: String,
@@ -18,7 +18,9 @@ var seekerSchema = new mongoose.Schema({
     githubId:String,
     website:String,
     education:String,
+    degree:String,
     stream:String,
+    studyYear:String,
     cgpa:String,
     phone:String,
     country:String,
@@ -40,7 +42,14 @@ var seekerSchema = new mongoose.Schema({
         ref: "User"
     },
     username:String
-  }
+  },
+  projects:[{
+          title:String,
+          url:String,
+          starttime:String,
+          endtime:String,
+          description:String,
+  }]
   });
   
 //seekerSchema.plugin(passportLocalMongooseS)
