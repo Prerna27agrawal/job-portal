@@ -35,12 +35,9 @@ var companySchema = new mongoose.Schema({
       username:String
     },
     subscribedBy:[{
-        id:{
             type : mongoose.Schema.Types.ObjectId,
-            ref: "Seeker"
-        },
-        username:String
-    }]
+            ref: "User"
+        }]
 });
 
 //companySchema.plugin(passportLocalMongoose);

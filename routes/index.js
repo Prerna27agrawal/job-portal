@@ -189,7 +189,7 @@ router.get("/login", function (req, res) {
 
 router.post("/login",passport.authenticate('local',{failureRedirect:'/login',failureFlash: 'Invalid username or password.'}),function(req,res){
     console.log(req.user);
-    console.log(req.body);
+   //console.log(req.body);
  if(req.user.isVerified == true  && req.user.isFill == false){
     if(req.user.isCompany == true)
     {
