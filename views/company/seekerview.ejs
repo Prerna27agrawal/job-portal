@@ -1,7 +1,5 @@
 <%- include("../partials/header") %>
-<div class="container">
         <h2 class="text-center"><b><%= job.name %></b></h2>
-        <br>
         <br>
         <div class="table-responsive">
         <table class="table table-hover table-bordered">
@@ -25,7 +23,7 @@
 <% seekers.forEach(function(seeker){%>
     <% if(seeker.seekerBy.id.equals(user.postedBy.id)){%>
 
-        <tbody>
+       <tbody>
             <tr>
                 <th scope="row"><%=i %></th>
                 <td><%=seeker.firstname %></td>
@@ -52,7 +50,7 @@
                  <% if((currentUser && currentUser.isCompany)){ %><td>
                     <form onsubmit="return confirm('Do you really want to Accept the following?');" action="/job/<%= job._id %>/selected/<%= user.postedBy.id %>/seeker/<%= seeker._id %>" method="Post">
                         <div>
-                        <button  id="demo" class="btn btn-success" name="accept" value="" <% if(user.isStatus != 'pending'){%> disabled <%}%> >
+                        <button  id="demo" class="btn btn-success" name="accept" value="" <% if(user.isStatus != 'Pending'){%> disabled <%}%> >
                             Select
                         </button>
                     </div>
@@ -62,7 +60,7 @@
                    <% if((currentUser && currentUser.isCompany)){ %><td>
                     <form  onsubmit="return confirm('Do you really want to Reject the following?');" action="/job/<%= job._id %>/rejected/<%= user.postedBy.id %>/seeker/<%= seeker._id %>" method="Post">
                         <div >
-                        <button  id="demo1" <% if(user.isStatus != 'pending'){%> disabled <%}%> class="btn btn-danger">
+                        <button  id="demo1" <% if(user.isStatus != 'Pending'){%> disabled <%}%> class="btn btn-danger">
                             Reject
                         </button>
                     </div>
@@ -71,12 +69,12 @@
                    <% } %>
             </tr>
             </tbody>
+
 <% } %>
 <% }); %>
 <% i++ %>
 <% }); %>
         </table>
-        </div>
         </div>
  <!-- <script type="text/javascript">
 
