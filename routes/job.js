@@ -40,12 +40,15 @@ router.post("/login/company/createjob",middleware.checkCompanyOwnership,function
      else
      {
        req.flash("success","Successfully Created New Job");
-         Company.findOne().where('createdBy.id').equals(req.user._id).populate('subscribedBy.id').exec(function(err,company){
+         Company.findOne().where('createdBy.id').equals(req.user._id).populate('subscribedBy').exec(function(err,company){
            var users=[];
+           console.log(company);
            company.subscribedBy.forEach(function(eachuser){
-              users.push(eachuser.id.email);
+              users.push(eachuser.email);
            });
            //email for notification of new job
+           if(users.length>0)
+           {
       const output= `
       <p>Hello Seeker,</p>
       <p> ${company.name} is hiring ${job.name} for the following job profile</p>
@@ -89,11 +92,14 @@ router.post("/login/company/createjob",middleware.checkCompanyOwnership,function
           req.flash("error","err.message")
           return res.redirect("back");
       }
-          console.log('Message sent: %s', info.messageId);
-          console.log('Preview Url : %s', nodemailer.getTestMessageUrl(info));
-          req.flash('success',"Notification sent to all the Subscribed Users");
-          res.redirect('/company/' + job.postedBy.id + '/viewjob');
+      //console.log('Message sent: %s', info.messageId);
+      console.log('Preview Url : %s', nodemailer.getTestMessageUrl(info));
+      req.flash('success',"Notification sent to all the Subscribed Users");
         });
+        
+      }
+          res.redirect('/company/' + job.postedBy.id + '/viewjob');
+        
         });
      }
 });
@@ -159,7 +165,6 @@ router.get("/seeker/:id/applyjob",middleware.checkSeekerOwnership,function(req,r
     }
     else
     {
-      console.log(req.user);
       res.render("seeker/applyjob",{job:job,companies:allcompanies});
     }
    });
@@ -196,7 +201,7 @@ router.post("/seeker/:id/applyjob",middleware.checkSeekerOwnership,function(req,
             console.log(req.user);
             console.log(job);
             req.flash("success","You have applied for this job.");
-            res.redirect("/seeker/index");
+            res.redirect("/seeker/"+req.params.id+"/applyjob");
           }
         });
       }
@@ -275,8 +280,9 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
                   console.log('Message sent: %s',info.messageId);
                   console.log('Preview Url : %s',nodemailer.getTestMessageUrl(info));
                   req.flash("success","Mail has been sent to the Seeker Regarding your Decision");
-                  res.redirect("/company/"+req.params.id+"/show/jobstats");
+                  
              });
+             res.redirect("/company/"+req.params.id+"/show/jobstats");
          });
     });
   });
@@ -344,8 +350,9 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
                     console.log('Message sent: %s',info.messageId);
                   req.flash("success","Mail has been sent to the Seeker Regarding your Decision");
                     console.log('Preview Url : %s',nodemailer.getTestMessageUrl(info));
-           res.redirect("/company/"+req.params.id+"/show/jobstats");
+           
                });
+               res.redirect("/company/"+req.params.id+"/show/jobstats");
            });
       });
     });
