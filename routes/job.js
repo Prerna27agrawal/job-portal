@@ -107,7 +107,8 @@ router.post("/login/company/createjob",middleware.checkCompanyOwnership,function
 
  
 router.get("/seeker/:seeker_id/appliedJobs",middleware.checkSeekerOwnership,function(req,res){
-    Job.find({}).populate('postedBy').populate("appliedBy.postedBy").exec(function(err,alljobs){
+    Job.find({}).exec(function(err,alljobs){
+      company.find({}).exec(function(err,allcompanies){
       if (err) {
         console.log(err);
         req.flash("error","err.message")
@@ -115,8 +116,9 @@ router.get("/seeker/:seeker_id/appliedJobs",middleware.checkSeekerOwnership,func
     }
       else{
        // console.log(alljobs);
-        res.render("seeker/appliedJobs",{jobs:alljobs,currentUser:req.user});
+        res.render("seeker/appliedJobs",{jobs:alljobs,companies:allcompanies});
       }
+    });
     });
   });
 
@@ -190,7 +192,7 @@ router.post("/seeker/:id/applyjob",middleware.checkSeekerOwnership,function(req,
       });
       if(find == false)
       {
-        Job.findOneAndUpdate({_id:req.params.id},{$push:{"appliedBy":{"isStatus":"pending","postedBy":req.user}} },{new:true},function(err,job){
+        Job.findOneAndUpdate({_id:req.params.id},{$push:{"appliedBy":{"isStatus":"Pending","postedBy":req.user}} },{new:true},function(err,job){
           if (err) {
             console.log(err);
             req.flash("error","err.message")
@@ -294,7 +296,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id",middleware.
   router.post("/job/:id/rejected/:appliedByarray_id/seeker/:seeker_id",middleware.checkCompanyOwnership,function(req,res){
     Seeker.findById(req.params.seeker_id,function(err,foundSeeker){
   User.findById(req.params.appliedByarray_id,function(err,foundUser){
-      Job.findById(req.params.id,function(err,foundjob){
+      Job.findById(req.params.id).populate('appliedBy.postedBy').exec(function(err,foundjob){
            Company.findOne().where('createdBy.id').equals(foundjob.postedBy.id).exec(function(err,foundCompany){
            foundjob.appliedBy.forEach(function(user){
                     if(user.postedBy.id.equals(req.params.appliedByarray_id))

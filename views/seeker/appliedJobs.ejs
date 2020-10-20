@@ -1,33 +1,386 @@
-<%- include("../partials/header")%>
 
-<div class="container">
-    <h2 style="text-align: center;"><b>My Applications</b></h2>
-    <div class="row">
-    <% jobs.forEach(function(job){ 
-        var bool=false;
-        job.appliedBy.forEach(function(thisuser){
-            if(currentUser._id.equals(thisuser.postedBy.id)){ %>
-                <div class="col-6">
-                    <ul class="list-group"></ul>
-    <p><b><%= job.name %></b></p>
-    <p><%= job.location %></p>
-    <p><%= job.experience %></p>
-    <p><%= job.description %></p>
-    <br>
-    Status: <b><%= thisuser.isStatus %></b>
-    <br>
-    <br>
-</div>
-    <!-- bool=true;
-               // console.log("yes"); -->
-    <% }
-        });
-    }); %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ 
+    <style>
+        body{
+            background-color:rgb(243,247,247);
+            margin: 0px;
+            line-height: 1.4em;
+            font-family: "Whitney SSm A", "Whitney SSm B", Avenir, "Segoe UI", Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-weight: normal;
+        }
+        div{
+            box-sizing: border-box;
+        }
+        header{
+            background-color: #fff;
+            box-shadow: 0.1px 1px 4px 0 #e7eeef;
+            min-height: 60px;
+            width: 100%;
+        }
+        .empty{
+            display: flex;
+            min-height: 200px;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            color: #738f93;
+            text-align: center;
+        }
+        h3{
+            font-weight: bold;
+            font-size:18px;
+            line-height:1em;
 
-</div>
-</div>
+        }
+        .container{
+            box-sizing: border-box;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            max-width: 1240px;
+            min-width: 1024px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .inner-container{
+            flex: 0 1 75%;
+            padding: 20px 0;
+            min-width: 0;
+        }
+        h1{
+            font-weight:700;
+        }
+        .col-md-10{
+            background-color: #fff;
+            padding:30px 40px;
+            box-shadow: 0 6px 16px 0 rgba(0,0,0,.2);
+            align-self: stretch;
+            min-height: 260px;
+        }
+        ul{
+            z-index: 1;
+            list-style: none;
+            margin:0;
+            padding:0;
+        }
+        li{
+            margin-bottom: 10px;
+            padding: 0;
+        }
+        .list-item{
+             padding: 15px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .nav-item{
+            display: block;
+            color: #39424e;
+            text-transform: capitalize;
+            cursor:pointer;
+            transition: 0.3s;
+        }
+        .nav-item:hover{
+            background-color: #e6eef3;
+            text-decoration: none;
+            color:black;
+        }
+        .nav-item.active{
+            color:#347aa3;
+            background-color: #e6eef3;
+        }
+        a:hover{
+            text-decoration: none;
+        }
+        a:active{
+            text-decoration: none;
+        }
+        .tabcontent{
+            -webkit-animation: fadeEffect 1s;
+            animation: fadeEffect 1s;
+        }
+        /* Fade in tabs */
+@-webkit-keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
 
+@keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
 
-
-
-<%- include("../partials/footer") %>
+/* JOB STYLING */
+.m-15px-tb {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.m-5px-tb{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.box-shadow-only-hover:hover {
+  box-shadow: 0 1.5rem 4rem rgba(22, 28, 45, 0.1);
+}
+.font-small {
+    font-size: .75rem;
+    line-height: 1rem;
+}
+.hover-top {
+    position: relative;
+    top: 0;
+}
+.border-color-gray {
+    border-color: #f2f3fa !important;
+}
+.border-all-1 {
+    border: 1px solid;
+}
+.p-20px-l {
+    padding-left: 20px;
+}
+.p-15px {
+    padding: 15px;
+}
+.m-0px {
+    margin: 0px;
+}
+.theme2nd-bg {
+    background-color: #53d267;
+}
+.border-radius-15 {
+    border-radius: 15px;
+}
+.p-10px-lr {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.p-0px-tb {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+.white-color {
+    color: #ffffff;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+           <div class="inner-container">
+               <h1>My Applications</h1>
+           </div>
+        </div>
+    </header>
+    <div class="container">
+            <div class="row" style="margin-top:30px;">
+                <div class="col-md-2 col-sm-12">
+                    <ul>
+                        <li>
+                            <a class="nav-item" onclick="openCity( event , 'Pending' )" id="defaultOpen">
+                                <div class="list-item">
+                                    <svg width="1.3em" height="1.3em" viewBox="0 0 16 16" class="bi bi-clock" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm8-7A8 8 0 1 1 0 8a8 8 0 0 1 16 0z"/>
+                                        <path fill-rule="evenodd" d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
+                                      </svg>
+                                     <span style="margin-left:8px;font-size:18px;">Pending</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-item" onclick="openCity( event , 'Accepted' )">
+                                <div class="list-item">
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check2-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M15.354 2.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L8 9.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                                        <path fill-rule="evenodd" d="M8 2.5A5.5 5.5 0 1 0 13.5 8a.5.5 0 0 1 1 0 6.5 6.5 0 1 1-3.25-5.63.5.5 0 1 1-.5.865A5.472 5.472 0 0 0 8 2.5z"/>
+                                      </svg>
+                                     <span style="margin-left:8px;font-size:18px;">Accepted</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-item" onclick="openCity( event , 'Rejected' )">
+                                <div class="list-item">
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-bookmark-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                                        <path fill-rule="evenodd" d="M6.146 5.146a.5.5 0 0 1 .708 0L8 6.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 7l1.147 1.146a.5.5 0 0 1-.708.708L8 7.707 6.854 8.854a.5.5 0 1 1-.708-.708L7.293 7 6.146 5.854a.5.5 0 0 1 0-.708z"/>
+                                      </svg>
+                                     <span style="margin-left:8px;font-size:18px;">Rejected</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-10 col-sm-12">
+                    <div class="tabcontent" id="Pending">
+                        <div class="row">
+                            <% var count1=0;
+                                jobs.forEach(function(job) { 
+                                var find= false;
+                                  job.appliedBy.forEach(function(eachSeeker){
+                                      if(String(eachSeeker.postedBy) == String(currentUser._id))
+                                      {
+                                            console.log("already applied");
+                                            if(eachSeeker.isStatus == 'Pending')
+                                            {
+                                                find=true;
+                                                count1=count1+1;
+                                            }
+                                      }
+                                  });
+                                  if(find == true)
+                                  { %>
+                                    <% companies.forEach(function(company) { %>
+                                        <% if(String(company.createdBy.id) == String(job.postedBy.id)){ %>
+                              <div class="col-sm-12 col-md-6 m-15px-tb">
+                                <div class="media box-shadow-only-hover hover-top border-all-1 border-color-gray p-15px">
+                                    <div class="d-inline-block">
+                                        <img src="<%= company.logo %>" width="50px" height="50px">
+                                    </div>
+                                    <div class="p-20px-l media-body">
+                                        <h5 class="m-5px-tb"><%= company.name %></h5>
+                                        <h6 class="m-5px-tb"><%= job.name %></h6>
+                                        <p class="m-5px-tb"><%= job.location %></p>
+                                        <p class="m-5px-tb font-small"><%= job.experience %>+ years of experience</p>
+                                        <a href="/seeker/<%= job._id %>/applyjob">
+                                        <span class="theme2nd-bg white-color p-0px-tb p-10px-lr border-radius-15">More info</span>
+                                        </a>
+                                    </div>
+                                </div>
+                              </div>
+                              <% }; %>
+                              <% }); %>
+                              <% } %>
+                             <% }); %>
+                            </div>
+                             <% if(count1 == 0) {%>
+                                <div class="empty">
+                                    <h3>There are no Pending jobs to show yet.</h3>
+                                </div>
+                                <% } %>
+                          
+                    </div>
+                    <div class="tabcontent" id="Accepted">
+                        <div class="row">
+                            <% var count2=0;
+                               jobs.forEach(function(job) { 
+                                var find= false;
+                                  job.appliedBy.forEach(function(eachSeeker){
+                                      if(String(eachSeeker.postedBy) == String(currentUser._id))
+                                      {
+                                            console.log("already applied");
+                                            if(eachSeeker.isStatus == 'Accepted')
+                                            {
+                                                find=true;
+                                                count2=count2+1;
+                                            }
+                                      }
+                                  });
+                                  if(find == true)
+                                  { %>
+                                    <% companies.forEach(function(company) { %>
+                                        <% if(String(company.createdBy.id) == String(job.postedBy.id)){ %>
+                                  <div class="col-sm-12 col-md-6 m-15px-tb">
+                                    <div class="media box-shadow-only-hover hover-top border-all-1 border-color-gray p-15px">
+                                        <div class="d-inline-block">
+                                            <img src="<%= company.logo %>" width="50px" height="50px">
+                                        </div>
+                                        <div class="p-20px-l media-body">
+                                            <h5 class="m-5px-tb"><%= company.name %></h5>
+                                            <h6 class="m-5px-tb"><%= job.name %></h6>
+                                            <p class="m-5px-tb"><%= job.location %></p>
+                                            <p class="m-5px-tb font-small"><%= job.experience %>+ years of experience</p>
+                                            <a href="/seeker/<%= job._id %>/applyjob">
+                                            <span class="theme2nd-bg white-color p-0px-tb p-10px-lr font-small border-radius-15">More info</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <% }; %>
+                                <% }); %>
+                                <% } %>
+                                <% }); %>
+                              </div>
+                              <% if(count2 == 0) {%>
+                                <div class="empty">
+                                    <h3>There are no Accepted jobs to show yet.</h3>
+                                </div>
+                                <% } %>
+                    </div>
+                   
+                    <div class="tabcontent" id="Rejected">
+                        <div class="row">
+                            <% var count3=0;
+                               jobs.forEach(function(job) { 
+                                var find= false;
+                                  job.appliedBy.forEach(function(eachSeeker){
+                                      if(String(eachSeeker.postedBy) == String(currentUser._id))
+                                      {
+                                            console.log("already applied");
+                                            if(eachSeeker.isStatus == 'Rejected')
+                                            {
+                                                find=true;
+                                                count3=count3+1;
+                                            }
+                                      }
+                                  });
+                                  if(find == true)
+                                  { %>
+                                    <% companies.forEach(function(company) { %>
+                                        <% if(String(company.createdBy.id) == String(job.postedBy.id)){ %>
+                                  <div class="col-sm-12 col-md-6 m-15px-tb">
+                                    <div class="media box-shadow-only-hover hover-top border-all-1 border-color-gray p-15px">
+                                        <div class="d-inline-block">
+                                            <img src="<%= company.logo %>" width="50px" height="50px">
+                                        </div>
+                                        <div class="p-20px-l media-body">
+                                            <h5 class="m-5px-tb"><%= company.name %></h5>
+                                            <h6 class="m-5px-tb"><%= job.name %></h6>
+                                            <p class="m-5px-tb"><%= job.location %></p>
+                                            <p class="m-5px-tb font-small"><%= job.experience %>+ years of experience</p>
+                                            <a href="/seeker/<%= job._id %>/applyjob">
+                                            <span class="theme2nd-bg white-color p-0px-tb p-10px-lr font-small border-radius-15">More info</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <% }; %>
+                                  <% }); %>
+                                  <% } %>
+                                  <% }); %>
+                               </div> 
+                               <% if(count3 == 0) {%>
+                                <div class="empty">
+                                    <h3>There are no Rejected jobs to show yet.</h3>
+                                </div>
+                                <% } %>
+                     </div>
+                     <br>
+                     <br>
+                </div>
+            </div>
+    </div>
+    <script>
+        function openCity(evt, status) {
+            var i, tabcontent, navitem;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            console.log(0);
+            for (i = 0; i < tabcontent.length; i++) {
+               tabcontent[i].style.display = "none";
+            }
+            navitem = document.getElementsByClassName("nav-item");
+            for (i = 0; i < navitem.length; i++) {
+                navitem[i].className = navitem[i].className.replace(" active", "");
+            }
+            document.getElementById(status).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        document.getElementById("defaultOpen").click();
+    </script>
+</body>
+</html>

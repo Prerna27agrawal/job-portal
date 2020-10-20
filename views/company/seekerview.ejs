@@ -23,7 +23,7 @@
             <% if((currentUser && currentUser.isCompany)){ %>
             <form onsubmit="return confirm('Do you really want to Accept the following?');" action="/job/<%= job._id %>/selected/<%= user.postedBy.id %>/seeker/<%= seeker._id %>" method="Post">
                 <div>
-                <button  id="demo" class="btn btn-success" name="accept" value="" <% if(user.isStatus != 'pending'){%> disabled <%}%> >
+                <button  id="demo" class="btn btn-success" name="accept" value="" <% if(user.isStatus != 'Pending'){%> disabled <%}%> >
                     Select
                 </button>
             </div>
@@ -32,7 +32,7 @@
            <% if((currentUser && currentUser.isCompany)){ %>
             <form  onsubmit="return confirm('Do you really want to Reject the following?');" action="/job/<%= job._id %>/rejected/<%= user.postedBy.id %>/seeker/<%= seeker._id %>" method="Post">
                 <div >
-                <button  id="demo1" <% if(user.isStatus != 'pending'){%> disabled <%}%> class="btn btn-danger">
+                <button  id="demo1" <% if(user.isStatus != 'Pending'){%> disabled <%}%> class="btn btn-danger">
                     Reject
                 </button>
             </div>
