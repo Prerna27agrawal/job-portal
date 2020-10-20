@@ -1,56 +1,81 @@
 <%- include("../partials/header") %>
-<div class="container">
-    <div class="well">
-    <div class="text-right">
-        <p>
-            <%= job.name %>
-        </p>
+        <h2 class="text-center"><b><%= job.name %></b></h2>
+        <br>
+        <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">FirstName</th>
+                    <th scope="col">LastName</th>
+                    <th scope="col">College</th>
+                    <th scope="col">Graduation Year</th>
+                    <th scope="col">Stream</th>
+                    <th scope="col">Resume download</th>
+                    <th scope="col">Current Status</th>
+                    <th scope="col">More Info</th>
+                    <th scope="col">Accept</th>
+                    <th scope="col">Reject</th>
+                </tr>
+            </thead>
+            <% var i=1; %>
 <% job.appliedBy.forEach(function(user){%>
-<%   seekers.forEach(function(seeker){%>
+<% seekers.forEach(function(seeker){%>
     <% if(seeker.seekerBy.id.equals(user.postedBy.id)){%>
 
-        <div class="row">
-            <div class="col-md-12">
-               <strong> <%= seeker.firstname %> </strong>
-               <strong><%= seeker.lastname %></strong>
-                <!----- make moment to app.js-->
-                <hr>
-            </div>
-        </div>
-
-<div>
-            <br>
-            <% if((currentUser && currentUser.isCompany)){ %>
-            <form onsubmit="return confirm('Do you really want to Accept the following?');" action="/job/<%= job._id %>/selected/<%= user.postedBy.id %>/seeker/<%= seeker._id %>" method="Post">
-                <div>
-                <button  id="demo" class="btn btn-success" name="accept" value="" <% if(user.isStatus != 'Pending'){%> disabled <%}%> >
-                    Select
-                </button>
-            </div>
-            </form>
-           <% } %>
-           <% if((currentUser && currentUser.isCompany)){ %>
-            <form  onsubmit="return confirm('Do you really want to Reject the following?');" action="/job/<%= job._id %>/rejected/<%= user.postedBy.id %>/seeker/<%= seeker._id %>" method="Post">
-                <div >
-                <button  id="demo1" <% if(user.isStatus != 'Pending'){%> disabled <%}%> class="btn btn-danger">
-                    Reject
-                </button>
-            </div>
-            </form>
-           <% } %>
-           <br>
-           <p>
-               status: <%= user.isStatus %>
-           </p>
-</div>
-             
+       <tbody>
+            <tr>
+                <th scope="row"><%=i %></th>
+                <td><%=seeker.firstname %></td>
+                <td><%=seeker.lastname %></td>
+                <td><%=seeker.education %></td>
+                <td><%=seeker.gradyear %></td>
+                <td><%=seeker.stream %></td>
+                <td>
+                    <a class="btn btn-light" role="button" href="/resume/<%= seeker.resume %>" download><i class="fa fa-file-text" style="font-size: 36px;color:red;"></i></a>
+                </td>
+                <% if(user.isStatus == 'Accepted'){ %>
+                <td  style="color:darkgreen;"><strong> Accepted</strong></td>
+                <% } %>
+                <% if(user.isStatus == 'Rejected'){ %>
+                    <td  style="color:red;">Rejected</td>
+                <% } %>
+                <% if(user.isStatus == 'pending'){ %>
+                        <td  style="color:black;">Pending</td>
+                 <% } %>
+                 <% if((currentUser && currentUser.isCompany)){ %><td>
+                    <a class="btn btn-primary" role="button" href="/seeker/<%= user.postedBy.id %>/myprofile">More Info</a>
+                  </td>
+                 <% } %>
+                 <% if((currentUser && currentUser.isCompany)){ %><td>
+                    <form onsubmit="return confirm('Do you really want to Accept the following?');" action="/job/<%= job._id %>/selected/<%= user.postedBy.id %>/seeker/<%= seeker._id %>" method="Post">
+                        <div>
+                        <button  id="demo" class="btn btn-success" name="accept" value="" <% if(user.isStatus != 'Pending'){%> disabled <%}%> >
+                            Select
+                        </button>
+                    </div>
+                    </form>
+                    </td>
+                   <% } %>
+                   <% if((currentUser && currentUser.isCompany)){ %><td>
+                    <form  onsubmit="return confirm('Do you really want to Reject the following?');" action="/job/<%= job._id %>/rejected/<%= user.postedBy.id %>/seeker/<%= seeker._id %>" method="Post">
+                        <div >
+                        <button  id="demo1" <% if(user.isStatus != 'Pending'){%> disabled <%}%> class="btn btn-danger">
+                            Reject
+                        </button>
+                    </div>
+                    </form>
+                    </td>
+                   <% } %>
+            </tr>
+            </tbody>
 
 <% } %>
 <% }); %>
+<% i++ %>
 <% }); %>
-    </div>
-    </div>
-</div>
+        </table>
+        </div>
  <!-- <script type="text/javascript">
 
 document.getElementById("demo").addEventListener("click",myFunction);

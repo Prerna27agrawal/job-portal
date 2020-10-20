@@ -138,18 +138,20 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
                 return res.redirect("back");
             }
               else{
-               // console.log(alljobs);
-              //  var len=Number(alljobs.length);
-              //   if(len == 0)
-              //   {
-              //     console.log("no such job");
-              //     req.flash("error","No such Job found");
-              //     res.redirect("back");
-              //   }else{
-              //     req.flash("success","Following Jobs match with your search");
+               //console.log(alljobs);
+               var len=Number(alljobs.length);
+               //console.log(len);
+                if(len == 0)
+                {
+                  console.log("no such job");
+                  req.flash("error","No Job with this title found");
+                  res.redirect("back");
+                }else{
+                  //console.log("these jobs");
+                 // req.flash("success","Following Jobs match with your search");
                  res.render("seeker/index",{jobs:alljobs,companies:allcompany});
                 }
-              //}
+              }
             });
           }
           else if(req.query.search_location){
@@ -161,10 +163,20 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
                 return res.redirect("back");
             }
             else{
-              // console.log(alljobs);
-                 res.render("seeker/index",{jobs:alljobs,companies:allcompany});
+              //console.log(alljobs);
+              var len=Number(alljobs.length);
+              //console.log(len);
+               if(len == 0)
+               {
+                 console.log("no such job");
+                 req.flash("error","No Job at this location found");
+                 res.redirect("back");
+               }else{
+                 //console.log("these jobs");
+                // req.flash("success","Following Jobs match with your search");
+                res.render("seeker/index",{jobs:alljobs,companies:allcompany});
                }
-             
+             }
             });
           }
           else if(req.query.search_keywords){
@@ -183,10 +195,20 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
                   return res.redirect("back");
               }
               else{
-                 
-                 res.render("seeker/index",{jobs:alljobs,companies:allcompany});
+                //console.log(alljobs);
+                var len=Number(alljobs.length);
+                //console.log(len);
+                 if(len == 0)
+                 {
+                   console.log("no such job");
+                   req.flash("error","No Job with this Keyword found");
+                   res.redirect("back");
+                 }else{
+                   //console.log("these jobs");
+                  // req.flash("success","Following Jobs match with your search");
+                  res.render("seeker/index",{jobs:alljobs,companies:allcompany});
                  }
-               
+               }
               });
           }
     else
@@ -198,9 +220,20 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
             return res.redirect("back");
           }
           else{
-            req.flash("success","Following Jobs are available");
-            res.render("seeker/index",{jobs:alljobs,companies:allcompany});
-          }
+            //console.log(alljobs);
+            var len=Number(alljobs.length);
+            //console.log(len);
+             if(len == 0)
+             {
+               console.log("no such job");
+               req.flash("error","No Job found");
+               res.redirect("back");
+             }else{
+               //console.log("these jobs");
+              // req.flash("success","Following Jobs match with your search");
+              res.render("seeker/index",{jobs:alljobs,companies:allcompany});
+             }
+           }
       });
     }
   }
