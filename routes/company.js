@@ -144,6 +144,11 @@ upload.single('logo'),function(req,res){
           company.name = req.body.name;
           company.tagline = req.body.tagline;
           company.description = req.body.description;
+          company.company_url=req.body.company_url;
+          company.establishmentDate=req.body.establishmentDate;
+          company.linkedinId=req.body.linkedinId;
+          company.facebbokId=req.body.facebbokId;
+          company.contactno=req.body.contactno;
           company.save();
           req.flash("success","Successfully Updated");
           res.redirect("/company/"+company.createdBy.id+"/myprofile");
