@@ -1,8 +1,12 @@
 <%- include("../partials/header")%>
 <div class="container">
+	<h2 class="text-center"><b>Openings</b></h2>
+			<br>
+			<br>
 	<div class="table-responsive">
-	<table class="table table-hover ">
-		<thead class="thead-dark">
+	<table class="table table-hovertable table-bordered ">
+		<!-- <thead class="thead-dark"> -->
+            <thead class="thead-dark" style="background-color: black;color:white">
 			<tr>
 				<th scope="col">No.</th>
 				<th scope="col">Title</th>
@@ -14,10 +18,7 @@
 			</tr>
 		</thead>
 			<% company.forEach(function(company){ %>
-			<h2 class="text-center"><b>Openings</b></h2>
-			<br>
-			<br>
-			<div>
+			
 				     <% var i=1; %>
 					<% jobs.forEach(function(job){ %>
 							<tbody>
@@ -38,13 +39,10 @@
 											</form>
 										<% } %>
 										</td>
-
-									<td></td>
 								</tr>
 							</tbody>
 				<% i++ %>
 				<% }); %>
-			</div>
 		<% }); %>
 	</table>
 </div>
