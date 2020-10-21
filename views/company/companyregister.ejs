@@ -1,10 +1,10 @@
 <%- include("../partials/header") %>
 <div class="row">
     <h1 style="text-align: center">Sign Up</h1>
-    <div style="width: 30%; margin: 25px auto;">
+    <div style="width: 40%; margin: 25px auto;">
         <form action="/register/company" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="name">Company Name: </label>
+                <label for="name">Company Name </label>
                 <input class="form-control" type="text" id="name" name="name"  placeholder="Company Name"  required> 
             </div>
 <!--            
@@ -13,16 +13,36 @@
                 <input class="form-control" type="email" id="email" name="email" placeholder="Enter Email Id"  required>
             </div> -->
             <div class="form-group">
-                <label for="tagline">Tagline: </label>
+                <label for="tagline">Tagline/Motto </label>
                 <input class="form-control" type="text" id="tagline" name="tagline" placeholder="Briefly describe about your company"  required>
             </div>
 
             <div class="form-group">
-                <label for="description">Desrciption: </label>
-                <textarea class="form-control" id="description" name="description" rows="3" ></textarea>
+                <label for="description">Profile Desrciption </label>
+                <textarea class="form-control" id="description" name="description" rows="6" ></textarea>
             </div>
             <div class="form-group">
-                  <label for="logo">Logo: </label>
+                <label for="company_url">Company Website </label>
+                <input class="form-control" type="url" id="company_url" name="company_url" placeholder="Company URL"  >
+            </div>
+            <div class="form-group">
+                <label for="establishmentDate">Establishment Year </label>
+                <input class="form-control" type="text" id="establishmentDate" name="establishmentDate" placeholder="Establishment Year"  required>
+            </div>
+            <div class="form-group">
+                <label for="linkedinId">LinkedIn ID </label>
+                <input class="form-control" type="url" id="linkedinId" name="linkedinId" placeholder="LinkedIn ID of the Comapny">
+            </div>
+            <div class="form-group">
+                <label for="facebookId">Facebook Profile </label>
+                <input class="form-control" type="url" id="facebookId" name="facebookId" placeholder="Facebook Profile of the Company">
+            </div>
+            <div class="form-group">
+                <label for="contactno">Contact Info </label>
+                <input class="form-control" type="text"  name="contactno" placeholder="Provide Contact Number of the Company">
+            </div>
+            <div class="form-group">
+                  <label for="logo">Company Logo </label>
                  <input type="file" class="form-control-file" id="logo" name="logo" placeholder="Add logo" accept=".png,.jpg,.jpeg"  aria-describedby="passwordHelpInline" required>
                   <small id="passwordHelpInline" class="text-muted">
                     (Accepted file formats: PNG, JPG, JPEG)
