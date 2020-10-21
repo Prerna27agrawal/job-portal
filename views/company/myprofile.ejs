@@ -385,6 +385,9 @@ body.menubar-top .profile-wrapper {
     right: 32px;
     bottom: 32px
 }
+.postBtn{
+    display:none;
+}
 </style>
 <div class="container">
 	<% company.forEach(function(company){%>
@@ -393,8 +396,8 @@ body.menubar-top .profile-wrapper {
         <div class="profile-cover-img"><img src="https://www.whiteheadassoc.com/wp-content/uploads/2018/09/iStock-998993038-768x384.jpg" alt=""></div>
         <div class="profile-info-brief p-3"><img class="img-fluid user-profile-avatar" src="<%=company.logo%>" alt="">
             <div class="text-center">
-                <h5 class="text-uppercase mb-4"><%= company.name%></h5>
-				<p class="text-muted fz-base"><%= company.tagline%></p>
+                <h5 class="text-uppercase mb-4"><b><%= company.name%></b></h5>
+				<p class=" fz-base" style="color:rgba(52, 10, 58, 0.678)"><i><%= company.tagline%></i></p>
 				<hr>
 				<p class="text-muted fz-base">Established in <%= company.establishmentDate%></p>
             </div>
@@ -449,18 +452,21 @@ body.menubar-top .profile-wrapper {
     <div class="profile-section-main">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs profile-tabs" role="tablist">
-            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#profile-overview" role="tab">Timeline</a></li>
+            <li class="nav-item" id="timeline"><a class="nav-link active" data-toggle="tab" href="#profile-overview" role="tab">Timeline</a></li>
+            <% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
+            <li class="nav-item"><a style="color: rgb(204, 135, 45);" class="nav-link active" data-toggle="tab" href="/company/<%= company._id %>/editprofile" role="tab">Edit Profile</a></li>
+            <% } %>
         </ul>
         <!-- /.nav-tabs -->
         <!-- Tab panes -->
         <div class="tab-content profile-tabs-content">
             <div class="tab-pane active" id="profile-overview" role="tabpanel">
-                <div class="post-editor">
-                    <textarea name="post-field" id="post-field" class="post-field" placeholder="Write Something Cool!"></textarea>
-                    <div class="d-flex">
+                <div class="post-editor " id="post-editor" >
+                    <!-- <textarea name="post-field" id="post-field" class="post-field" placeholder="Write Something Cool!"></textarea> -->
+                    <div class="d-flex " id="newpost" >
 						<!-- <button class="btn btn-success px-4 py-1">Post</button> -->
 						<% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
-							<a class="btn btn-success px-4 py-1" href="/company/<%= company._id%>/posts/new">Post</a>
+							<a class="btn btn-success px-4 py-1 active " href="/company/<%= company._id%>/posts/new">Post Something New</a>
 						<% }%>
 					</div>
 				</div>
@@ -501,5 +507,10 @@ body.menubar-top .profile-wrapper {
 </div>
 <% }) %>
 </div>
+<!-- <script>
+    document.querySelector('#timeline').addEventListener('click',function(){
+        document.querySelector('#post-editor').classList.toggle('postBtn');
+    })
+</script> -->
 
 <%- include("../partials/footer") %>

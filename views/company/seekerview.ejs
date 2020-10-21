@@ -33,7 +33,7 @@
                 <td><%=seeker.gradyear %></td>
                 <td><%=seeker.stream %></td>
                 <td>
-                    <a class="btn btn-light" role="button" href="/resume/<%= seeker.resume %>" download><i class="fa fa-file-text" style="font-size: 36px;color:red;"></i></a>
+                    <a class="btn btn-light" role="button" href="/resume_folder/<%= seeker.resume %>" download><i class="fa fa-file-text" style="font-size: 36px;color:red;"></i></a>
                 </td>
                 <% if(user.isStatus == 'Accepted'){ %>
                 <td  style="color:darkgreen;"><strong> Accepted</strong></td>
@@ -77,7 +77,38 @@
 <% }); %>
         </table>
         </div>
-        </div>
+        <!-- /company/:id/show/jobstats/:page -->
+        <div class="row text-center">
+            <% if(pages >0){ %> 
+                <ul class="pagination text-center">
+                    <% if (current == 1) { %>
+                        <li class="disabled"><a>First</a></li>
+                    <% } else { %>
+                        <li><a href="/company/<%= job._id %>/jobstats/1">First</a></li>
+                    <% } %>
+                    <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                                <% if (i !== 1) { %>
+                                    <li class="disabled"><a>...</a></li>
+                                <% } %>
+                                <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                                    <% if (i == current) { %>
+                                        <li class="active"><a><%= i %></a></li>
+                                    <% } else { %>
+                                        <li><a href="/company/<%= job._id %>/jobstats/<%= i %>"><%= i %></a></li>
+                                    <% } %>
+                                    <% if (i == Number(current) + 4 && i < pages) { %>
+                                        <li class="disabled"><a>...</a></li>
+                                    <% } %>
+                                <% } %>
+                                <% if (current == pages) { %>
+                                    <li class="disabled"><a>Last</a></li>
+                                <% } else { %>
+                                    <li><a href="/company/<%= job._id %>/jobstats/<%= pages %>">Last</a></li>
+                                <% } %>
+                            </ul>
+                            </div>
+                <%}%>
+            </div>
  <!-- <script type="text/javascript">
 
 document.getElementById("demo").addEventListener("click",myFunction);
