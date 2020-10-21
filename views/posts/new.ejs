@@ -4,10 +4,10 @@
 			<h1 style="text-align: center">
 				Add New Post to <%=  company.name %>
 			</h1>
-				<div style="width:30%; margin:25px auto;">
+				<div style="width:40%; margin:25px auto;">
 		<form action="/company/<%= company._id %>/posts" method="POST">
 			<div class="form-group">
-				<input  class="form-control" type="text"  placeholder="heading" name="posts[heading]">
+				<input  class="form-control" type="text"  placeholder="Post Heading" name="posts[heading]">
             </div>
             <div class="form-group">
 				<!-- <input  class="form-control" type="text"  placeholder="Add Post Info Here" name="posts[description]"> -->
@@ -15,13 +15,13 @@
 				border-radius:7px; border: 1px solid rgb(185, 197, 199); margin:6px 0;"></textarea>
 			</div>
 			<div class="form-group">
-					<button class="btn btn-lg btn-primary btn-block">
+					<button class="btn btn-lg btn-success active btn-block">
 					SUBMIT
 				</button>
 			</div>
 			
 		</form>
-					<a href="/company/<%= company._id %>/myprofile">Go Back</a>
+					
 				</div>
 		
             </div>
