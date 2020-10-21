@@ -267,7 +267,7 @@ router.post("/register",function(req,res){
             transporter.sendMail(mailOptions, (error,info)=>{
                             if(error)
                             {
-                                console.log(err);
+                                console.log(error);
                                 req.flash('error',"something went wrong on our end.please register again");
                                 res.redirect('/login');
                             }
