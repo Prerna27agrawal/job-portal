@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>job_portal</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="path/to/intlTelInput.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <script type="text/javascript"
+        src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&key=AIzaSyCXFJ-lc7cHHcEklG2_oIhTnPKTWsLwHEU"></script>
+    
+</head>
+
+<body>
+    <nav  style="background-color: #3a4066;"  class="navbar navbar-expand-lg navbar-dark ">
+        <a class="navbar-brand" href="/">
+            <img src="http://www.w3.org/2000/svg" width="1em" height="1em" class="d-inline-block align-top" alt="">
+             WeHire</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <% if(currentUser){ %>
+                    <% if(currentUser.isCompany) { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/company/show">Dashboard <span class="sr-only">(current)</span></a></li>
+                    <% } else { %>
+                    <li class="nav-item">
+                        <a  class="nav-link"  href="/seeker/index">Dashboard <span class="sr-only">(current)</span></a></li>
+                    <% } %>
+                    <% } %>
+                </ul>
+                <ul class="navbar-nav  justify-content-end"> 
+                    <% if(!currentUser){ %>
+                    <li  class="nav-item"><a style="color: white;" class="nav-link" href="/login">Login</a></li>
+                    <li class="nav-item"><a style="color: white;" class="nav-link"  href="/register">Sign Up</a></li>
+                    <% } else { %>
+                    <% if(currentUser.isCompany) { %>
+                    <li class="nav-item">
+                    <a class="nav-link" style="color: white;"  href="/company/<%= currentUser._id %>/myprofile">Signed In As
+                            <%= currentUser.username %></a></li>
+                    <% } else { %>
+                    <li class="nav-item">
+                    <a   class="nav-link"  style="color: white;" href="/seeker/<%= currentUser._id %>/myprofile">Signed In As
+                            <%= currentUser.username %></a></li>
+                    <% } %>
+                     <li class="nav-item">
+                    <a  class="nav-link"  style="color: white;"href="/logout">Logout</a></li>
+                    <% } %>
+                </ul>
+                </div>
+    </nav>
+   
+    <div class="container">
+        <% if(error && error.length >0){%>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            <%= error %>
+        </div>
+        <% }%>
+        <% if(success && success.length >0){%>
+            <div class="alert alert-success alert-dismissible fade show " role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            <%= success %>
+            </div>
+            <%}%>
+    </div>
+    <div class="container">
