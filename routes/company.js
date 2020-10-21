@@ -21,6 +21,7 @@ const { emitWarning } = require("process");
 
 var passport   = require("passport");
 var path= require("path");
+router.use(express.static(__dirname+"./public/"));
 
 //Multer and cloudinary config
 var multer = require('multer');
@@ -200,14 +201,17 @@ router.get("/company/show",middleware.checkCompanyOwnership,function(req,res){
 
 
 //saari jobs uss comapny ki show hongi
-router.get("/company/:id/viewjob",middleware.checkCompanyOwnership,function(req,res){
+router.get("/company/:id/viewjob/:page",middleware.checkCompanyOwnership,function(req,res){
+     var perPage = 3;
+     var page =req.params.page || 1
   User.findById(req.params.id,function(err,foundUser){
     if (err) {
       console.log(err);
       req.flash("error","err.message")
       return res.redirect("back");
   }
-    Job.find().where('postedBy.id').equals(foundUser._id).exec(function(err,jobs){
+    Job.find().where('postedBy.id').equals(foundUser._id).skip((perPage * page)-perPage).limit(perPage).exec(function(err,jobs){
+      Job.count().exec(function(err,count){
       if (err) {
         console.log(err);
         req.flash("error","err.message")
@@ -223,11 +227,12 @@ router.get("/company/:id/viewjob",middleware.checkCompanyOwnership,function(req,
             }
                  else
                  {
-                   res.render("company/viewjob",{user:foundUser,jobs: jobs,company: foundCompany});
+                   res.render("company/viewjob",{user:foundUser,jobs: jobs,company: foundCompany,current: page,pages: Math.ceil(count/perPage)});
                  }
              });
       }
     });
+  });
   });
 });
 
