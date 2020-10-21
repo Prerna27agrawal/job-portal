@@ -53,6 +53,7 @@ var upload = multer({
      }
    ]);
 var cloudinary = require('cloudinary');
+const { route } = require("./company");
 //////////
 
 
@@ -262,6 +263,64 @@ router.get("/seeker/:id/myprofile",function(req,res){
       }
     });
   });
+
+
+
+router.get("/seeker/:id/editprofile",middleware.checkSeekerOwnership,function(req,res){
+  Seeker.findById(req.params.id,function(err,foundSeeker){
+    res.render("seeker/editprofile",{foundSeeker : foundSeeker});
+  });
+});
+ 
+
+router.put("/seeker/updateprofile/:id",middleware.checkSeekerOwnership,upload,function(req,res){
+ 
+  Seeker.findById(req.params.id,function(err,foundSeeker){
+    
+    if(err)
+    {
+      req.flash("error",err.message);
+      res.redirect("back");
+    }
+    else{
+      foundSeeker.firstname=req.body.firstname,
+      foundSeeker.lastname=req.body.lastname,
+      foundSeeker.email=req.body.email,
+      foundSeeker.gender=req.body.gender,
+      foundSeeker.country=req.body.ownCountry,
+      foundSeeker.state=req.body.ownState,
+      foundSeeker.city=req.body.ownCity,
+      foundSeeker.phone=req.body.phone,
+      foundSeeker.status=req.body.status,
+      foundSeeker.gradyear=req.body.gradyear,
+      foundSeeker.education=req.body.education,
+      foundSeeker.degree=req.body.degree,
+      foundSeeker.studyYear=req.body.studyyear,
+      foundSeeker.stream=req.body.stream,
+      foundSeeker.studyYear=req.body.year,
+      foundSeeker.cgpa=req.body.cgpa,
+      foundSeeker.linkedinId=req.body.linkedinId,
+      foundSeeker.githubId=req.body.githubId,
+      foundSeeker.website=req.body.website,
+      foundSeeker.skills=req.body.skills,
+      foundSeeker.resume=req.files.resume[0].filename
+      if(req.files.image)
+          {
+            console.log(" image given");
+            newSeeker.image = req.files.image[0].filename;
+          }
+          if(!req.files.image)
+          {
+            console.log("no image given");
+          }
+          req.user.isFill=true;
+          req.user.save();
+          foundSeeker.save();
+          req.flash("success","Succesfully Updated");
+          res.redirect("/seeker/"+foundSeeker.seekerBy.id+"/myprofile");
+    }
+  });
+});
 
   //POST route for adding new projects
   router.post("/seeker/:id/addproject",function(req,res){

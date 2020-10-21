@@ -65,7 +65,7 @@ router.post("/register/company",middleware.checkCompanyOwnership,upload.single('
         establishmentDate:req.body.establishmentDate,
         company_url:req.body.company_url,
         linkedinId:req.body.linkedinId,
-        facebbokId:req.body.facebbokId,
+        facebookId:req.body.facebookId,
         contactno:req.body.contactno,
       });
       newComp.createdBy = {
