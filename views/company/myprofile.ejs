@@ -438,7 +438,7 @@ body.menubar-top .profile-wrapper {
                         <tr>
                             <td><strong>Facebook:</strong></td>
                             <td>
-                                <p class="text-muted mb-0"><%=company.facebookId%></p>
+                                <p class="text-muted mb-0"><%= company.facebookId %></p>
                             </td>
                         </tr>
                     </tbody>
@@ -454,8 +454,9 @@ body.menubar-top .profile-wrapper {
         <ul class="nav nav-tabs profile-tabs" role="tablist">
             <li class="nav-item" id="timeline"><a class="nav-link active" data-toggle="tab" href="#profile-overview" role="tab">Timeline</a></li>
             <% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
-            <li class="nav-item"><a style="color: rgb(204, 135, 45);" class="nav-link active" data-toggle="tab" href="/company/<%= company._id %>/editprofile" role="tab">Edit Profile</a></li>
+           <a href="/company/<%= company._id %>/editprofile"> <button class="btn btn-outline-primary active">Edit Profile</button></a>
             <% } %>
+            <!-- <li class="nav-item"><a style="color: rgb(204, 135, 45);"  data-toggle="tab" href="/company/<%= company._id %>/editprofile" >Edit Profile</a></li> -->
         </ul>
         <!-- /.nav-tabs -->
         <!-- Tab panes -->
