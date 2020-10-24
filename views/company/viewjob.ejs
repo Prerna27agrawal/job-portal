@@ -4,26 +4,27 @@
 			<br>
 			<br>
 	<div class="table-responsive">
-	<table class="table table-hover table-bordered ">
+	<table class="table table-hover table-bordered " id="myTable">
 		<!-- <thead class="thead-dark"> -->
             <thead class="thead-dark" style="background-color: black;color:white">
 			<tr>
 				<th scope="col">No.</th>
-				<th scope="col">Title</th>
-				<th scope="col">Location</th>
-				<th scope="col">Experience</th>
+				<th scope="col"  onclick="sortTable(1)">Title</th>
+				<th scope="col"  onclick="sortTable(2)">Location</th>
+				<th scope="col"  onclick="sortTable(3)">Experience</th>
 				<th scope="col">Description</th>
 				<th scope="col">Applied By</th>
 				<th scope="col">Delete Job</th>
 			</tr>
 		</thead>
+		<tbody>
 			<% company.forEach(function(company){ %>
 			
 				     <% var i=1; %>
 					<% jobs.forEach(function(job){ %>
-							<tbody>
+							
 								<tr>
-									<th scope="row"><%=i %></th>
+									<td scope="row"><%=i %></td>
 									<td><%= job.name %></td>
 									<td><%= job.location %></td>
 									<td><%= job.experience %></td>
@@ -40,10 +41,11 @@
 										<% } %>
 										</td>
 								</tr>
-							</tbody>
+							
 				<% i++ %>
 				<% }); %>
 		<% }); %>
+	</tbody>
 	</table>
 	</div>
 <div class="row text-center">
@@ -77,4 +79,60 @@
 				</div>
 	<%}%>
 </div>
+<script>
+    function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("myTable");
+  switching = true;
+  //Set the sorting direction to ascending:
+  dir = "asc"; 
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < (rows.length - 1); i++) {
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /*check if the two rows should switch place,
+      based on the direction, asc or desc:*/
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch= true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      //Each time a switch is done, increase this count by 1:
+      switchcount ++;      
+    } else {
+      /*If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again.*/
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>						
 <%- include("../partials/footer") %>
