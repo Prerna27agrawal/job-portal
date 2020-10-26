@@ -15,16 +15,15 @@
 <div class="row">
     <h1 style="text-align: center">Sign Up</h1>
     <div style="width: 30%; margin: 25px auto;">
-        <form action="/register/seeker" method="post" enctype="multipart/form-data">
+        <form action="/seeker/updateprofile/<%= foundSeeker._id %>?_method=PUT" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="name-f">First Name* </label>
-                <input style="
-                    text-transform: capitalize;" class="form-control" type="text" placeholder="Enter First Name"
-                    name="firstname" id="name-f" required>
+                <input style="text-transform: capitalize;" class="form-control" type="text" placeholder="Enter First Name"
+                    name="firstname" value="<%= foundSeeker.firstname %>" id="name-f" required>
             </div>
             <div class="form-group">
                 <label for="name-l">Last Name* </label>
-                <input class="form-control" type="text" placeholder="Enter Last Name" name="lastname" id="name-l"
+                <input class="form-control" type="text" placeholder="Enter Last Name" name="lastname"  value="<%= foundSeeker.lastname %>"  id="name-l"
                     required>
             </div>
             <div class="form-group">
@@ -71,7 +70,7 @@
             </div> -->
             <div class="form-group">
                 <label for="status">I am currently a* </label>
-                <input class="form-control" type="text" list="title" name="status" required>
+                <input class="form-control" type="text" list="title" name="status"  required>
                 <datalist id="title">
                     <option value="Student">
                     <option value="Professional">
@@ -119,7 +118,7 @@
             </div>
             <div class="form-group">
                 <label>College*</label>
-                <input type="text" class="form-control" placeholder="University Name" name="education" required>
+                <input type="text" class="form-control" placeholder="University Name" name="education" value="<%= foundSeeker.education %>" required>
             </div>
             <div class="form-group">
                 <label for="degree">Degree*</label>
@@ -156,7 +155,7 @@
             </div>
             <div class="form-group">
                 <label>Major field of study</label>
-                <input type="text" class="form-control" placeholder="Stream or Major Subject" name="stream">
+                <input type="text" class="form-control" placeholder="Stream or Major Subject" name="stream" value="<%= foundSeeker.stream %>" >
             </div>
             <div class="form-group">
                 <label for="studyyear">Year of Study</label>
@@ -174,20 +173,20 @@
             </div>
             <div class="form-group">
                 <label>CPI</label>
-                <input type="text" class="form-control" placeholder="CPI /10.00" name="cgpa">
+                <input type="text" class="form-control" placeholder="CPI /10.00" name="cgpa" value="<%= foundSeeker.cgpa %>" >
             </div>
 
             <div class="form-group">
                 <label for="Linkedin">LinkedIn ID </label>
-                <input type="url" class="form-control" placeholder="Add your LinkedIn url if any" name="linkedinId">
+                <input type="url" class="form-control" placeholder="Add your LinkedIn url if any" name="linkedinId" value="<%= foundSeeker.linkedinId %>" >
             </div>
             <div class="form-group">
                 <label for="github">GitHub Profile </label>
-                <input type="url" class="form-control" placeholder="Add your Github Profile if any" name="githubId">
+                <input type="url" class="form-control" placeholder="Add your Github Profile if any" name="githubId" value="<%= foundSeeker.githubId %>" >
             </div>
             <div class="form-group">
                 <label for="website">Your Website</label>
-                <input type="url" class="form-control" placeholder="Add your own Website if any" name="website">
+                <input type="url" class="form-control" placeholder="Add your own Website if any" name="website" value="<%= foundSeeker.wwebsite %>" >
             </div>
             <div class="form-group">
                 <label for="resume">Resume* </label>
@@ -214,7 +213,7 @@
             <div class="form-group">
                 <label for="phone">Contact No </label>
                 <input type="tel" class="form-group" style="width:100%;padding:7px;
-                border-radius:7px; border: 1px solid rgb(185, 197, 199);" name="phone" pattern="[0-9]{10}" id="phone">
+                border-radius:7px; border: 1px solid rgb(185, 197, 199);" name="phone" value="<%= foundSeeker.phone %>"  pattern="[0-9]{10}" id="phone">
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2" for="pwd">Address</label>
@@ -223,16 +222,16 @@
                     border-radius:7px; border: 1px solid rgb(185, 197, 199) ;margin:6px 0;" type="text" id="ownPlaces" name="ownPlaces" /> -->
                     <input style="width:100%;padding:7px;
                     border-radius:7px; border: 1px solid rgb(185, 197, 199); margin:6px 0;" type="text" id="ownCountry"
-                        name="ownCountry" placeholder="Country" />
+                        name="ownCountry" value="<%= foundSeeker.ownCountry %>"  placeholder="Country" />
                     <input style="width:100%;padding:7px;
                     border-radius:7px; border: 1px solid rgb(185, 197, 199) ;margin:6px 0;" type="text" id="ownState"
-                        name="ownState" placeholder="State" />
+                        name="ownState" value="<%= foundSeeker.ownState %>" placeholder="State" />
                     <input style="width:100%;padding:7px;
                     border-radius:7px; border: 1px solid rgb(185, 197, 199); margin-top: 6px; margin-bottom: 14px;"
-                        type="text" id="ownCity" name="ownCity" placeholder="City" />
+                        type="text" id="ownCity" name="ownCity" value="<%= foundSeeker.ownCity %>" placeholder="City" />
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-lg btn-primary btn-block">Sign Up!</button>
+                    <button class="btn btn-lg btn-primary btn-block">Update</button>
                 </div>
         </form>
         <a href="/register">Go Back</a>

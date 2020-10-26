@@ -1,5 +1,42 @@
-<%- include("partials/header") %>
+<%- include("partials/header1") %>
+<div class="row mt-5">
+    <div class="col-md-6 m-auto">
+        <!-- <h1 style="text-align: center;"> -->
+           <!-- <b>Login</b> -->
+        <!-- </h1> -->
+        <h1 class="display-4 mb-2" style="text-align: center;">Login</h1>
+        <br>
 
+        <div class="card card-body text-center" style="background:#303030;">
+            <h1 class="mb-3">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQyvIJ7YVlDsEb4piSedEzYc1UR8T2K50ZYsA&usqp=CAU" alt="icon" width="20%" />
+            </h1>
+            
+            <form action="login" method="POST">
+                <div class="form-group">
+                    <label for="email" style="color:white;">Username</label>
+                    <input type="text" id="email" name="username" class="form-control" placeholder="Enter Username" />
+                </div>
+                <div class="form-group">
+                    <label for="password" style="color:white;">Password</label>
+                    <input type="password" id="password" name="password" class="form-control"
+                        placeholder="Enter Password" />
+                </div>
+                <div class="form-group">
+                <button type="submit" class="btn btn-lg btn-primary btn-block">Login</button>
+                </div>
+            </form>
+            
+            <p class="mt-2" style="color:white;">
+                New User? <a href="/register">Register</a>
+            </p>
+            <p class="mt-2" style="color:white;">
+                Forgot Password? <a href="/forgot">Reset</a>
+            </p>
+        </div>
+    </div>
+</div>
+<!-- 
 <div class="row">
     <h1 style="text-align: center">Log In</h1>
     <div style="width: 40%; margin: 25px auto;">
@@ -21,6 +58,6 @@
             Forgot Password? <a href="/forgot">Reset</a>
         </p>
     </div>
-</div>
+</div> -->
 
-<%- include("partials/footer") %>
+<%- include("partials/footer1") %>

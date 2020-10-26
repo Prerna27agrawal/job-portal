@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Bootstrap CSS -->
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+      integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V"
+      crossorigin="anonymous"
+    />  
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script> -->
+  <link rel="stylesheet" href="stylesheets/contactus.css">
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script> -->
+  <title>Contact Us - WeHire</title>
+</head>
+<!-- xs<576 | 576<sm<768 | 768<md<992 | 992<lg<1200 | 1200<xl -->
+
+    <body>
+      <nav  style="background-color: #3a4066;"  class="navbar navbar-expand-lg navbar-dark ">
+        <a class="navbar-brand" href="/">
+            <img src="http://www.w3.org/2000/svg" width="1em" height="1em" class="d-inline-block align-top" alt="">
+             WeHire</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <% if(currentUser){ %>
+                    <% if(currentUser.isCompany) { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/company/show">Dashboard <span class="sr-only">(current)</span></a></li>
+                    <% } else { %>
+                    <li class="nav-item">
+                        <a  class="nav-link"  href="/seeker/index">Dashboard <span class="sr-only">(current)</span></a></li>
+                    <% } %>
+                    <% } %>
+                </ul>
+                <ul class="navbar-nav  justify-content-end"> 
+                    <% if(!currentUser){ %>
+                    <li  class="nav-item"><a style="color: white;" class="nav-link" href="/login">Login</a></li>
+                    <li class="nav-item"><a style="color: white;" class="nav-link"  href="/register">Sign Up</a></li>
+                    <% } else { %>
+                    <% if(currentUser.isCompany) { %>
+                    <li class="nav-item">
+                    <a class="nav-link" style="color: white;"  href="/company/<%= currentUser._id %>/myprofile">Signed In As
+                            <%= currentUser.username %></a></li>
+                    <% } else { %>
+                    <li class="nav-item">
+                    <a   class="nav-link"  style="color: white;" href="/seeker/<%= currentUser._id %>/myprofile">Signed In As
+                            <%= currentUser.username %></a></li>
+                    <% } %>
+                     <li class="nav-item">
+                    <a  class="nav-link"  style="color: white;"href="/logout">Logout</a></li>
+                    <% } %>
+                    <li  class="nav-item"><a class="nav-link" style="color: floralwhite;" href="/contactus">Contact Us</a></li>
+                    <li  class="nav-item"><a class="nav-link" style="color: floralwhite;" href="/aboutus">About Us</a></li>
+                </ul>
+                </div>
+    </nav>
+    <div class="container" style="margin-top:40px">
+      <section class="section gray-bg" id="contactus" style="padding-top: 30px;">
+        <div class="container">
+            <div class="row" >
+                <div class="col-lg-6">
+                    <div class="section-title" >
+                        <h2 style="font-weight: 400;" >We value your Feedback</h2>
+                        <p>We would love to hear about your career success through WeHire. <span> Got a minute?</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row flex-row-reverse">
+                <div class="col-md-7 col-lg-8 m-15px-tb">
+                    <div class="contact-form">
+                         <form action="/" method="post" class="contactform contact_form" id="contact_form">
+                            <div class="returnmessage valid-feedback p-15px-b" data-success="Your message has been received, We will contact you soon."></div>
+                            <div class="empty_notice invalid-feedback p-15px-b"><span>Please Fill Required Fields</span></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input id="name" type="text" placeholder="Fisrt Name" class="form-control"> 
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                      <input id="name" type="text" placeholder="Last Name" class="form-control"> 
+                                  </div>
+                              </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input id="email" type="text" placeholder="Email Address" class="form-control">  
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <textarea id="message" placeholder="Message" class="form-control" rows="3"></textarea> 
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                  <div class="send">
+                                      <a  class="px-btn theme"><span>Submit</span> <i class="arrow"></i></a>
+                                  </div>
+                              </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-5 col-lg-4 m-15px-tb">
+                    <div class="contact-name">
+                        <h5>Mail</h5>
+                        <p>info@domainname.com</p>
+                    </div>
+                    
+                    <div class="contact-name">
+                        <h5>Phone</h5>
+                        <p>+01 123 654 8096</p>
+                    </div>
+                    <!-- <div class="social-share nav">
+                        <a class="dribbble" href="#">
+                            <i class="fab fa-dribbble"></i>
+                        </a>
+                        <a class="behance" href="#">
+                            <i class="fab fa-behance"></i>
+                        </a>
+                        <a class="linkedin" href="#">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </section>
+    </div>
+      
+      
+        <footer class="full-footer" style="margin-top:40px ">
+          <div class=" top-footer p-md-3 p-1" style="background-color:#3a4066;">
+            <div class="container" style="margin-left:250px">
+              <div class="row" >
+                <div class="col-md-4 pl-4 pr-4" style="color: whitesmoke;">
+                  <!-- <img class="img-fluid" src="imgs/logo_text_white_small.png" alt=""> -->
+                  <h3>WeHire</h3>
+                  <p>
+                    We help create careers that matter to you. Join our community to access interesting jobs and to help create these jobs.
+                  </p>
+                  <a  class="p-1" href="#"><i class="fab fa-2x fa-facebook-square"></i></a>
+                  <a  style="color:rgb(184, 24, 24)" class="p-1" href="#"><i class="fab fa-2x fa-google-plus-square"></i></a>
+                  <a  style="color:rgb(43, 99, 204)" class="p-1" href="#"><i class="fab fa-2x fab fa-linkedin-in"></i></a>
+                  <a style="color:rgb(179, 58, 142)" class="p-1" href="#"><i class="fab fa-2x fa-instagram"></i></a>
+                </div>
+        
+                <div class="col-md-4  pl-4 pr-4" >
+                  <h3 style="color: white">Important Links</h3>
+                  <a style="color:whitesmoke" href="#">Privacy Policy</a><br>
+                  <a style="color:whitesmoke" href="#">Youtube Channel Link </a><br>
+                  <a style="color: whitesmoke" href="#">Blog Articles </a><br>
+                  <a style="color: whitesmoke" href="#">Social Media</a>
+                </div>
+                   
+              <div class="col-md-4  pl-4 pr-4">
+                  <h3 style="color: white;">Contact Us</h3>
+                  <a  style="color: whitesmoke" href="#"><i class="fas fa-phone"></i> +(91) 9090909090  </a><br>
+                  <a style="color: whitesmoke" href="mailto:simplesnippetsinfo@gmail.com  "><i class="fas fa-envelope"></i> abc@gmail.com  </a><br>
+                  <!-- <div class="embed-responsive embed-responsive-16by9">
+                      <iframe class="embed-responsive-item" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241316.64333236168!2d72.74110193617271!3d19.082522317332813!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C+Maharashtra!5e0!3m2!1sen!2sin!4v1547151374329" frameborder="0"></iframe>
+                  </div> -->
+                  
+              </div>
+            </div>
+            </div>
+            
+          </div>
+          <!-- <div class="container-fluid bottom-footer pt-2">
+            <div class="row">
+              <div class="col-12 text-center">
+                <p>Copyrights © 2020 - All rights reserved</p>
+              </div>
+            </div>
+          </div> -->
+      
+        </footer>
+      
+      
+      
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+</html>

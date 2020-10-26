@@ -14,17 +14,22 @@
 <body>
     <div class="container">
         <% if(error && error.length >0){%>
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger alert-dismissible " role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             <%= error %>
         </div>
         <% }%>
         <% if(success && success.length >0){%>
-            <div class="alert alert-success" role="alert">
-                <%= success %>
+            <div class="alert alert-success alert-dismissible " role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            <%= success %>
             </div>
             <%}%>
     </div>
-   
     <div id="landing-header">
          <h1><b>WeHire</b></h1>
         <a href="/login" style="margin: 20px 5px;" class="btn btn-lg btn-success active">Login</a>

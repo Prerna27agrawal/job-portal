@@ -1,47 +1,85 @@
 <%- include("../partials/header")%>
+<style>
+	body{
+		background-color: #e2e8f0;
+	}
+</style>
 <div class="container">
+	<h2 class="text-center"><b>Openings</b></h2>
+			<br>
+			<br>
+	<div class="table-responsive">
+	<table class="table table-hover table-bordered " style="background-color:rgb(240, 246, 247);">
+		<!-- <thead class="thead-dark"> -->
+            <thead class="thead-dark" style="background-color: black;color:white">
+			<tr>
+				<th scope="col">No.</th>
+				<th scope="col">Title</th>
+				<th scope="col">Location</th>
+				<th scope="col">Experience</th>
+				<th scope="col">Description</th>
+				<th scope="col">Applied By</th>
+				<th scope="col">Delete Job</th>
+			</tr>
+		</thead>
 			<% company.forEach(function(company){ %>
-			<h2><b><%= company.name %> Jobs</b></h2>
-			<div>
-				
+			
+				     <% var i=1; %>
 					<% jobs.forEach(function(job){ %>
-						<div class="row  flex-wrap" >
-						<div class="col-md-6 ">
-						<br>
-						
-							<h4><b>Role</b></h4><h4><span><%= job.name %></span> </h4>
-					
-						<br>
-						
-							<h4><b>Location</b> </h4><h4><%= job.location %></h4>
-						
-						<br>
-						
-							<h4><b>Experience</b></h4><h4><%= job.experience %></h4>
-						<br>
-						<h4 class="text-centre"><b>About job</b></h4>
-						<p>
-							<%= job.description %>
-						</p>
-						<!------dont give spaces between href------->
-						<% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
-						<div class="text-left">
-							<a class="btn btn-xs btn-warning" href="/company/<%= job._id %>/show/jobstats">
-								Applied By</a>
-						</div>
-						<!----->
-						<div class="text-right">
-							<form class="delete-form" action="/company/jobdelete/<%= job._id %>?_method=DELETE"
-								method="POST">
-								<input class="btn btn-xs btn-danger" type="Submit" value="Delete">
-							</form>
-						</div>
-						<% } %>
-						<hr>
-					</div>
-				</div>
+							<tbody>
+								<tr>
+									<th scope="row"><%=i %></th>
+									<td><%= job.name %></td>
+									<td><%= job.location %></td>
+									<td><%= job.experience %></td>
+									<td><%= job.description %></td>
+									<% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
+										<td><a class="btn btn-xs btn-warning" href="/company/<%= job._id %>/show/jobstats/1">
+												Applied By</a>
+										</td>
+										<td>
+											<form class="delete-form" action="/company/jobdelete/<%= job._id %>?_method=DELETE"
+												method="POST">
+												<input class="btn btn-xs btn-danger" type="Submit" value="Delete">
+											</form>
+										<% } %>
+										</td>
+								</tr>
+							</tbody>
+				<% i++ %>
 				<% }); %>
-			</div>
 		<% }); %>
+	</table>
+	</div>
+<div class="row text-center" >
+<% if(pages >0){ %> 
+	<ul class="pagination text-center" >
+		<% if (current == 1) { %>
+			<li class="disabled"><a>First</a></li>
+		<% } else { %>
+			<li><a href="/company/<%= user._id %>/viewjob/1">First</a></li>
+		<% } %>
+		<% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                    <% if (i !== 1) { %>
+                        <li class="disabled"><a>...</a></li>
+                    <% } %>
+                    <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                        <% if (i == current) { %>
+                            <li class="active"><a><%= i %></a></li>
+                        <% } else { %>
+                            <li><a href="/company/<%= user._id %>/viewjob/<%= i %>"><%= i %></a></li>
+                        <% } %>
+                        <% if (i == Number(current) + 4 && i < pages) { %>
+                            <li class="disabled"><a>...</a></li>
+                        <% } %>
+                    <% } %>
+                    <% if (current == pages) { %>
+                        <li class="disabled"><a>Last</a></li>
+                    <% } else { %>
+                        <li><a href="/company/<%= user._id %>/viewjob/<%= pages %>">Last</a></li>
+                    <% } %>
+				</ul>
+				</div>
+	<%}%>
 </div>
 <%- include("../partials/footer") %>
