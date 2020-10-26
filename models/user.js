@@ -13,7 +13,9 @@ var userSchema = new mongoose.Schema({
    isFill :{type: Boolean,default: false},
    email: String,
    role:String,
-   resetLink :{type: String,default:''}
+   isAdmin: {type:Boolean,default:false},
+   adminCode :{type: String,default:''},
+      resetLink :{type: String,default:''}
 });
 
 userSchema.plugin(passportLocalMongoose);

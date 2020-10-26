@@ -13,6 +13,7 @@ var  Seeker = require("../models/seeker");
 var  Job = require("../models/job");
 var User = require("../models/user");
 var Posts =require("../models/posts");
+var Quiz1= require("../models/quiz1");
 
 var nodemailer = require("nodemailer");
 var middleware = require("../middleware/index.js");
@@ -21,6 +22,7 @@ const { emitWarning } = require("process");
 
 var passport   = require("passport");
 var path= require("path");
+router.use(express.static(__dirname+"./public/"));
 
 //Multer and cloudinary config
 var multer = require('multer');
@@ -64,7 +66,7 @@ router.post("/register/company",middleware.checkCompanyOwnership,upload.single('
         establishmentDate:req.body.establishmentDate,
         company_url:req.body.company_url,
         linkedinId:req.body.linkedinId,
-        facebbokId:req.body.facebbokId,
+        facebookId:req.body.facebookId,
         contactno:req.body.contactno,
       });
       newComp.createdBy = {
@@ -147,7 +149,7 @@ upload.single('logo'),function(req,res){
           company.company_url=req.body.company_url;
           company.establishmentDate=req.body.establishmentDate;
           company.linkedinId=req.body.linkedinId;
-          company.facebbokId=req.body.facebbokId;
+          company.facebookId=req.body.facebookId;
           company.contactno=req.body.contactno;
           company.save();
           req.flash("success","Successfully Updated");
@@ -205,14 +207,17 @@ router.get("/company/show",middleware.checkCompanyOwnership,function(req,res){
 
 
 //saari jobs uss comapny ki show hongi
-router.get("/company/:id/viewjob",middleware.checkCompanyOwnership,function(req,res){
+router.get("/company/:id/viewjob/:page",middleware.checkCompanyOwnership,function(req,res){
+     var perPage = 3;
+     var page =req.params.page || 1
   User.findById(req.params.id,function(err,foundUser){
     if (err) {
       console.log(err);
       req.flash("error","err.message")
       return res.redirect("back");
   }
-    Job.find().where('postedBy.id').equals(foundUser._id).exec(function(err,jobs){
+    Job.find().where('postedBy.id').equals(foundUser._id).skip((perPage * page)-perPage).limit(perPage).exec(function(err,jobs){
+      Job.count().exec(function(err,count){
       if (err) {
         console.log(err);
         req.flash("error","err.message")
@@ -228,11 +233,12 @@ router.get("/company/:id/viewjob",middleware.checkCompanyOwnership,function(req,
             }
                  else
                  {
-                   res.render("company/viewjob",{user:foundUser,jobs: jobs,company: foundCompany});
+                   res.render("company/viewjob",{user:foundUser,jobs: jobs,company: foundCompany,current: page,pages: Math.ceil(count/perPage)});
                  }
              });
       }
     });
+  });
   });
 });
 

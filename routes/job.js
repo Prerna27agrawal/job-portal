@@ -6,19 +6,21 @@ var Seeker = require("../models/seeker");
 var Job = require("../models/job");
 var User = require("../models/user");
 var Posts = require("../models/posts");
+var Quiz1 = require("../models/quiz1");
 
 
 var middleware = require("../middleware/index.js");
 const company = require("../models/company");
-const { route } = require("./company");
-const job = require("../models/job");
+// const { route } = require("./company");
+//const job = require("../models/job");
 
 var nodemailer = require("nodemailer");
 const { use } = require("passport");
-const { response } = require("express");
+//const { response } = require("express");
 
 
-
+var path= require("path");
+router.use(express.static(__dirname+"./public/"));
 
 //jb company login kre toh usko job create karkee id mil jae company ki
 router.get("/company/createjob", middleware.checkCompanyOwnership, function (req, res) {
@@ -97,7 +99,7 @@ router.post("/login/company/createjob", middleware.checkCompanyOwnership, functi
 
         }
         req.flash('success', "Notification sent to all the Subscribed Users");
-        res.redirect('/company/' + job.postedBy.id + '/viewjob');
+        res.redirect('/company/' + job.postedBy.id + '/viewjob/1');
 
       });
     }
@@ -133,27 +135,31 @@ router.delete("/company/jobdelete/:id", middleware.checkCompanyOwnership, functi
     job.remove();
     console.log("removed the job");
     req.flash('success', "Job removed");
-    res.redirect("/company/" + req.user._id + "/viewjob");
+    res.redirect("/company/" + req.user._id + "/viewjob/1");
   });
 });
 
 
 //for applied by seekrs view
 //id of job
-router.get("/company/:id/show/jobstats", middleware.checkCompanyOwnership,
+router.get("/company/:id/show/jobstats/:page", middleware.checkCompanyOwnership,
   function (req, res) {
+    var perPage = 3;
+    var page =req.params.page || 1
     Job.findById(req.params.id).populate('postedBy').populate("appliedBy.postedBy").exec(function (err, foundJob) {
-      Seeker.find({}).exec(function (err, seekers) {
+      Seeker.find({}).skip((perPage * page)-perPage).limit(perPage).exec(function (err, seekers) {
+       Seeker.count().exec(function(err,count){
         if (err) {
           console.log(err);
           req.flash("error", "err.message")
           return res.redirect("back");
         }
         else {
-          res.render("company/seekerview", { job: foundJob, seekers: seekers });
+          res.render("company/seekerview", { job: foundJob, seekers: seekers,current:page,pages: Math.ceil(count/perPage) });
         }
       });
     });
+  });
   });
 
 router.get("/seeker/:id/applyjob", middleware.checkSeekerOwnership, function (req, res) {
@@ -339,7 +345,7 @@ router.post("/job/:id/rejected/:appliedByarray_id/seeker/:seeker_id", middleware
               //console.log('Preview Url : %s',nodemailer.getTestMessageUrl(info));
               // req.flash('success',"Password reset link sent to email ID. Please follow the instructions.");
               req.flash('success', "Mail has been sent to the Seeker Regarding your Decision");
-              res.redirect("/company/" + req.params.id + "/show/jobstats");
+              res.redirect("/company/" + req.params.id + "/show/jobstats/1");
             }
           });
           // res.redirect("/company/"+req.params.id+"/show/jobstats");

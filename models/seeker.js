@@ -49,7 +49,8 @@ var seekerSchema = new mongoose.Schema({
           starttime:String,
           endtime:String,
           description:String,
-  }]
+  }],
+  Score: Number
   });
   
 //seekerSchema.plugin(passportLocalMongooseS)
