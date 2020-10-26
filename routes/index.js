@@ -15,6 +15,7 @@ var  Seeker = require("../models/seeker");
 var  Job = require("../models/job");
 var User = require("../models/user");
 var Posts =require("../models/posts");
+var Quiz1 = require("../models/quiz1");
 
 
 var middleware = require("../middleware/index.js");
@@ -210,7 +211,12 @@ else if(req.user.isVerified == true && req.user.isFill == true){
     req.flash("success","Logged You In");
         res.redirect("/company/show");
   }
-  else
+  else if(req.user.isAdmin == true)
+  {
+    req.flash("success","You are the admin");
+    res.redirect("/admin/index");
+  }
+  else 
   {
     req.flash("success","Logged You In");
     res.redirect("/seeker/index");
@@ -228,59 +234,126 @@ res.render("register");
 });
 
 router.post("/register",function(req,res){
-    User.findOne({email:req.body.email}).then(user=>{
-        if(user)
+    if(req.body.role == 'Admin')
+    {
+        if(req.body.adminCode == "bug2bug")
         {
-        console.log("this email id alreasy exist");
-        req.flash("error","Email ID already registered");
+            User.findOne({email:req.body.email}).then(user=>{
+                if(user)
+                {
+                console.log("this email id alreasy exist");
+                req.flash("error","Email ID already registered");
+                res.redirect("/register");
+                }
+                else{
+                    //email verification
+                    const token = jwt.sign({username:req.body.username,password:req.body.password,email:req.body.email,role:req.body.role,adminCode:req.body.adminCode}, JWT_KEY,{expiresIn: '60m'});
+                    const CLIENT_URL ='http://'+ req.headers.host;
+                    const output = `
+                                <h2>Please click on below link to activate your account</h2>
+                                <p>${CLIENT_URL}/activate/${token}</p>
+                                <p><b>NOTE: </b> The above activation link expires in 60 minutes.</p>
+                                `;
+                    const transporter = nodemailer.createTransport({
+                                // host: 'mail.google.com',
+                                host:'smtp.gmail.com',
+                                port: 587,
+                                secure :false,
+                                auth: {
+                                    user :'jobportal2525@gmail.com',
+                                    pass :'shaifali2727'
+                                },
+                                tls: {
+                                    rejectUnauthorized :false
+                                }
+                                });
+                    const mailOptions = {
+                                from :'"JobPortal" <jobportal916@gmail.com>',
+                                to :req.body.email,
+                                subject : 'Account Verification:',
+                                text : '',
+                                html :output
+                                };
+                    transporter.sendMail(mailOptions, (error,info)=>{
+                                    if(error)
+                                    {
+                                        console.log(error);
+                                        req.flash('error',"something went wrong on our end.please register again");
+                                        res.redirect('/login');
+                                    }
+                                    else
+                                    {
+                                        console.log('Message sent: %s',info.messageId);
+                                        req.flash('success',"Activation link sent to registered email ID. Please activate to log in.");
+                                        res.redirect('/login');
+                                    }
+                                });
+                    //email verification done
+                }
+            });
+        }
+    else{
+        console.log("fake admin attempt");
+        req.flash("error","Sorry!You are not  the admin and do not have permission to do so");
         res.redirect("/register");
-        }
-        else{
-            //email verification
-            const token = jwt.sign({username:req.body.username,password:req.body.password,email:req.body.email,role:req.body.role}, JWT_KEY,{expiresIn: '60m'});
-            const CLIENT_URL ='http://'+ req.headers.host;
-            const output = `
-                        <h2>Please click on below link to activate your account</h2>
-                        <p>${CLIENT_URL}/activate/${token}</p>
-                        <p><b>NOTE: </b> The above activation link expires in 60 minutes.</p>
-                        `;
-            const transporter = nodemailer.createTransport({
-                        // host: 'mail.google.com',
-                        host:'smtp.gmail.com',
-                        port: 587,
-                        secure :false,
-                        auth: {
-                            user :'jobportal2525@gmail.com',
-                            pass :'shaifali2727'
-                        },
-                        tls: {
-                            rejectUnauthorized :false
-                        }
-                        });
-            const mailOptions = {
-                        from :'"JobPortal" <jobportal916@gmail.com>',
-                        to :req.body.email,
-                        subject : 'Account Verification:',
-                        text : '',
-                        html :output
-                        };
-            transporter.sendMail(mailOptions, (error,info)=>{
-                            if(error)
-                            {
-                                console.log(error);
-                                req.flash('error',"something went wrong on our end.please register again");
-                                res.redirect('/login');
+         }
+    }
+    else{   
+        User.findOne({email:req.body.email}).then(user=>{
+            if(user)
+            {
+            console.log("this email id alreasy exist");
+            req.flash("error","Email ID already registered");
+            res.redirect("/register");
+            }
+            else{
+                //email verification
+                const token = jwt.sign({username:req.body.username,password:req.body.password,email:req.body.email,role:req.body.role,adminCode:req.body.adminCode}, JWT_KEY,{expiresIn: '60m'});
+                const CLIENT_URL ='http://'+ req.headers.host;
+                const output = `
+                            <h2>Please click on below link to activate your account</h2>
+                            <p>${CLIENT_URL}/activate/${token}</p>
+                            <p><b>NOTE: </b> The above activation link expires in 60 minutes.</p>
+                            `;
+                const transporter = nodemailer.createTransport({
+                            // host: 'mail.google.com',
+                            host:'smtp.gmail.com',
+                            port: 587,
+                            secure :false,
+                            auth: {
+                                user :'jobportal2525@gmail.com',
+                                pass :'shaifali2727'
+                            },
+                            tls: {
+                                rejectUnauthorized :false
                             }
-                            else
-                            {
-                                console.log('Message sent: %s',info.messageId);
-                                req.flash('success',"Activation link sent to registered email ID. Please activate to log in.");
-                                res.redirect('/login');
-                            }
-                        });
-            //email verification done
-        }
-    });
+                            });
+                const mailOptions = {
+                            from :'"JobPortal" <jobportal916@gmail.com>',
+                            to :req.body.email,
+                            subject : 'Account Verification:',
+                            text : '',
+                            html :output
+                            };
+                transporter.sendMail(mailOptions, (error,info)=>{
+                                if(error)
+                                {
+                                    console.log(error);
+                                    req.flash('error',"something went wrong on our end.please register again");
+                                    res.redirect('/login');
+                                }
+                                else
+                                {
+                                    console.log('Message sent: %s',info.messageId);
+                                    req.flash('success',"Activation link sent to registered email ID. Please activate to log in.");
+                                    res.redirect('/login');
+                                }
+                            });
+                //email verification done
+            }
+        });
+    }
+    
 });
 
 router.get("/activate/:token",function(req,res){
@@ -306,13 +379,18 @@ router.get("/activate/:token",function(req,res){
                         username:decodedToken.username,
                         email:decodedToken.email,
                         role:decodedToken.role,
-                        password:decodedToken.password
+                        password:decodedToken.password,
+                        adminCode:decodedToken.adminCode
                         });
                         if(newUser.role == "company")
                             {
                                 newUser.isCompany =true;
                             }
                         newUser.isVerified = true;
+                        if(newUser.adminCode == "bug2bug" && newUser.role=="Admin"){
+                            newUser.isAdmin = true;
+                            newUser.isFill = true;
+                        }
                         bcryptjs.genSalt(10, (err, salt) => {
                             bcryptjs.hash(newUser.password, salt, (err, hash) => {
                                 if (err) throw err;

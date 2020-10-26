@@ -409,6 +409,48 @@
                     <hr>
                     <p class="text-muted fz-base">Established in <%= company.establishmentDate%></p>
                 </div>
+        </div>
+        <!-- /.profile-info-brief -->
+        <hr class="m-0">
+        <div class="hidden-sm-down">
+            <hr class="m-0">
+            <div class="profile-info-general p-4">
+                <h6 class="mb-3">General Description</h6>
+                 <p class="text-muted"><%=company.description%></p>
+            </div>
+			<!-- /.profile-info-general -->
+			<hr class="m-0">
+			<!-- /.profile-info-contact -->
+            <div class="profile-info-contact p-4">
+                <h6 class="mb-3">Contact Information</h6>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td><strong>URL:</strong></td>
+                            <td>
+                                <p class="text-muted mb-0"><%=company.company_url%></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>LinkedIn:</strong></td>
+                            <td>
+                                <p class="text-muted mb-0"><%=company.linkedinId%></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Contact at:</strong></td>
+                            <td>
+                                <p class="text-muted mb-0"><%=company.contactno%></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Facebook:</strong></td>
+                            <td>
+                                <p class="text-muted mb-0"><%= company.facebookId %></p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <!-- /.profile-info-brief -->
             <hr class="m-0">
@@ -483,6 +525,31 @@
                         </form>
                         <% }%>
                     </div>
+		<!-- /.hidden-sm-down -->
+    </div>
+    <!-- /.profile-section-user -->
+    <div class="profile-section-main">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs profile-tabs" role="tablist">
+            <li class="nav-item" id="timeline"><a class="nav-link active" data-toggle="tab" href="#profile-overview" role="tab">Timeline</a></li>
+            <% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
+           <a href="/company/<%= company._id %>/editprofile"> <button class="btn btn-outline-primary active">Edit Profile</button></a>
+            <% } %>
+            <!-- <li class="nav-item"><a style="color: rgb(204, 135, 45);"  data-toggle="tab" href="/company/<%= company._id %>/editprofile" >Edit Profile</a></li> -->
+        </ul>
+        <!-- /.nav-tabs -->
+        <!-- Tab panes -->
+        <div class="tab-content profile-tabs-content">
+            <div class="tab-pane active" id="profile-overview" role="tabpanel">
+                <!-- <div class="post-editor " id="post-editor" > -->
+                    <!-- <textarea name="post-field" id="post-field" class="post-field" placeholder="Write Something Cool!"></textarea> -->
+                    <!-- <div class="d-flex " id="newpost" > -->
+						<!-- <button class="btn btn-success px-4 py-1">Post</button> -->
+						<!-- <% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
+							<a class="btn btn-success px-4 py-1 active " href="/company/<%= company._id%>/posts/new">Post Something New</a>
+						<% }%>
+					</div>
+				</div> -->
 
                     <!-- /.post-editor -->
                     <div class="stream-posts">

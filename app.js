@@ -24,14 +24,14 @@ var Seeker = require("./models/seeker");
 var Job = require("./models/job");
 var User = require("./models/user");
 var Posts =require("./models/posts");
-
+var Quiz1 = require("./models/quiz1");
 
 var Companyroutes = require("./routes/company");
 var Seekerroutes = require("./routes/seeker");
 var Jobroutes = require("./routes/job");
 var Postsroutes = require("./routes/posts");
 var Indexroutes = require("./routes/index");
-
+var quizroutes = require("./routes/quiz");
 
 
 mongoose.connect("mongodb://localhost:27017/jobportalnew", { useNewUrlParser: true ,useUnifiedTopology: true});
@@ -99,7 +99,7 @@ app.use(Companyroutes);
 app.use(Seekerroutes);
 app.use(Jobroutes);
 app.use(Postsroutes);
-
+app.use(quizroutes);
 
 var port = process.env.PORT || 3000;
 app.listen(port, function () {

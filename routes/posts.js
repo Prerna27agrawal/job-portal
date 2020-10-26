@@ -9,6 +9,7 @@ var  Seeker = require("../models/seeker");
 var  Job = require("../models/job");
 var User = require("../models/user");
 var Posts =require("../models/posts");
+var Quiz1 = require("../models/quiz1");
 
 var middleware = require("../middleware/index.js");
 
