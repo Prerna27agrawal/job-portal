@@ -1,75 +1,4 @@
 <%- include("../partials/header") %>
-<!-- <div class="container">
-	<div class="row">
-		<div class="col-md-12">
-			<% company.forEach(function(company){ %>
-			<strong>
-				<h2  style="color:#3a4066"><b><%= company.name %></b></h2>
-			</strong>
-			<div class="thumbnail">
-				<img class="img-responsive" src="<%= company.logo %>">
-				<div >
-					<h4><a style="color:#3a4066" class="pull-center"><b><%= company.tagline %></b></a></h4>
-					<p><%= company.description %></p> -->
-<!----current user is dispisplayed in app.js where we passsed current user to evey user------->
-<!-- <% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %> -->
-<!--company.id is given in below route so that we can edit only tha company details not the user username and password simply or can send the current user also-->
-<!-- <div >
-					<div  class="text-left ">
-						<a class=" btn btn-warning active sm" href="/company/<%= company._id %>/editprofile">Edit</a>
-						</div> -->
-<!-----for deleting delete the profile of company from job schema as welll as company schema as well as the user registered with it---->
-<!-- <div class="text-right">
-						<form class="delete-form" action="/company/<%= currentUser._id%>?_method=DELETE" method="POST">
-							<button class="btn btn-danger active sm">
-								Delete
-							</button>
-						</form>
-					</div>
-					</div>
-					<% } %>
-				</div>
-			</div>
-			<div class="well">
-				<div class="text-right">
-					<% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
-					<a class="btn btn-success active" href="/company/<%= company._id%>/posts/new">Add Post</a>
-					<% }%>
-				</div>
-				<hr>
-				<br>
-				<%  company.posts.forEach(function(post){%>
-				<div class="row">
-					<div class="col-md-12">
-
-						<strong><%= post.heading %></strong> -->
-<!----- make moment to app.js-->
-<!-- <span class="pull-right"><%= moment(post.createdAt).fromNow() %></span>
-						<p>
-							<%= post.description %>
-						</p> -->
-<!------dont give spaces between href------->
-<!-- <% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
-						<a class="btn btn-xs btn-warning" href="/company/<%= company._id%>/posts/<%= post._id %>/edit">
-							Edit</a>
-						<form class="delete-form"
-							action="/company/<%= company._id%>/postsdelete/<%= post._id %>?_method=DELETE"
-							method="POST">
-							<input class="btn btn-xs btn-danger" type="Submit" value="Delete">
-						</form>
-						<% } %>
-						<hr>
-					</div>
-				</div>
-				<% }) %>
-			</div>
-		</div>
-		<% }); %>
-	</div>
-</div> -->
-
-
-<!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> -->
 <style>
     .post-editor,
     .stream-post {
@@ -463,8 +392,7 @@
                 <li class="nav-item" id="timeline"><a class="nav-link active" data-toggle="tab" href="#profile-overview"
                         role="tab">Timeline</a></li>
                 <% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
-                <li class="nav-item"><a style="color: rgb(204, 135, 45);" class="nav-link active" data-toggle="tab"
-                        href="/company/<%= company._id %>/editprofile" role="tab">Edit Profile</a></li>
+                <li class="nav-item"><a  href="/company/<%= company._id %>/editprofile"> <button  class="btn btn-outline-danger " style="padding:0px 6px ;color:rgb(14, 43, 63) ;font-weight: 20;">Edit Profile</button></a></li>
                 <% } %>
             </ul>
             <!-- /.nav-tabs -->
@@ -521,10 +449,5 @@
     </div>
     <% }) %>
 </div>
-<!-- <script>
-    document.querySelector('#timeline').addEventListener('click',function(){
-        document.querySelector('#post-editor').classList.toggle('postBtn');
-    })
-</script> -->
 
 <%- include("../partials/footer") %>
