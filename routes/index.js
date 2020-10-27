@@ -83,10 +83,10 @@ router.post('/forgot',function(req,res){
                             }
                             });
                             const mailOptions = {
-                            from :'"JobPortal" <jobportal916@gmail.com>',
+                            from :'"WeHire" <jobportal916@gmail.com>',
                             to :req.body.email,
-                            subject : 'Account Verification:',
-                            text : '',
+                            subject : 'Account Verification',
+                            text : 'To create your WeHire account, we just need to verify your email address',
                             html :output
                             };
                             transporter.sendMail(mailOptions, (error,info)=>{
