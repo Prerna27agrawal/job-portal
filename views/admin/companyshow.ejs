@@ -5,7 +5,7 @@
 	}
 </style>
 <div class="container">
-	<h2 class="text-center"><b>Openings</b></h2>
+	<h2 class="text-center"><b>Companies</b></h2>
 			<br>
 			<br>
 	<div class="table-responsive">
@@ -14,43 +14,25 @@
             <thead class="thead-dark" style="background-color: black;color:white">
 			<tr>
 				<th scope="col">No.</th>
-				<th scope="col">Title</th>
-				<th scope="col">Location</th>
-				<th scope="col">CreatedAt</th>
-				<th scope="col">Experience</th>
-				<th scope="col">Description</th>
-				<th scope="col">Applied By</th>
-				<th scope="col">Delete Job</th>
+				<th scope="col">Name</th>
+                <th scope="col">tagline</th>
+                <th scope="col">EstablishmentDate</th>
+				<th scope="col">ContactNo</th>
 			</tr>
 		</thead>
-			<% company.forEach(function(company){ %>
-			
 				     <% var i=1; %>
-					<% jobs.forEach(function(job){ %>
+					<% companies.forEach(function(company){ %>
 							<tbody>
 								<tr>
 									<th scope="row"><%=i %></th>
-									<td><%= job.name %></td>
-									<td><%= job.location %></td>
-									<td><%= job.createdAt %></td>
-									<td><%= job.experience %></td>
-									<td><%= job.description %></td>
-									<% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
-										<td><a class="btn btn-xs btn-warning" href="/company/<%= job._id %>/show/jobstats/1">
-												Applied By</a>
-										</td>
-										<td>
-											<form class="delete-form" action="/company/jobdelete/<%= job._id %>?_method=DELETE"
-												method="POST">
-												<input class="btn btn-xs btn-danger" type="Submit" value="Delete">
-											</form>
-										<% } %>
-										</td>
+									<td><a href="/company/<%= company.createdBy.id %>/myprofile"><%= company.name %></a></td>
+                                    <td><%= company.tagline %></td>
+									<td><%= company.establishmentDate %></td>
+									<td><%= company.contactno %></td>
 								</tr>
 							</tbody>
 				<% i++ %>
 				<% }); %>
-		<% }); %>
 	</table>
 	</div>
 <div class="row text-center" >
@@ -59,7 +41,7 @@
 		<% if (current == 1) { %>
 			<li class="disabled"><a>First</a></li>
 		<% } else { %>
-			<li><a href="/company/<%= user._id %>/viewjob/1">First</a></li>
+			<li><a href="/admin/companies/1">First</a></li>
 		<% } %>
 		<% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
                     <% if (i !== 1) { %>
@@ -69,7 +51,7 @@
                         <% if (i == current) { %>
                             <li class="active"><a><%= i %></a></li>
                         <% } else { %>
-                            <li><a href="/company/<%= user._id %>/viewjob/<%= i %>"><%= i %></a></li>
+                            <li><a href="/admin/companies/<%= i %>"><%= i %></a></li>
                         <% } %>
                         <% if (i == Number(current) + 4 && i < pages) { %>
                             <li class="disabled"><a>...</a></li>
@@ -78,10 +60,11 @@
                     <% if (current == pages) { %>
                         <li class="disabled"><a>Last</a></li>
                     <% } else { %>
-                        <li><a href="/company/<%= user._id %>/viewjob/<%= pages %>">Last</a></li>
+                        <li><a href="/admin/companies/<%= pages %>">Last</a></li>
                     <% } %>
 				</ul>
-				</div>
-	<%}%>
+                </div>
+		<% }; %>
+                
 </div>
 <%- include("../partials/footer") %>

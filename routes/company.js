@@ -2,10 +2,7 @@ var express = require("express");
 var router = express.Router();
 var async = require("async");
 var crypto = require("crypto");
-
 const jwt = require('jsonwebtoken');
-const JWT_KEY = "jwtactive987";
-const JWT_RESET_KEY = "jwtreset987";
 const bcryptjs = require('bcryptjs');
 
 var Company = require("../models/company");
@@ -40,7 +37,7 @@ var imageFilter = function (req, file, cb) {
 var upload = multer({ storage: storage, fileFilter: imageFilter})
 var cloudinary = require('cloudinary');
 cloudinary.config({ 
-cloud_name: 'dhr7wlz2k', 
+cloud_name: process.env.CLOUD_NAME, 
 api_key: process.env.CLOUDINARY_API_KEY,
 api_secret: process.env.CLOUDINARY_API_SECRET
 });
