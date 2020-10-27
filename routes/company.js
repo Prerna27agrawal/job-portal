@@ -149,7 +149,7 @@ upload.single('logo'),function(req,res){
           company.company_url=req.body.company_url;
           company.establishmentDate=req.body.establishmentDate;
           company.linkedinId=req.body.linkedinId;
-          company.facebbokId=req.body.facebbokId;
+          company.facebookId=req.body.facebookId;
           company.contactno=req.body.contactno;
           company.save();
           req.flash("success","Successfully Updated");

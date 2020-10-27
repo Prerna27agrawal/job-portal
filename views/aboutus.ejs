@@ -1,145 +1,185 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include("partials/header") %>
+<style>
+    body{
+      background-color: #e2e8f0;
+    /* margin-top:20px; */
+}
+.img-thumbnail {
+    padding: .25rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    max-width: 100%;
+    height: auto;
+}
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- Bootstrap CSS -->
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
-      integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V"
-      crossorigin="anonymous"
-    />  
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script> -->
-  <link rel="stylesheet" href="stylesheets/about.css">
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script> -->
-  <title>Contact Us - Simple Snippets</title>
-</head>
-<!-- xs<576 | 576<sm<768 | 768<md<992 | 992<lg<1200 | 1200<xl -->
+.social-link {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    border-radius: 50%;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+}
+@media (min-width: 0) {
+    .g-mr-15 {
+        margin-right: 1.07143rem !important;
+    }
+}
+@media (min-width: 0){
+    .g-mt-3 {
+        margin-top: 0.21429rem !important;
+    }
+}
 
-    <body>
-        <header>
-          <div class="p-1" id="topHeader">
-            <div class="container">
-              <div class="row">
-                <div class="col-12 text-right">
-                  <a class="p-1" href="tel:+919090909090"> <i class="fas fa-phone"></i> +(91) 9090909090 </a>
-                  <a class="p-1" href="mailto:simplesnippetsinfo@gmail.com  "> <i class="fas fa-envelope"></i> simplesnippetsinfo@gmail.com </a>
+.g-height-50 {
+    height: 40px;
+}
+
+.g-width-50 {
+    width: 40px !important;
+}
+
+@media (min-width: 0){
+    .g-pa-30 {
+        padding: 2.14286rem !important;
+    }
+}
+
+.g-bg-secondary {
+    background-color: #fafafa !important;
+}
+
+.u-shadow-v18 {
+    box-shadow: 0 5px 10px -6px rgba(0, 0, 0, 0.15);
+}
+
+.g-color-gray-dark-v4 {
+    color: #777 !important;
+}
+
+.g-font-size-12 {
+    font-size: 0.85714rem !important;
+}
+
+.media-comment {
+    margin-top:20px
+}
+</style>
+<div class="jumbotron jumbotron-fluid" style="background-color: #dbcbdb; padding-top: 25px;">
+  <div class="container">
+    <p style="margin-bottom: 0%; font-size: 30px;">OUR USERS STORIES.</p>
+    <p style="margin-top: 0%; " class="text-muted">Better Connections starts Here!</p>
+    <div class="row">
+      <div class="col-md-6">
+          <div class="media g-mb-30 media-comment">
+              <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Image Description">
+              <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+                <div class="g-mb-15">
+                  <h5 class="h5 g-color-gray-dark-v1 mb-0">John Doe</h5>
+                  <span class="g-color-gray-dark-v4 g-font-size-12">5 days ago</span>
                 </div>
+          
+                <p style="font-size: 12.5px;">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue
+                  felis in faucibus ras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+          
               </div>
+          </div>
+      </div>
+      <div class="col-md-6">
+        <div class="media g-mb-30 media-comment">
+            <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Image Description">
+            <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+              <div class="g-mb-15">
+                <h5 class="h5 g-color-gray-dark-v1 mb-0">John Doe</h5>
+                <span class="g-color-gray-dark-v4 g-font-size-12">5 days ago</span>
+              </div>
+        
+              <p style="font-size: 12.5px;">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue
+                felis in faucibus ras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+        
             </div>
-          </div>
-          <div id="bottomHeader">
-            <div class="container-fluid">
-              <nav class="navbar navbar-dark navbar-expand-md" style="background-color:#004d80;">
-                <a class="navbar-brand" href="">
-                  <img src="imgs/logo_text_white_small.png" width="250px" alt="">
-                </a>
-                <button data-toggle="collapse" data-target="#navbarToggler" type="button" class="navbar-toggler"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarToggler">
-                  <ul class="navbar-nav">
-                    <li class="nav-item">
-                      <a class="nav-link" href="default.html">Home</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" href="#">Services</a>
-                      <div class="dropdown-menu">
-                        <a class="dropdown-item" href="webdesigning.html">Web Designing</a>
-                        <a class="dropdown-item" href="webdevelopment.html">Web Development</a>
-                        <a class="dropdown-item" href="seoservices.html">SEO Services</a>
-                        <a class="dropdown-item" href="softwaredevelopment.html">Software Development</a>
-                        <a class="dropdown-item" href="mobileapps.html">Mobile App Development</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="graphicdesign.html">Graphic Designing</a>
-                      </div>
-      
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="portfolio.html">Portfolio</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="aboutus.html">About Us</a>
-                    </li>
-                    <li class="nav-item active">
-                      <a class="nav-link" href="contactus.html">Contact Us</a>
-                    </li>
-                  </ul>
-                </div>
-              </nav>
-      
+        </div>
+    </div>
+    <div class="col-md-6">
+      <div class="media g-mb-30 media-comment">
+          <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Image Description">
+          <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+            <div class="g-mb-15">
+              <h5 class="h5 g-color-gray-dark-v1 mb-0">John Doe</h5>
+              <span class="g-color-gray-dark-v4 g-font-size-12">5 days ago</span>
             </div>
+      
+            <p style="font-size: 12.5px;">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue
+              felis in faucibus ras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+      
           </div>
-      
-        </header>
-      
-        <footer class="full-footer">
-          <div class="container top-footer p-md-3 p-1">
-            <div class="row">
-              <div class="col-md-3 pl-4 pr-4">
-                <img class="img-fluid" src="imgs/logo_text_white_small.png" alt="">
-                <p>
-                  Simple Snippets is a Tech-Educational Channel / Platform / Blog / Medium for anyone and everyone ...<a href="#">Read
-                    more...</a>
-                </p>
-                <a style="color:silver;" class="p-1" href="#"><i class="fab fa-2x fa-facebook-square"></i></a>
-                <a style="color: silver;" class="p-1" href="#"><i class="fab fa-2x fa-google-plus-square"></i></a>
-                <a style="color: silver;" class="p-1" href="#"><i class="fab fa-2x fa-twitter-square"></i></a>
-                <a style="color: silver;" class="p-1" href="#"><i class="fab fa-2x fa-instagram"></i></a>
-              </div>
-      
-              <div class="col-md-3  pl-4 pr-4">
-                <h3>Important Links</h3>
-                <a href="#">Privacy Policy</a><br>
-                <a href="#">Youtube Channel Link </a><br>
-                <a href="#">Blog Articles </a><br>
-                <a href="#">Social Media</a>
-              </div>
-      
-              <div class="col-md-3  pl-4 pr-4">
-                <h3>Our Services</h3>
-                <a href="webdesigning.html">Web Designing </a><br>
-                <a href="webdevelopment.html">Web Development  </a><br>
-                <a href="seoservices.html">SEO services  </a><br>
-                <a href="softwaredevelopment.html">Software Development </a>
-                <a href="mobileapps.html">Mobile App Development  </a>
-                <a href="graphicdesign.html">Graphic Designing</a>
-              </div>
-           
-            <div class="col-md-3  pl-4 pr-4">
-                <h3>Contact Us</h3>
-                <a href="#"><i class="fas fa-phone"></i> +(91) 9090909090  </a><br>
-                <a href="mailto:simplesnippetsinfo@gmail.com  "><i class="fas fa-envelope"></i> abc@gmail.com  </a><br>
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241316.64333236168!2d72.74110193617271!3d19.082522317332813!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C+Maharashtra!5e0!3m2!1sen!2sin!4v1547151374329" frameborder="0"></iframe>
-                </div>
-                
-            </div>
-          </div>
-          </div>
-          <div class="container-fluid bottom-footer pt-2">
-            <div class="row">
-              <div class="col-12 text-center">
-                <p>Copyrights © 2018 - All rights reserved</p>
-              </div>
-            </div>
-          </div>
-      
-        </footer>
-      
-      
-      
+      </div>
+  </div>
+</div>
+  </div>
+</div>
+<div class="row align-items-center event-block no-gutters margin-40px-bottom" style="background-color: white; margin-bottom: 20px;">
+  <div class="container py-5 ">
+    <div class="row mb-4">
+      <div class="col-lg-5 ">
+        <div class="section-title">
+          <h3 class="title mb-4 " style="color: rgb(17, 1, 17); margin-left: 80px;">OUR TEAM</h3>
+          <h4 class="font-italic text-muted" style="margin-bottom: 0%;color: thistle;margin-left: 80px;">OUT OF OURSELF & INTO A TEAM.</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="row text-center " style="margin-top: 30px;">
+      <!-- Team item-->
+      <div class="col-xl-3 col-sm-4  mt-5">
+        <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
+          <h5 class="mb-0">Shaifali Singh</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
+          <p class="small text-uppercase text-muted">MNNIT Allahabad</p>
+          <ul class="social mb-0 list-inline mt-3">
+            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-facebook"></i></a></li>
+            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-instagram"></i></a></li>
+            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-linkedin"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <!-- End-->
+
+      <!-- Team item-->
+      <div class="col-xl-3 col-sm-4 mt-5">
+        <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
+          <h5 class="mb-0">Prerna Agarwal</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
+          <p class="small text-uppercase text-muted">MNNIT Allahabad</p>
+          <ul class="social mb-0 list-inline mt-3">
+            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-facebook"></i></a></li>
+            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-instagram"></i></a></li>
+            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-linkedin"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <!-- End-->
+
+      <!-- Team item-->
+      <div class="col-xl-3 col-sm-4 mt-5">
+        <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://bootdey.com/img/Content/avatar/avatar8.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
+          <h5 class="mb-0">Neetu Agarwal</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
+          <p class="small text-uppercase text-muted">MNNIT Allahabad</p>
+          <ul class="social mb-0 list-inline mt-3">
+            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-facebook"></i></a></li>
+            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-instagram"></i></a></li>
+            <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-linkedin"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <!-- End-->
+
+    </div>
+  </div>
+</div>
 
 
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</body>
-
-</html>
+<%- include("partials/footer") %>

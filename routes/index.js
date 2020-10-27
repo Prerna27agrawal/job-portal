@@ -27,9 +27,14 @@ router.get("/", function (req, res) {
     res.render("landing");
   });
   
-router.get("/aboutus",function(req,res){
-   res.render("aboutus"); 
+router.get("/contactus",function(req,res){
+   res.render("contactus"); 
 });
+
+router.get("/aboutus",function(req,res){
+    res.render("aboutus");
+})
+
 router.get('/forgot', function(req, res) {
     res.render('forgot');
   });
