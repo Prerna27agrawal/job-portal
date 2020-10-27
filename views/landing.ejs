@@ -6,10 +6,18 @@
     <title>Job-portal</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="stylesheets/landing.css">
-	<!------multiple background-------->
+    <!------multiple background-------->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
     <title>Document</title>
-
+    <script>
+        $(document).ready(function() {
+         // show the alert
+         setTimeout(function() {
+             $(".alert").alert('close');
+         }, 3000);
+     });
+         </script>
 </head>
 <body>
     <div class="container">
@@ -32,8 +40,14 @@
     </div>
     <div id="landing-header">
          <h1><b>WeHire</b></h1>
+        <% if(currentUser && currentUser.isCompany == true){ %>
+            <a href="/company/show" style="margin: 20px 5px;" class="btn btn-lg btn-success active">Go to Dashboard &#8594;</a>
+        <% } else if(currentUser && currentUser.isCompany == false){ %>
+            <a href="/seeker/index" style="margin: 20px 5px;" class="btn btn-lg btn-success active">Go to Dashboard &#8594;</a>
+        <% } else { %>
         <a href="/login" style="margin: 20px 5px;" class="btn btn-lg btn-success active">Login</a>
         <a href="/register" style="margin: 20px 5px ;" class="btn btn-lg btn-success active">Register</a>
+        <% } %>
         
     </div>
     
