@@ -1,4 +1,6 @@
 var mongoose = require("mongoose");
+mongoose.Promise = require("bluebird");
+
 var passportLocalMongoose = require('passport-local-mongoose'); 
 
 mongoose.connect("mongodb://localhost:27017/jobportalnew", { useNewUrlParser: true, useUnifiedTopology: true });
@@ -16,7 +18,11 @@ var userSchema = new mongoose.Schema({
    isAdmin: {type:Boolean,default:false},
    adminCode :{type: String,default:''},
       resetLink :{type: String,default:''}
-});
+},
+{
+    timestamps:true,
+}
+);
 
 userSchema.plugin(passportLocalMongoose);
 

@@ -1,4 +1,6 @@
 var mongoose = require("mongoose");
+mongoose.Promise = require("bluebird");
+
 //var passportLocalMongooseS = require('passport-local-mongoose'); 
 
 mongoose.connect("mongodb://localhost:27017/jobportalnew", { useNewUrlParser: true, useUnifiedTopology: true });

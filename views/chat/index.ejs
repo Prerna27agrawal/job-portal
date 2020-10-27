@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title> 
+                Chat app
+            </title>
+            <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+            <link href="/stylesheets/style.css" type="text/css" rel="stylesheet" />
+        </head>
+        <body>
+            <section class="chat_section">
+                <div class="brand">
+            <img height="40" src="/wassup.png" alt="no image">
+                    <h1>Wechat</h1>
+                </div>
+                <div class="message_area">
+
+                </div>
+                <div class="bottom_wrapper clearfix">
+                    <i id="typing"></i>
+                     <form id="form">
+                         <div class="message_input_wrapper">
+                             <input id="message" class="message_input" placeholder="Type your message here..." />
+                         </div>
+                         <button class="send_message">
+                            Send
+                         </button>
+                       </form>
+                     </div>
+                <!-- <div >
+                    <textarea name="" id="textarea" cols="30" rows="1" placeholder="Write your message...."></textarea>
+                </div> -->
+            </section>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+            <script src="/socket.io/socket.io.js"></script>
+            <!-- <script src="/js/socket.js"></script> -->
+            <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/gh/rexeze/formatTimeStamp/src/index-cdn.js"></script>
+            <script src="/js/chat.js"></script>
+        </body>
+    </html>
