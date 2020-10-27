@@ -82,9 +82,9 @@
             <% if(pages >0){ %> 
                 <ul class="pagination text-center">
                     <% if (current == 1) { %>
-                        <li class="disabled"><a>First</a></li>
+                        <li class="disabled"><a>&#171;</a></li>
                     <% } else { %>
-                        <li><a href="/company/<%= job._id %>/jobstats/1">First</a></li>
+                        <li><a href="/company/<%= job._id %>/jobstats/1">&#171;</a></li>
                     <% } %>
                     <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
                                 <% if (i !== 1) { %>
@@ -101,9 +101,9 @@
                                     <% } %>
                                 <% } %>
                                 <% if (current == pages) { %>
-                                    <li class="disabled"><a>Last</a></li>
+                                    <li class="disabled"><a>&#187;</a></li>
                                 <% } else { %>
-                                    <li><a href="/company/<%= job._id %>/jobstats/<%= pages %>">Last</a></li>
+                                    <li><a href="/company/<%= job._id %>/jobstats/<%= pages %>">&#187;</a></li>
                                 <% } %>
                             </ul>
                             </div>
