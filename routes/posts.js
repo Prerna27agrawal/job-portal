@@ -22,7 +22,7 @@ router.get("/company/:id/posts/new", middleware.checkCompanyOwnership, function(
     Company.findById(req.params.id,function(err,foundcompany){
         if (err) {
             console.log(err);
-            req.flash("error","err.message")
+            req.flash("error",err.message);
             return res.redirect("back");
         }
        else
@@ -36,14 +36,14 @@ router.get("/company/:id/posts/new", middleware.checkCompanyOwnership, function(
       Company.findById(req.params.id,function(err,foundcompany){
         if (err) {
             console.log(err);
-            req.flash("error","err.message")
+            req.flash("error",err.message);
             return res.redirect("back");
         }
         else{
             Posts.create(req.body.posts,function(err,post){
                 if (err) {
                     console.log(err);
-                    req.flash("error","err.message")
+                    req.flash("error",err.message);
                     return res.redirect("back");
                 }
                else{
@@ -66,14 +66,14 @@ router.get("/company/:id/posts/new", middleware.checkCompanyOwnership, function(
       Company.findById(req.params.id,function(err,foundcompany){
         if (err) {
             console.log(err);
-            req.flash("error","err.message")
+            req.flash("error",err.message);
             return res.redirect("back");
         }
           else{
               Posts.findById(req.params.post_id,function(err,foundpost){
                 if (err) {
                     console.log(err);
-                    req.flash("error","err.message")
+                    req.flash("error",err.message);
                     return res.redirect("back");
                 }
                    else{
@@ -90,7 +90,7 @@ router.get("/company/:id/posts/new", middleware.checkCompanyOwnership, function(
     Posts.findByIdAndUpdate(req.params.post_id,req.body.posts,function(err,updatedpost){
         if (err) {
             console.log(err);
-            req.flash("error","err.message")
+            req.flash("error",err.message);
             return res.redirect("back");
         }
       else{
@@ -106,7 +106,7 @@ router.get("/company/:id/posts/new", middleware.checkCompanyOwnership, function(
  Posts.findByIdAndRemove(req.params.post_id,function(err){
     if (err) {
         console.log(err);
-        req.flash("error","err.message")
+        req.flash("error",err.message);
         return res.redirect("back");
     }
      else{

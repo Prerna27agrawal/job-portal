@@ -32,7 +32,7 @@ router.get("/admin/companies/:page",middleware.checkAdminOwnership,function(req,
         Company.count().exec(function(err,count){
         if (err) {
             console.log(err);
-            req.flash("error",err.message)
+            req.flash("error",err.message);
             return res.redirect("back"); 
         }    
         res.render("admin/companyshow",{companies:companies,current: page,pages: Math.ceil(count/perPage)});
@@ -47,7 +47,7 @@ router.get("/admin/seekers/:page",middleware.checkAdminOwnership,function(req,re
         Seeker.count().exec(function(err,count){
         if (err) {
             console.log(err);
-            req.flash("error",err.message)
+            req.flash("error",err.message);
             return res.redirect("back"); 
         } 
         res.render("admin/seekershow",{seekers:seekers,current: page,pages: Math.ceil(count/perPage)});
@@ -62,7 +62,7 @@ router.get("/admin/jobs/:page",middleware.checkAdminOwnership,function(req,res){
         Job.count().exec(function(err,count){
         if (err) {
             console.log(err);
-            req.flash("error",err.message)
+            req.flash("error",err.message);
             return res.redirect("back"); 
         } 
         res.render("admin/jobshow",{jobs:jobs,current: page,pages: Math.ceil(count/perPage)});
@@ -77,7 +77,7 @@ router.get("/admin/feedback/:page",middleware.checkAdminOwnership,function(req,r
         FeedBack.count().exec(function(err,count){
         if (err) {
             console.log(err);
-            req.flash("error",err.message)
+            req.flash("error",err.message);
             return res.redirect("back"); 
         } 
         else{
@@ -91,7 +91,7 @@ router.post("/feedback/:id/aboutus",middleware.checkAdminOwnership,function(req,
    FeedBack.findById(req.params.id,function(err,foundfeedback){
     if (err) {
         console.log(err);
-        req.flash("error",err.message)
+        req.flash("error",err.message);
         return res.redirect("back"); 
     } 
     else{
@@ -100,7 +100,7 @@ router.post("/feedback/:id/aboutus",middleware.checkAdminOwnership,function(req,
         // FeedBack.find({isPosted:true}).exec(function(err,feedbacks){
             if (err) {
                 console.log(err);
-                req.flash("error",err.message)
+                req.flash("error",err.message);
                 return res.redirect("back"); 
             } 
             else{

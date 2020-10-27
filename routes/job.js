@@ -37,7 +37,7 @@ router.post("/login/company/createjob", middleware.checkCompanyOwnership, functi
   Job.create(req.body.job, function (err, job) {
     if (err) {
       console.log(err);
-      req.flash("error", "err.message")
+      req.flash("error", err.message);
       return res.redirect("back");
     }
     else {
@@ -90,7 +90,7 @@ router.post("/login/company/createjob", middleware.checkCompanyOwnership, functi
           transporter.sendMail(mailOptions, (error, info) => {
             if (err) {
               console.log(err);
-              req.flash("error", "err.message")
+              req.flash("error", err.message);
               return res.redirect("back");
             }
             console.log('Message sent: %s', info.messageId);
@@ -113,7 +113,7 @@ router.get("/seeker/:seeker_id/appliedJobs", middleware.checkSeekerOwnership, fu
     company.find({}).exec(function (err, allcompanies) {
       if (err) {
         console.log(err);
-        req.flash("error", "err.message")
+        req.flash("error", err.message);
         return res.redirect("back");
       }
       else {
@@ -130,7 +130,7 @@ router.delete("/company/jobdelete/:id", middleware.checkCompanyOwnership, functi
   Job.findById(req.params.id, function (err, job) {
     if (err) {
       console.log(err);
-      req.flash("error", "err.message")
+      req.flash("error", err.message);
       return res.redirect("back");
     }
     job.remove();
@@ -152,7 +152,7 @@ router.get("/company/:id/show/jobstats/:page", middleware.checkCompanyOwnership,
        Seeker.count().exec(function(err,count){
         if (err) {
           console.log(err);
-          req.flash("error", "err.message")
+          req.flash("error", err.message);
           return res.redirect("back");
         }
         else {
@@ -168,7 +168,7 @@ router.get("/seeker/:id/applyjob", middleware.checkSeekerOwnership, function (re
     company.find({}).exec(function (err, allcompanies) {
       if (err) {
         console.log(err);
-        req.flash("error", "err.message")
+        req.flash("error", err.message);
         return res.redirect("back");
       }
       else {
@@ -182,7 +182,7 @@ router.post("/seeker/:id/applyjob", middleware.checkSeekerOwnership, function (r
   Job.findById(req.params.id).populate('postedBy').populate("appliedBy.postedBy").exec(function (err, foundJob) {
     if (err) {
       console.log(err);
-      req.flash("error", "err.message")
+      req.flash("error", err.message);
       return res.redirect("back");
     } else {
       var find = false;
@@ -197,7 +197,7 @@ router.post("/seeker/:id/applyjob", middleware.checkSeekerOwnership, function (r
         Job.findOneAndUpdate({ _id: req.params.id }, { $push: { "appliedBy": { "isStatus": "Pending", "postedBy": req.user } } }, { new: true }, function (err, job) {
           if (err) {
             console.log(err);
-            req.flash("error", "err.message")
+            req.flash("error", err.message);
             return res.redirect("back");
           }
           else {

@@ -76,7 +76,7 @@ router.post("/register/company",middleware.checkCompanyOwnership,upload.single('
       Company.create(newComp,function(err, newcompanycreate) {
         if (err) {
             console.log(err);
-            req.flash("error","err.message")
+            req.flash("error",err.message);
             return res.redirect("back");
         }
           req.flash("success","Company Registered Successfully");
@@ -210,14 +210,14 @@ router.get("/company/:id/viewjob/:page",middleware.checkCompanyOwnership,functio
   User.findById(req.params.id,function(err,foundUser){
     if (err) {
       console.log(err);
-      req.flash("error","err.message")
+      req.flash("error",err.message);
       return res.redirect("back");
   }
     Job.find().where('postedBy.id').equals(foundUser._id).skip((perPage * page)-perPage).limit(perPage).exec(function(err,jobs){
       Job.count().exec(function(err,count){
       if (err) {
         console.log(err);
-        req.flash("error","err.message")
+        req.flash("error",err.message);
         return res.redirect("back");
     }
       else{
@@ -225,7 +225,7 @@ router.get("/company/:id/viewjob/:page",middleware.checkCompanyOwnership,functio
              Company.find().where('createdBy.id').equals(foundUser._id).exec(function(err,foundCompany){
               if (err) {
                 console.log(err);
-                req.flash("error","err.message")
+                req.flash("error",err.message);
                 return res.redirect("back");
             }
                  else

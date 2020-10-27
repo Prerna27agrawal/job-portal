@@ -63,7 +63,7 @@ router.post('/quiz1/questions',middleware.checkAdminOwnership,function(req,res){
         // Quiz1.create(newQuestion,function(err,newQuestion){
         //         if (err) {
         //                 console.log(err);
-        //                 req.flash("error",err.message);
+        //                 req.flash("error",err.message);;
         //                 return res.redirect("back");
         //             }
                       req.flash("success","Question added");
@@ -107,7 +107,7 @@ router.delete('/quiz1/delete/:id',middleware.checkAdminOwnership,function(req,re
    Quiz1.findByIdAndRemove(req.params.id,function(err,foundQuestion){
         if (err) {
                 console.log(err);
-                req.flash("error","err.message")
+                req.flash("error",err.message);
                 return res.redirect("back");
             }
         else{
