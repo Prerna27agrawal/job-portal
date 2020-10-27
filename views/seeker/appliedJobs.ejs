@@ -1,17 +1,20 @@
-
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+    <%- include("../partials/header1") %>
  
     <style>
         body{
-            background-color:rgb(243,247,247);
+            background-color:rgb(229, 237, 241);
             margin: 0px;
             line-height: 1.4em;
-            font-family: "Whitney SSm A", "Whitney SSm B", Avenir, "Segoe UI", Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            
+        
+        font-size:14px;
+            font-family:"Helvetica Neue",Helvetica,Arial,sans-serif, Avenir, "Segoe UI", Ubuntu, ;
             font-weight: normal;
         }
         div{
@@ -22,6 +25,7 @@
             box-shadow: 0.1px 1px 4px 0 #e7eeef;
             min-height: 60px;
             width: 100%;
+            margin-top: 10px;
         }
         .empty{
             display: flex;
@@ -79,21 +83,21 @@
             text-decoration: none;
         }
         .nav-item{
-            display: block;
-            color: #39424e;
+            /* display: block;
+            color: #39424e; */
             text-transform: capitalize;
             cursor:pointer;
             transition: 0.3s;
         }
-        .nav-item:hover{
+        /* .nav-item:hover{
             background-color: #e6eef3;
             text-decoration: none;
             color:black;
-        }
-        .nav-item.active{
+        } */
+        /* .nav-item.active{
             color:#347aa3;
             background-color: #e6eef3;
-        }
+        } */
         a:hover{
             text-decoration: none;
         }
@@ -173,7 +177,7 @@
     <header>
         <div class="container">
            <div class="inner-container">
-               <h1>My Applications</h1>
+               <h2 style="color: rgb(74, 49, 143);">MY APPLICATIONS</h2>
            </div>
         </div>
     </header>
@@ -243,7 +247,7 @@
                                         <img src="<%= company.logo %>" width="50px" height="50px">
                                     </div>
                                     <div class="p-20px-l media-body">
-                                        <h5 class="m-5px-tb"><%= company.name %></h5>
+                                        <h5 class="m-5px-tb"><%= (company.name).toUpperCase() %></h5>
                                         <h6 class="m-5px-tb"><%= job.name %></h6>
                                         <p class="m-5px-tb"><%= job.location %></p>
                                         <p class="m-5px-tb font-small"><%= job.experience %>+ years of experience</p>

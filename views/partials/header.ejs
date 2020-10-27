@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>job_portal</title>
+    <title>WeHire</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -55,19 +55,40 @@
                 <ul class="nav navbar-nav navbar-right">
                     <% if(!currentUser){ %>
                     <li class="nav-item"><a style="color: floralwhite;" href="/login">Login</a></li>
-                    <li class="nav-item"><a style="color: floralwhite;" href="/register">Sign Up</a></li>
+                    <li class="nav-item"><a style="color: floralwhite;padding-right: 40px;" href="/register">Sign Up</a></li>
                     <% } else { %>
                     <% if(currentUser.isCompany) { %>
-                    <li><a style="color: floralwhite;" href="/company/<%= currentUser._id %>/myprofile">Signed In As
+                    <li class="nav-item"><a style="color: floralwhite;" href="/company/<%= currentUser._id %>/myprofile">Signed In As
                             <%= currentUser.username %></a></li>
                     <% } else { %>
-                    <li><a style="color: floralwhite;" href="/seeker/<%= currentUser._id %>/myprofile">Signed In As
+                    <li class="nav-item"><a style="color: floralwhite;" href="/seeker/<%= currentUser._id %>/myprofile">Signed In As
                             <%= currentUser.username %></a></li>
                     <% } %>
-                    <li><a style="color: floralwhite;" href="/logout">Logout</a></li>
+                    <!-- <li class="nav-item"><a style="color: floralwhite; padding-right: 40px;" href="/logout">Logout</a></li> -->
                     <% } %>
-                    <li><a style="color: floralwhite;" href="/contactus">Contact Us</a></li>
-                    <li><a style="color: floralwhite;" href="/aboutus">About Us</a></li>
+                    <!-- <li class="nav-item"><a style="color: rgb(215, 224, 163);" href="/contactus">Contact Us</a></li>
+                    <li class="nav-item"><a style="color: rgb(215, 224, 163);" href="/aboutus">About Us</a></li> -->
+                    <li>
+                        <ul class="dropdown show">
+                            <a style="margin-top: 5px;color: white;" class="btn  dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <% if(currentUser && currentUser.isCompany){ %>
+                                    <!-- <li ><a class="dropdown-item" href="/company/<%= currentUser._id %>/editprofile">Edit Profile</a></li>   -->
+                                    <li ><a class="dropdown-item" href="/company/<%= currentUser._id %>/viewjob/:page">All Previous Jobs</a></li>
+                                    <li ><a class="dropdown-item" href="/company/createjob">Create a new Job</a></li> 
+                                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                <% } else if(currentUser) {%>
+                                    <!-- <li ><a class="dropdown-item" href="/contactus">Edit Profile</a></li>   -->
+                                    <li ><a class="dropdown-item" href="/seeker/:seeker_id/appliedJobs">My Applied Jobs</a></li>   
+                                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                    <% }%>
+                              <li ><a class="dropdown-item"  href="/contactus">Contact Us</a></li>
+                              <li><a class="dropdown-item" href="/aboutus">About Us</a></li>
+                            </ul>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
