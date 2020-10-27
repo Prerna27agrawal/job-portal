@@ -6,6 +6,7 @@ var  Job = require("../models/job");
 var User = require("../models/user");
 var Posts =require("../models/posts");
 var Quiz1 = require("../models/quiz1");
+var FeedBack =require("../models/feedback");
 
 var middleware = require("../middleware/index.js");
 const { runInContext, isContext } = require("vm");
@@ -15,9 +16,9 @@ const { networkInterfaces } = require("os");
 router.use(express.static(__dirname+"./public/"));
 
 
-router.get("/admin/index",middleware.checkAdminOwnership,function(req,res){
-        res.render("quiz/index",{admin:req.user}); 
-});
+// router.get("/admin/index",middleware.checkAdminOwnership,function(req,res){
+//         res.render("quiz/index",{admin:req.user}); 
+// });
 
 router.get("/quiz1/index",middleware.checkAdminOwnership,function(req,res){
          //show total number of questions on 1 page in count variable
@@ -62,7 +63,7 @@ router.post('/quiz1/questions',middleware.checkAdminOwnership,function(req,res){
         // Quiz1.create(newQuestion,function(err,newQuestion){
         //         if (err) {
         //                 console.log(err);
-        //                 req.flash("error",err.message);
+        //                 req.flash("error",err.message);;
         //                 return res.redirect("back");
         //             }
                       req.flash("success","Question added");
@@ -106,7 +107,7 @@ router.delete('/quiz1/delete/:id',middleware.checkAdminOwnership,function(req,re
    Quiz1.findByIdAndRemove(req.params.id,function(err,foundQuestion){
         if (err) {
                 console.log(err);
-                req.flash("error","err.message")
+                req.flash("error",err.message);
                 return res.redirect("back");
             }
         else{

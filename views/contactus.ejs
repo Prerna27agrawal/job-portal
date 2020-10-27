@@ -64,6 +64,24 @@
                 </ul>
                 </div>
     </nav>
+    <div class="container">
+      <% if(error && error.length >0){%>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          <%= error %>
+      </div>
+      <% }%>
+      <% if(success && success.length >0){%>
+          <div class="alert alert-success alert-dismissible fade show " role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+          <%= success %>
+          </div>
+          <%}%>
+  </div>
     <div class="container" style="margin-top:40px">
       <section class="section gray-bg" id="contactus" style="padding-top: 30px;">
         <div class="container">
@@ -79,33 +97,33 @@
             <div class="row flex-row-reverse">
                 <div class="col-md-7 col-lg-8 m-15px-tb">
                     <div class="contact-form">
-                         <form action="/" method="post" class="contactform contact_form" id="contact_form">
+                         <form action="/contactus" method="post" class="contactform contact_form" id="contact_form">
                             <div class="returnmessage valid-feedback p-15px-b" data-success="Your message has been received, We will contact you soon."></div>
                             <div class="empty_notice invalid-feedback p-15px-b"><span>Please Fill Required Fields</span></div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <input id="name" type="text" placeholder="Fisrt Name" class="form-control"> 
+                                        <input id="name" type="text" placeholder="Fisrt Name" name="FirstName" class="form-control"> 
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                      <input id="name" type="text" placeholder="Last Name" class="form-control"> 
+                                      <input id="name" type="text" placeholder="Last Name"  name="LastName" class="form-control"> 
                                   </div>
                               </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input id="email" type="text" placeholder="Email Address" class="form-control">  
+                                        <input id="email" type="text" placeholder="Email Address" name="email" class="form-control">  
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <textarea id="message" placeholder="Message" class="form-control" rows="3"></textarea> 
+                                        <textarea id="message" placeholder="Message" name="message" class="form-control" rows="3"></textarea> 
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                   <div class="send">
-                                      <a  class="px-btn theme"><span>Submit</span> <i class="arrow"></i></a>
+                                      <button type="Submit" class="btn btn-light theme"><span>Submit</span> <i class="arrow"></i></button>
                                   </div>
                               </div>
                             </div>

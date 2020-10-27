@@ -12,6 +12,7 @@
 				<th scope="col">No.</th>
 				<th scope="col">Title</th>
 				<th scope="col">Location</th>
+				<th scope="col">CreatedAt</th>
 				<th scope="col">Experience</th>
 				<th scope="col">Description</th>
 				<th scope="col">Applied By</th>
@@ -28,6 +29,7 @@
 									<td scope="row"><%=i %></td>
 									<td><%= job.name %></td>
 									<td><%= job.location %></td>
+									<td><%= moment(job.createdAt).format('YYYY-MM-DD')%></td>
 									<td><%= job.experience %></td>
 									<td><%= job.description %></td>
 									<% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>

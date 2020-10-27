@@ -1,4 +1,4 @@
-var express = require("express");
+ var express = require("express");
 var router = express.Router();
 
 var Company = require("../models/company");
@@ -7,6 +7,7 @@ var Job = require("../models/job");
 var User = require("../models/user");
 var Posts = require("../models/posts");
 var Quiz1 = require("../models/quiz1");
+var FeedBack =require("../models/feedback");
 
 
 var middleware = require("../middleware/index.js");
@@ -36,7 +37,7 @@ router.post("/login/company/createjob", middleware.checkCompanyOwnership, functi
   Job.create(req.body.job, function (err, job) {
     if (err) {
       console.log(err);
-      req.flash("error", "err.message")
+      req.flash("error", err.message);
       return res.redirect("back");
     }
     else {
@@ -71,8 +72,8 @@ router.post("/login/company/createjob", middleware.checkCompanyOwnership, functi
             secure: false,
             //service: 'Gmail',
             auth: {
-              user: 'jobportal2525@gmail.com',
-              pass: 'shaifali2727'
+              user :process.env.PORTAL_MAIL_ID,
+              pass :process.env.PORTAL_MAIL_PASSWORD
             },
             tls: {
               rejectUnauthorized: false
@@ -80,7 +81,7 @@ router.post("/login/company/createjob", middleware.checkCompanyOwnership, functi
           });
 
           let mailOptions = {
-            from: '"WeHire" <jobportal2525@gmail.com>',
+            from: '"WeHire"',
             to: users,
             subject: 'New Job Opening !!',
             text: '',
@@ -89,7 +90,7 @@ router.post("/login/company/createjob", middleware.checkCompanyOwnership, functi
           transporter.sendMail(mailOptions, (error, info) => {
             if (err) {
               console.log(err);
-              req.flash("error", "err.message")
+              req.flash("error", err.message);
               return res.redirect("back");
             }
             console.log('Message sent: %s', info.messageId);
@@ -112,7 +113,7 @@ router.get("/seeker/:seeker_id/appliedJobs", middleware.checkSeekerOwnership, fu
     company.find({}).exec(function (err, allcompanies) {
       if (err) {
         console.log(err);
-        req.flash("error", "err.message")
+        req.flash("error", err.message);
         return res.redirect("back");
       }
       else {
@@ -129,7 +130,7 @@ router.delete("/company/jobdelete/:id", middleware.checkCompanyOwnership, functi
   Job.findById(req.params.id, function (err, job) {
     if (err) {
       console.log(err);
-      req.flash("error", "err.message")
+      req.flash("error", err.message);
       return res.redirect("back");
     }
     job.remove();
@@ -151,7 +152,7 @@ router.get("/company/:id/show/jobstats/:page", middleware.checkCompanyOwnership,
        Seeker.count().exec(function(err,count){
         if (err) {
           console.log(err);
-          req.flash("error", "err.message")
+          req.flash("error", err.message);
           return res.redirect("back");
         }
         else {
@@ -167,7 +168,7 @@ router.get("/seeker/:id/applyjob", middleware.checkSeekerOwnership, function (re
     company.find({}).exec(function (err, allcompanies) {
       if (err) {
         console.log(err);
-        req.flash("error", "err.message")
+        req.flash("error", err.message);
         return res.redirect("back");
       }
       else {
@@ -181,7 +182,7 @@ router.post("/seeker/:id/applyjob", middleware.checkSeekerOwnership, function (r
   Job.findById(req.params.id).populate('postedBy').populate("appliedBy.postedBy").exec(function (err, foundJob) {
     if (err) {
       console.log(err);
-      req.flash("error", "err.message")
+      req.flash("error", err.message);
       return res.redirect("back");
     } else {
       var find = false;
@@ -196,7 +197,7 @@ router.post("/seeker/:id/applyjob", middleware.checkSeekerOwnership, function (r
         Job.findOneAndUpdate({ _id: req.params.id }, { $push: { "appliedBy": { "isStatus": "Pending", "postedBy": req.user } } }, { new: true }, function (err, job) {
           if (err) {
             console.log(err);
-            req.flash("error", "err.message")
+            req.flash("error", err.message);
             return res.redirect("back");
           }
           else {
@@ -249,8 +250,8 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id", middleware
             secure: false,
             //service: 'Gmail',
             auth: {
-              user: 'jobportal2525@gmail.com',
-              pass: 'shaifali2727'
+              user :process.env.PORTAL_MAIL_ID,
+              pass :process.env.PORTAL_MAIL_PASSWORD
             },
             tls: {
               rejectUnauthorized: false
@@ -319,8 +320,8 @@ router.post("/job/:id/rejected/:appliedByarray_id/seeker/:seeker_id", middleware
             secure: false,
             //service: 'Gmail',
             auth: {
-              user: 'jobportal2525@gmail.com',
-              pass: 'shaifali2727'
+              user :process.env.PORTAL_MAIL_ID,
+              pass :process.env.PORTAL_MAIL_PASSWORD
             },
             tls: {
               rejectUnauthorized: false
@@ -328,7 +329,7 @@ router.post("/job/:id/rejected/:appliedByarray_id/seeker/:seeker_id", middleware
           });
 
           const mailOptions = {
-            from: '"JobPortal" <jobportal916@gmail.com>',
+            from: '"JobPortal" ',//<jobportal916@gmail.com>',
             to: foundUser.email,
             subject: 'Job Offer',
             text: '',
