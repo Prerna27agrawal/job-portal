@@ -283,8 +283,8 @@ router.post("/register",function(req,res){
                                     if(error)
                                     {
                                         console.log(error);
-                                        req.flash('error',"something went wrong on our end.please register again");
-                                        res.redirect('/login');
+                                        req.flash('error',"something went wrong on our end. Please register again");
+                                        res.redirect('/register');
                                     }
                                     else
                                     {
