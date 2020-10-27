@@ -31,7 +31,7 @@
                                     <td><%= job.location %></td>
 									<td><a href="/company/<%= job.postedBy.id %>/myprofile">
                                         <%= job.postedBy.username %></a></td>
-									<td><%= job.createdAt %></td>
+									<td><%= moment(job.createdAt).format('YYYY-MM-DD')%></td>
 									<td><%= job.experience %></td>
                                     <td><%= job.description %></td>
 								</tr>

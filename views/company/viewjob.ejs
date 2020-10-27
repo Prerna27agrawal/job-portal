@@ -32,7 +32,7 @@
 									<th scope="row"><%=i %></th>
 									<td><%= job.name %></td>
 									<td><%= job.location %></td>
-									<td><%= job.createdAt %></td>
+									<td><%= moment(job.createdAt).format('YYYY-MM-DD')%></td>
 									<td><%= job.experience %></td>
 									<td><%= job.description %></td>
 									<% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
