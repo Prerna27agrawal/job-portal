@@ -1,4 +1,15 @@
 <%- include("partials/header1")%>
+<style>
+    .field-icon{
+        float: right;
+        margin-left: -25px;
+         margin-top: -25px;
+        margin-right: 10px;
+        position: relative;
+        cursor: pointer;
+        z-index: 2;
+    }
+</style>
 <div class="row mt-3">
     <div class="col-md-6 m-auto">
         <h1 class="display-4 mb-2" style="text-align: center;">Sign Up</h1>
@@ -14,13 +25,13 @@
             </div>
             <div class="form-group">
                 <label for="password" style="color:white;">Enter Password: </label>
-                <input class="form-control" type="password" id="password" placeholder="password" name="password"
-                    required>
-            </div>
+                <input class="form-control" type="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password should contain atleast one number,one uppercase and lowercase letter, and should be atleast 8 characters long" placeholder="password" name="password" required>
+                <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
             <div class="form-group">
                 <label for="confirm_password" style="color:white;">Confirm password: </label>
                 <input class="form-control" type="password" placeholder="confirm password" id="confirm_password"
                     required>
+                    <span toggle="#confirm_password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
             </div>
             
             <div class="form-group">
@@ -29,7 +40,7 @@
             </div>
             <div class="form-group" style="color:white;">
                 <p>Please select your role:</p>
-                <input type="radio" id="company" name="role" value="company">
+                <input type="radio" id="company" name="role" value="company" required>
                 <label for="company" style="color:white;">Company</label><br>
                 <input type="radio" id="seeker" name="role" value="seeker">
                 <label for="seeker" style="color:white;">Seeker</label><br>
@@ -62,5 +73,16 @@
     }
     password.onchange = validatePassword;
     confirm_password.onkeyup = validatePassword;
+
+    $(".toggle-password").click(function() {
+console.log("toggle");
+$(this).toggleClass("fa-eye fa-eye-slash");
+var input = $($(this).attr("toggle"));
+if (input.attr("type") == "password") {
+  input.attr("type", "text");
+} else {
+  input.attr("type", "password");
+}
+});
 </script>
 <%- include("partials/footer1") %>
