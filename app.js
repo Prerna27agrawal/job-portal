@@ -36,6 +36,11 @@ var Postsroutes = require("./routes/posts");
 var Indexroutes = require("./routes/index");
 var quizroutes = require("./routes/quiz");
 var adminroutes = require("./routes/admin");
+var job_part2 = require("./routes/job_part2");
+var pass_reset = require("./routes/pass_reset");
+var profile = require("./routes/profile");
+var project = require("./routes/project");
+
 
 
 
@@ -106,7 +111,10 @@ app.use(Jobroutes);
 app.use(Postsroutes);
 app.use(quizroutes);
 app.use(adminroutes);
-
+app.use(job_part2);
+app.use(pass_reset);
+app.use(profile);
+app.use(project);
 var port = process.env.PORT || 3000;
 app.listen(port, function () {
   console.log("Server has started");
