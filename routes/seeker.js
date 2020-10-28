@@ -115,6 +115,7 @@ Seeker.create(newSeeker,function(err, newSeekercreate) {
       req.flash("error",err.message);
       res.redirect("back");
     }
+      
       console.log(newSeekercreate);
       req.flash("success","You are successfully registered .");
       res.redirect("/seeker/index");
@@ -147,13 +148,12 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
                 {
                   console.log("no such job");
                   req.flash("error","No Job with this title found");
-                  res.redirect("back");
-                }else{
+                }
                   //console.log("these jobs");
                  // req.flash("success","Following Jobs match with your search");
                  res.render("seeker/index",{jobs:alljobs,companies:allcompany});
                 }
-              }
+              
             });
           }
           else if(req.query.search_location){
@@ -172,12 +172,11 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
                {
                  console.log("no such job");
                  req.flash("error","No Job at this location found");
-                 res.redirect("back");
-               }else{
+               }
                  //console.log("these jobs");
                 // req.flash("success","Following Jobs match with your search");
                 res.render("seeker/index",{jobs:alljobs,companies:allcompany});
-               }
+               
              }
             });
           }
@@ -204,12 +203,11 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
                  {
                    console.log("no such job");
                    req.flash("error","No Job with this Keyword found");
-                   res.redirect("back");
-                 }else{
+                 }
                    //console.log("these jobs");
                   // req.flash("success","Following Jobs match with your search");
                   res.render("seeker/index",{jobs:alljobs,companies:allcompany});
-                 }
+                 
                }
               });
           }
@@ -229,12 +227,11 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
              {
                console.log("no such job");
                req.flash("error","No Job found");
-               res.redirect("back");
-             }else{
+             }
                //console.log("these jobs");
               // req.flash("success","Following Jobs match with your search");
               res.render("seeker/index",{jobs:alljobs,companies:allcompany});
-             }
+             
            }
       });
     }
