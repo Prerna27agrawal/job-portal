@@ -115,6 +115,7 @@ Seeker.create(newSeeker,function(err, newSeekercreate) {
       req.flash("error",err.message);
       res.redirect("back");
     }
+      
       console.log(newSeekercreate);
       req.flash("success","You are successfully registered .");
       res.redirect("/seeker/index");
@@ -147,13 +148,12 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
                 {
                   console.log("no such job");
                   req.flash("error","No Job with this title found");
-                  res.redirect("back");
-                }else{
+                }
                   //console.log("these jobs");
                  // req.flash("success","Following Jobs match with your search");
                  res.render("seeker/index",{jobs:alljobs,companies:allcompany});
                 }
-              }
+              
             });
           }
           else if(req.query.search_location){
@@ -172,12 +172,11 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
                {
                  console.log("no such job");
                  req.flash("error","No Job at this location found");
-                 res.redirect("back");
-               }else{
+               }
                  //console.log("these jobs");
                 // req.flash("success","Following Jobs match with your search");
                 res.render("seeker/index",{jobs:alljobs,companies:allcompany});
-               }
+               
              }
             });
           }
@@ -204,12 +203,11 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
                  {
                    console.log("no such job");
                    req.flash("error","No Job with this Keyword found");
-                   res.redirect("back");
-                 }else{
+                 }
                    //console.log("these jobs");
                   // req.flash("success","Following Jobs match with your search");
                   res.render("seeker/index",{jobs:alljobs,companies:allcompany});
-                 }
+                 
                }
               });
           }
@@ -229,125 +227,98 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
              {
                console.log("no such job");
                req.flash("error","No Job found");
-               res.redirect("back");
-             }else{
+             }
                //console.log("these jobs");
               // req.flash("success","Following Jobs match with your search");
               res.render("seeker/index",{jobs:alljobs,companies:allcompany});
-             }
+             
            }
       });
     }
   }
   });
  });
-  
-router.get("/seeker/:id/myprofile",function(req,res){
-    User.findById(req.params.id,function(err,foundUser){
-      if (err) {
-        console.log(err);
-        req.flash("error",err.message);
-        return res.redirect("back");
-    }
-      else{
-        Seeker.findOne().where('seekerBy.id').equals(foundUser._id).exec(function(err,foundSeeker){
-          if (err) {
-            console.log(err);
-            req.flash("error",err.message);
-            return res.redirect("back");
-        }
-          else{
-        res.render("seeker/profile",{foundSeeker:foundSeeker,foundUser:foundUser});      
-          }
-        });
-      }
-    });
-  });
 
+   
+router.get("/seeker/:id/myprofile",function(req,res){
+  User.findById(req.params.id,function(err,foundUser){
+    if (err) {
+      console.log(err);
+      req.flash("error",err.message);
+      return res.redirect("back");
+  }
+    else{
+      Seeker.findOne().where('seekerBy.id').equals(foundUser._id).exec(function(err,foundSeeker){
+        if (err) {
+          console.log(err);
+          req.flash("error",err.message);
+          return res.redirect("back");
+      }
+        else{
+      res.render("seeker/profile",{foundSeeker:foundSeeker,foundUser:foundUser});      
+        }
+      });
+    }
+  });
+});
 
 
 router.get("/seeker/:id/editprofile",middleware.checkSeekerOwnership,function(req,res){
-  Seeker.findById(req.params.id,function(err,foundSeeker){
-    res.render("seeker/editprofile",{foundSeeker : foundSeeker});
-  });
+Seeker.findById(req.params.id,function(err,foundSeeker){
+  res.render("seeker/editprofile",{foundSeeker : foundSeeker});
 });
- 
+});
+
 
 router.put("/seeker/updateprofile/:id",middleware.checkSeekerOwnership,upload,function(req,res){
- 
-  Seeker.findById(req.params.id,function(err,foundSeeker){
-    
-    if(err)
-    {
-      req.flash("error",err.message);
-      res.redirect("back");
-    }
-    else{
-      foundSeeker.firstname=req.body.firstname,
-      foundSeeker.lastname=req.body.lastname,
-      foundSeeker.email=req.body.email,
-      foundSeeker.gender=req.body.gender,
-      foundSeeker.country=req.body.ownCountry,
-      foundSeeker.state=req.body.ownState,
-      foundSeeker.city=req.body.ownCity,
-      foundSeeker.phone=req.body.phone,
-      foundSeeker.status=req.body.status,
-      foundSeeker.gradyear=req.body.gradyear,
-      foundSeeker.education=req.body.education,
-      foundSeeker.degree=req.body.degree,
-      foundSeeker.studyYear=req.body.studyyear,
-      foundSeeker.stream=req.body.stream,
-      foundSeeker.studyYear=req.body.year,
-      foundSeeker.cgpa=req.body.cgpa,
-      foundSeeker.linkedinId=req.body.linkedinId,
-      foundSeeker.githubId=req.body.githubId,
-      foundSeeker.website=req.body.website,
-      foundSeeker.skills=req.body.skills,
-      foundSeeker.resume=req.files.resume[0].filename
-      if(req.files.image)
-          {
-            console.log(" image given");
-            newSeeker.image = req.files.image[0].filename;
-          }
-          if(!req.files.image)
-          {
-            console.log("no image given");
-          }
-          req.user.isFill=true;
-          req.user.save();
-          foundSeeker.save();
-          req.flash("success","Succesfully Updated");
-          res.redirect("/seeker/"+foundSeeker.seekerBy.id+"/myprofile");
-    }
-  });
+
+Seeker.findById(req.params.id,function(err,foundSeeker){
+  
+  if(err)
+  {
+    req.flash("error",err.message);
+    res.redirect("back");
+  }
+  else{
+    foundSeeker.firstname=req.body.firstname,
+    foundSeeker.lastname=req.body.lastname,
+    foundSeeker.email=req.body.email,
+    foundSeeker.gender=req.body.gender,
+    foundSeeker.country=req.body.ownCountry,
+    foundSeeker.state=req.body.ownState,
+    foundSeeker.city=req.body.ownCity,
+    foundSeeker.phone=req.body.phone,
+    foundSeeker.status=req.body.status,
+    foundSeeker.gradyear=req.body.gradyear,
+    foundSeeker.education=req.body.education,
+    foundSeeker.degree=req.body.degree,
+    foundSeeker.studyYear=req.body.studyyear,
+    foundSeeker.stream=req.body.stream,
+    foundSeeker.studyYear=req.body.year,
+    foundSeeker.cgpa=req.body.cgpa,
+    foundSeeker.linkedinId=req.body.linkedinId,
+    foundSeeker.githubId=req.body.githubId,
+    foundSeeker.website=req.body.website,
+    foundSeeker.skills=req.body.skills,
+    foundSeeker.resume=req.files.resume[0].filename
+    if(req.files.image)
+        {
+          console.log(" image given");
+          newSeeker.image = req.files.image[0].filename;
+        }
+        if(!req.files.image)
+        {
+          console.log("no image given");
+        }
+        req.user.isFill=true;
+        req.user.save();
+        foundSeeker.save();
+        req.flash("success","Succesfully Updated");
+        res.redirect("/seeker/"+foundSeeker.seekerBy.id+"/myprofile");
+  }
+});
 });
 
-  //POST route for adding new projects
-  router.post("/seeker/:id/addproject",function(req,res){
-      var newproject={
-        title:req.body.project_title,
-        url:req.body.project_url,
-        starttime:`${req.body.project_start_month} ${req.body.project_start_year}`,
-        endtime:`${req.body.project_end_month} ${req.body.project_end_year}`,
-        description:req.body.project_description,
-      }
-      if(newproject.endtime=="Current Current"){
-        newproject.endtime="Current";
-      }
-
-      Seeker.findOne().where('seekerBy.id').equals(req.user._id).exec(function(err,seeker){
-        if(err){
-          console.log(err);
-          req.flash("error",err.message);
-        }else{
-          seeker.projects.push(newproject);
-          seeker.save();
-          // console.log(seeker);
-          res.redirect("/seeker/"+req.user._id+"/myprofile");
-        }
-      })
-  })  
- 
   
 router.get("/seeker/:id/subscribe/:job_id",middleware.checkSeekerOwnership,function(req,res){
   Company.findOneAndUpdate({_id:req.params.id},{$push:{"subscribedBy":req.user._id} },{new:true},function(err,company){
@@ -376,13 +347,6 @@ Company.findOneAndUpdate({_id:req.params.id},{$pull:{"subscribedBy":req.user._id
 }
   else
   {
-    // company.subscribedBy.forEach(function(thisuser){
-    //   if(String(thisuser.username) == String(req.user.username))
-    //   {
-    //     thisuser.remove();
-    //     company.save();
-    //   }  
-    // });
     req.flash("success","You unsubscribed this company");
     res.redirect("/seeker/"+req.params.job_id+"/applyjob");
   }
