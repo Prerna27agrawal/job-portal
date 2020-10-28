@@ -1,89 +1,129 @@
 <%- include("../partials/header") %>
-<div class="container">       
-			<h1 >Feedbacks</h1>
-<% feedbacks.forEach(function(feedback){ %>
-    <div>
-        <p> <%= feedback.FirstName %></p>
-        <p> <%= feedback.LastName %></p>
-        <p> <%= feedback.email %></p>
-        <p><%= feedback.message %></p>
-        <p ><%= feedback.createdAt %></p>
-        
-        <br>
-        <div>
-        <% if((currentUser && currentUser.isAdmin)){ %>
-            <form onsubmit="return confirm('Do you really want to Post the following On AboutUs?');" action="/feedback/<%= feedback._id %>/aboutus" method="Post">
-                <button  id="demo" class="btn btn-success" name="post" value="" <% if(feedback.isPosted){ %> disabled <%}%> >
-                    Post on Main
-                </button>
-            </form>
-            <% } %>
-        </div>
-
-        <div>
-        <% if((currentUser && currentUser.isAdmin)){ %>
-            <form class="delete-form" action="/feedback/delete/<%= feedback._id %>?_method=DELETE"
-                method="POST">
-                <input class="btn btn-xs btn-danger" type="Submit" value="Delete">
-            </form> 
-        <% } %>
-        </div>
-        <div>
-        <% if((currentUser && currentUser.isAdmin)){ %>
-            <button  class="btn btn-info active pull-right">Send Mail</button>
-         <% } %>
-        </div>
-        <form onsubmit="return confirm('Do you really want to send the mail?');" action="/feedback/sendmail" method="POST">
-            <div class="form-group">
-                <label for="subject">Subject: </label>
-                <input id="subject" name="subject" type="text"  style="width: 100%;" placeholder="Enter Subject Of mail" required />
+<style>
+    body{
+        background-color: #eaedf0;
+    }
+    .showform{
+        display: none;
+    }
+    #sendmailform {
+        margin: 5px 10px 5px 0;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+    }
+    #sendmailform input{
+        border: 1px solid #ddd;
+    }
+    #sendmailform textarea{
+        border: 1px solid #ddd;
+    }
+</style>
+<div class="container ">
+    <div class="row">
+        <div class="panel panel-default widget">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-comment"></span>
+                <h3 class="panel-title">
+                    Recent Feedbacks</h3>
             </div>
-            <div class="form-group">
-                <label for="body">Mail Content:</label>
-                <textarea id="project_title" name="content" type="text"  style="width: 100%;"  placeholder="Enter Body of mail" required ></textarea>
-            </div>
-            <div>
-            <input style="display: none;" name="email" value="<%= feedback.email %>">
-          </div>
-            <button class="btn btn-info active">Send</button>
-        </form>
-    </div>
-
-<% });%>
-           
-
-<!-- Pagination added -->
-<div class="row text-center" >
-<% if(pages >0){ %> 
-	<ul class="pagination text-center" >
-		<% if (current == 1) { %>
-			<li class="disabled"><a>First</a></li>
-		<% } else { %>
-			<li><a href="/admin/feedback/1">First</a></li>
-		<% } %>
-		<% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
-                    <% if (i !== 1) { %>
-                        <li class="disabled"><a>...</a></li>
-                    <% } %>
-                    <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
-                        <% if (i == current) { %>
-                            <li class="active"><a><%= i %></a></li>
-                        <% } else { %>
-                            <li><a href="/admin/feedback/<%= i %>"><%= i %></a></li>
-                        <% } %>
-                        <% if (i == Number(current) + 4 && i < pages) { %>
-                            <li class="disabled"><a>...</a></li>
-                        <% } %>
-                    <% } %>
-                    <% if (current == pages) { %>
-                        <li class="disabled"><a>Last</a></li>
-                    <% } else { %>
-                        <li><a href="/admin/feedback/<%= pages %>">Last</a></li>
-                    <% } %>
-				</ul>
-                </div>
-		<% }; %>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <% feedbacks.forEach(function(feedback){ %>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-10 col-md-10">
+                                <div>
+                                    <div class="mic-info">
+                                        By: <a href="#"><%= feedback.FirstName %> <%= feedback.FirstName %></a> <%= moment(feedback.createdAt).fromNow() %>
+                                    </div>
+                                </div>
+                                <div class="comment-text">
+                                    <%= feedback.message %>
+                                </div>
+                                <div class="row">
+                                  <div >
+                                        <% if((currentUser && currentUser.isAdmin)){ %>
+                                            <form onsubmit="return confirm('Do you really want to Post the following On AboutUs?');" action="/feedback/<%= feedback._id %>/aboutus" method="Post">
+                                                <button  id="demo"  title="Approve" class="btn btn-success btn-xs active pull-right" style="margin-right: 2px;" name="post" value="" <% if(feedback.isPosted){ %> disabled <%}%> >
+                                                    <span class="glyphicon glyphicon-ok"></span>
+                                                </button>
+                                            </form>
+                                            <% } %>
+                                </div>
+                                   <div>
+                                    <% if((currentUser && currentUser.isAdmin)){ %>
+                                        <button type="button" class="btn btn-primary btn-xs pull-right " style="margin-right: 2px;" id="sendmailbtn" title="Send Email">
+                                            <span class="glyphicon glyphicon-send"></span>
+                                        </button>
+                                        <!-- <button  class="btn btn-info active pull-right">Send Mail</button> -->
+                                     <% } %>
+                                    </div>
+                                    <form class="showform" onsubmit="return confirm('Do you really want to send the mail?');" id="sendmailform" action="/feedback/sendmail" method="POST">
+                                        <div class="form-group">
+                                            <label for="subject">Subject: </label>
+                                            <input id="subject" name="subject" type="text"  style="width: 100%;" placeholder="Enter Subject Of mail" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="body">Mail Content:</label>
+                                            <textarea id="project_title" name="content" type="text"  style="width: 100%;"  placeholder="Enter Body of mail" required ></textarea>
+                                        </div>
+                                        <div>
+                                        <input  name="email" value="<%= feedback.email %>">
+                                      </div>
+                                        <button style="margin-top: 10px;" class="btn btn-info active btn-xs">Send</button>
+                                    </form>
+                                    <div >
+                                        <% if((currentUser && currentUser.isAdmin)){ %>
+                                            <form class="delete-form" action="/feedback/delete/<%= feedback._id %>?_method=DELETE"
+                                                method="POST">
+                                                <button class="btn btn-danger btn-xs active pull-right" style="margin-right: 2px;" type="Submit" title="Delete Comment" value="Delete"><span class="glyphicon glyphicon-trash" ></span></button>
+                                            </form> 
+                                        <% } %>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>                   
+                    </li>
+                    <% }) %>
+                </ul>
                 
+                    <% if(pages >0){ %> 
+                        <ul class="pagination text-center" >
+                            <% if (current == 1) { %>
+                                <li class="disabled"><a>First</a></li>
+                            <% } else { %>
+                                <li><a href="/admin/feedback/1">First</a></li>
+                            <% } %>
+                            <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                                        <% if (i !== 1) { %>
+                                            <li class="disabled"><a>...</a></li>
+                                        <% } %>
+                                        <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                                            <% if (i == current) { %>
+                                                <li class="active"><a><%= i %></a></li>
+                                            <% } else { %>
+                                                <li><a href="/admin/feedback/<%= i %>"><%= i %></a></li>
+                                            <% } %>
+                                            <% if (i == Number(current) + 4 && i < pages) { %>
+                                                <li class="disabled"><a>...</a></li>
+                                            <% } %>
+                                        <% } %>
+                                        <% if (current == pages) { %>
+                                            <li class="disabled"><a>Last</a></li>
+                                        <% } else { %>
+                                            <li><a href="/admin/feedback/<%= pages %>">Last</a></li>
+                                        <% } %>
+                                    </ul>
+                                    </div>
+                            <% }; %>
+            </div>
+        </div>
+    </div>
 </div>
-		
+<script>
+    document.querySelector('#sendmailbtn').addEventListener('click',()=>{
+        document.querySelector('#sendmailform').classList.toggle('showform');
+    })
+</script>
 <%- include("../partials/footer") %> 

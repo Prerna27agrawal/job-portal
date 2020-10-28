@@ -14,28 +14,29 @@
     <script type="text/javascript"
         src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&key=AIzaSyCXFJ-lc7cHHcEklG2_oIhTnPKTWsLwHEU"></script>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>
-     $(document).ready(function() {
-    // show the alert
-    setTimeout(function() {
-        $(".alert").alert('close');
-    }, 2000);
-    });
+        $(document).ready(function () {
+            // show the alert
+            setTimeout(function () {
+                $(".alert").alert('close');
+            }, 2000);
+        });
       // show the alert
-     
+
     </script>
-    
-    </head>
-    <style>
-        body{
-            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-            font-size:14px;
-        }
-    </style>
+
+</head>
+<style>
+    body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+    }
+</style>
+
 <body>
     <nav style="background-color: #3a4066;" class="navbar navbar-expand-lg navbar-dark py-1 ">
         <div class="container">
@@ -89,30 +90,33 @@
                             href="/contactus">Contact Us</a></li>
                     <li class="nav-item"><a class="nav-link " style="color: rgb(215, 224, 163);" href="/aboutus">About
                             Us</a></li> -->
-                            <li>
-                                <ul class="dropdown show">
-                                    <a style="margin-top: 5px; color: white;" class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                      <!-- <i class="fa fa-caret-down"></i> -->
-                                    </a>
-                                    <ul class="dropdown-menu" style="font-size:14px" aria-labelledby="dropdownMenuLink">
-                                        <% if(currentUser && currentUser.isCompany){ %>
-                                            <!-- <li ><a class="dropdown-item" href="/company/<%= currentUser._id %>/editprofile">Edit Profile</a></li>   -->
-                                            <li ><a class="dropdown-item" href="/company/<%= currentUser._id %>/viewjob/:page">All Previous Jobs</a></li>
-                                            <li ><a class="dropdown-item" href="/company/createjob">Create a new Job</a></li> 
-                                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                                        <% } else if(currentUser) {%>
-                                            <!-- <li ><a class="dropdown-item" href="/contactus">Edit Profile</a></li>   -->
-                                            <li ><a class="dropdown-item" href="/seeker/:seeker_id/appliedJobs">My Applied Jobs</a></li>   
-                                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                                            <% } else{ %>
-                                                <li ><a class="dropdown-item"  href="/login">Sign In</a></li>
-                                      <li><a class="dropdown-item" href="/register">Register as a New User</a></li>
-                                                <% } %>
-                                      <li ><a class="dropdown-item"  href="/contactus">Contact Us</a></li>
-                                      <li><a class="dropdown-item" href="/aboutus">About Us</a></li>
-                                    </ul>
-                                </ul>
-                            </li>
+                    <li>
+                        <ul class="dropdown show">
+                            <a style="margin-top: 5px; color: white;" class="btn dropdown-toggle" href="#" role="button"
+                                id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <!-- <i class="fa fa-caret-down"></i> -->
+                            </a>
+                            <ul class="dropdown-menu" style="font-size:14px" aria-labelledby="dropdownMenuLink">
+                                <% if(currentUser && currentUser.isCompany){ %>
+                                <!-- <li ><a class="dropdown-item" href="/company/<%= currentUser._id %>/editprofile">Edit Profile</a></li>   -->
+                                <li><a class="dropdown-item" href="/company/<%= currentUser._id %>/viewjob/:page">All
+                                        Previous Jobs</a></li>
+                                <li><a class="dropdown-item" href="/company/createjob">Create a new Job</a></li>
+                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                <% } else if(currentUser) {%>
+                                <!-- <li ><a class="dropdown-item" href="/contactus">Edit Profile</a></li>   -->
+                                <li><a class="dropdown-item" href="/seeker/:seeker_id/appliedJobs">My Applied Jobs</a>
+                                </li>
+                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                <% } else{ %>
+                                <li><a class="dropdown-item" href="/login">Sign In</a></li>
+                                <li><a class="dropdown-item" href="/register">Register as a New User</a></li>
+                                <% } %>
+                                <li><a class="dropdown-item" href="/contactus">Contact Us</a></li>
+                                <li><a class="dropdown-item" href="/aboutus">About Us</a></li>
+                            </ul>
+                        </ul>
+                    </li>
 
                 </ul>
             </div>
@@ -129,10 +133,10 @@
         </div>
         <% }%>
         <% if(success && success.length >0){%>
-            <div class="alert alert-success alert-dismissible fade in show " role="alert" id="success-alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+        <div class="alert alert-success alert-dismissible fade in show " role="alert" id="success-alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
             <%= success %>
         </div>
         <%}%>

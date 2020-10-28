@@ -427,14 +427,14 @@
                             <!-- /.sp-content -->
                             <% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
                             <div class="btn-toolbar" style="padding-left: 15px">
-                                <a class="btn btn-xs btn-info  active" style="padding-right: 10px;"
-                                    href="/company/<%= company._id%>/posts/<%= post._id %>/edit">
-                                    Edit</a>
                                 <form class="delete-form"
                                     action="/company/<%= company._id%>/postsdelete/<%= post._id %>?_method=DELETE"
                                     method="POST">
-                                    <input class="btn btn-xs btn-warning active" type="Submit" value="Delete">
+                                    <button class="btn btn-xs btn-danger pull-right" type="Submit" value="Delete"><span class="glyphicon glyphicon-trash"></span></button>
                                 </form>
+                                <a class="btn btn-xs btn-info  active active pull-right" style="margin-right: 3px;"
+                                    href="/company/<%= company._id%>/posts/<%= post._id %>/edit">
+                                    <span class="glyphicon glyphicon-edit"></span></a>
                             </div>
                             <% } %>
                         </div>
