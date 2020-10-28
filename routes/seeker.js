@@ -6,6 +6,7 @@ var  Job = require("../models/job");
 var User = require("../models/user");
 var Posts =require("../models/posts");
 var Quiz1 = require("../models/quiz1");
+var FeedBack =require("../models/feedback");
 
 var middleware = require("../middleware/index.js");
 const { runInContext } = require("vm");
@@ -53,8 +54,6 @@ var upload = multer({
        maxCount:1
      }
    ]);
-var cloudinary = require('cloudinary');
-const { route } = require("./company");
 //////////
 
 
@@ -113,7 +112,7 @@ router.get("/register/seeker", middleware.checkSeekerOwnership,function (req, re
 Seeker.create(newSeeker,function(err, newSeekercreate) {
     if (err) {
       console.log(err);
-      req.flash("error","err.message");
+      req.flash("error",err.message);
       res.redirect("back");
     }
       console.log(newSeekercreate);
@@ -128,7 +127,7 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
   Company.find({}).exec(function(err,allcompany){
       if (err) {
         console.log(err);
-        req.flash("error","err.message")
+        req.flash("error",err.message);
         return res.redirect("back");
     }else{
           if(req.query.search_name)
@@ -137,7 +136,7 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
             Job.find({ "name": regex }).populate('postedBy').populate('appliedBy.postedBy').exec(function(err,alljobs){
               if (err) {
                 console.log(err);
-                req.flash("error","err.message")
+                req.flash("error",err.message);
                 return res.redirect("back");
             }
               else{
@@ -162,7 +161,7 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
             Job.find({ "location": regex }).populate('postedBy').populate('appliedBy.postedBy').exec(function(err,alljobs){
               if (err) {
                 console.log(err);
-                req.flash("error","err.message")
+                req.flash("error",err.message);
                 return res.redirect("back");
             }
             else{
@@ -194,7 +193,7 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
               }).populate('postedBy').populate('appliedBy.postedBy').exec(function(err,alljobs){
                 if (err) {
                   console.log(err);
-                  req.flash("error","err.message")
+                  req.flash("error",err.message);
                   return res.redirect("back");
               }
               else{
@@ -219,7 +218,7 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
         Job.find({}).populate('postedBy').populate('appliedBy.postedBy').exec(function(err,alljobs){
           if (err) {
             console.log(err);
-            req.flash("error","err.message")
+            req.flash("error",err.message);
             return res.redirect("back");
           }
           else{
@@ -247,14 +246,14 @@ router.get("/seeker/:id/myprofile",function(req,res){
     User.findById(req.params.id,function(err,foundUser){
       if (err) {
         console.log(err);
-        req.flash("error","err.message")
+        req.flash("error",err.message);
         return res.redirect("back");
     }
       else{
         Seeker.findOne().where('seekerBy.id').equals(foundUser._id).exec(function(err,foundSeeker){
           if (err) {
             console.log(err);
-            req.flash("error","err.message")
+            req.flash("error",err.message);
             return res.redirect("back");
         }
           else{
@@ -339,7 +338,7 @@ router.put("/seeker/updateprofile/:id",middleware.checkSeekerOwnership,upload,fu
       Seeker.findOne().where('seekerBy.id').equals(req.user._id).exec(function(err,seeker){
         if(err){
           console.log(err);
-          req.flash("error","err.message");
+          req.flash("error",err.message);
         }else{
           seeker.projects.push(newproject);
           seeker.save();
@@ -354,7 +353,7 @@ router.get("/seeker/:id/subscribe/:job_id",middleware.checkSeekerOwnership,funct
   Company.findOneAndUpdate({_id:req.params.id},{$push:{"subscribedBy":req.user._id} },{new:true},function(err,company){
     if (err) {
       console.log(err);
-      req.flash("error","err.message")
+      req.flash("error",err.message);
       return res.redirect("back");
   }
     else
@@ -372,7 +371,7 @@ router.get("/seeker/:id/unsubscribe/:job_id",middleware.checkSeekerOwnership,fun
 Company.findOneAndUpdate({_id:req.params.id},{$pull:{"subscribedBy":req.user._id}},{multi:true},function(err,company){
   if (err) {
     console.log(err);
-    req.flash("error","err.message")
+    req.flash("error",err.message);
     return res.redirect("back");
 }
   else

@@ -2,10 +2,7 @@ var express = require("express");
 var router = express.Router();
 var async = require("async");
 var crypto = require("crypto");
-
 const jwt = require('jsonwebtoken');
-const JWT_KEY = "jwtactive987";
-const JWT_RESET_KEY = "jwtreset987";
 const bcryptjs = require('bcryptjs');
 
 var Company = require("../models/company");
@@ -40,7 +37,7 @@ var imageFilter = function (req, file, cb) {
 var upload = multer({ storage: storage, fileFilter: imageFilter})
 var cloudinary = require('cloudinary');
 cloudinary.config({ 
-cloud_name: 'dhr7wlz2k', 
+cloud_name: process.env.CLOUD_NAME, 
 api_key: process.env.CLOUDINARY_API_KEY,
 api_secret: process.env.CLOUDINARY_API_SECRET
 });
@@ -79,7 +76,7 @@ router.post("/register/company",middleware.checkCompanyOwnership,upload.single('
       Company.create(newComp,function(err, newcompanycreate) {
         if (err) {
             console.log(err);
-            req.flash("error","err.message")
+            req.flash("error",err.message);
             return res.redirect("back");
         }
           req.flash("success","Company Registered Successfully");
@@ -213,14 +210,14 @@ router.get("/company/:id/viewjob/:page",middleware.checkCompanyOwnership,functio
   User.findById(req.params.id,function(err,foundUser){
     if (err) {
       console.log(err);
-      req.flash("error","err.message")
+      req.flash("error",err.message);
       return res.redirect("back");
   }
     Job.find().where('postedBy.id').equals(foundUser._id).skip((perPage * page)-perPage).limit(perPage).exec(function(err,jobs){
       Job.count().exec(function(err,count){
       if (err) {
         console.log(err);
-        req.flash("error","err.message")
+        req.flash("error",err.message);
         return res.redirect("back");
     }
       else{
@@ -228,7 +225,7 @@ router.get("/company/:id/viewjob/:page",middleware.checkCompanyOwnership,functio
              Company.find().where('createdBy.id').equals(foundUser._id).exec(function(err,foundCompany){
               if (err) {
                 console.log(err);
-                req.flash("error","err.message")
+                req.flash("error",err.message);
                 return res.redirect("back");
             }
                  else

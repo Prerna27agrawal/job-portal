@@ -25,6 +25,9 @@ var Job = require("./models/job");
 var User = require("./models/user");
 var Posts =require("./models/posts");
 var Quiz1 = require("./models/quiz1");
+var FeedBack =require("./models/feedback");
+
+var middleware = require("./middleware/index.js");
 
 var Companyroutes = require("./routes/company");
 var Seekerroutes = require("./routes/seeker");
@@ -32,9 +35,11 @@ var Jobroutes = require("./routes/job");
 var Postsroutes = require("./routes/posts");
 var Indexroutes = require("./routes/index");
 var quizroutes = require("./routes/quiz");
+var adminroutes = require("./routes/admin");
 
 
-mongoose.connect("mongodb://localhost:27017/jobportalnew", { useNewUrlParser: true ,useUnifiedTopology: true});
+
+mongoose.connect("mongodb://localhost:27017/"+process.env.DATABASE_NAME, { useNewUrlParser: true ,useUnifiedTopology: true});
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
@@ -100,6 +105,7 @@ app.use(Seekerroutes);
 app.use(Jobroutes);
 app.use(Postsroutes);
 app.use(quizroutes);
+app.use(adminroutes);
 
 var port = process.env.PORT || 3000;
 app.listen(port, function () {

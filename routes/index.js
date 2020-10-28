@@ -6,8 +6,6 @@ var crypto = require("crypto");
 var nodemailer = require("nodemailer");
 
 const jwt = require('jsonwebtoken');
-const JWT_KEY = "jwtactive987";
-const JWT_RESET_KEY = "jwtreset987";
 const bcryptjs = require('bcryptjs');
 
 var Company = require("../models/company");
@@ -16,6 +14,7 @@ var  Job = require("../models/job");
 var User = require("../models/user");
 var Posts =require("../models/posts");
 var Quiz1 = require("../models/quiz1");
+var FeedBack =require("../models/feedback");
 
 
 var middleware = require("../middleware/index.js");
@@ -30,9 +29,42 @@ router.get("/", function (req, res) {
 router.get("/contactus",function(req,res){
    res.render("contactus"); 
 });
+router.post("/contactus",middleware.isLoggedIn,function(req,res){
+    var newfeedback = new FeedBack({
+        FirstName:req.body.FirstName,
+        LastName:req.body.LastName,
+        email:req.body.email,
+        message:req.body.message
+    });
+    newfeedback.postedBy ={
+        id: req.user._id
+    }
+    FeedBack.create(newfeedback,function(err,newfeedback){
+        if (err) {
+            console.log(err);
+            req.flash("error",err.message);
+            res.redirect("back");
+          }
+          else{
+              console.log(newfeedback);
+              req.flash("success","Thanks! For Your time.");
+              res.redirect("/aboutus");
+          }
+    });
+    
+});
 
 router.get("/aboutus",function(req,res){
-    res.render("aboutus");
+     FeedBack.find({isPosted:true}).exec(function(err,feedbacks){
+        if (err) {
+            console.log(err);
+            req.flash("error", err.message);
+            return res.redirect("back");
+          }
+          else{
+            res.render("aboutus",{feedbacks:feedbacks});
+          }
+     });
 })
 
 router.get('/forgot', function(req, res) {
@@ -55,7 +87,7 @@ router.post('/forgot',function(req,res){
                 res.redirect("back");
             }
             else{
-                const token = jwt.sign({ _id: user._id }, JWT_RESET_KEY, { expiresIn: '60m' });
+                const token = jwt.sign({ _id: user._id }, process.env.JWT_RESET_KEY, { expiresIn: '60m' });
                 const CLIENT_URL = 'http://' + req.headers.host;
                 const output = `
                 <h2>Please click on below link to reset your account password</h2>
@@ -75,8 +107,8 @@ router.post('/forgot',function(req,res){
                             port: 587,
                             secure :false,
                             auth: {
-                                user :'jobportal2525@gmail.com',
-                                pass :'shaifali2727'
+                                user :process.env.PORTAL_MAIL_ID,
+                                pass :process.env.PORTAL_MAIL_PASSWORD
                             },
                             tls: {
                                 rejectUnauthorized :false
@@ -118,7 +150,7 @@ router.get("/forgot/:token",function(req,res){
     const {token} = req.params;
     if(token)
     {
-        jwt.verify(token, JWT_RESET_KEY, (err, decodedToken) => {
+        jwt.verify(token, process.env.JWT_RESET_KEY, (err, decodedToken) => {
             if (err) {
                 req.flash("error","Incorrect or expired link! Please try again.");
                 res.redirect('/login');
@@ -241,7 +273,7 @@ res.render("register");
 router.post("/register",function(req,res){
     if(req.body.role == 'Admin')
     {
-        if(req.body.adminCode == "bug2bug")
+        if(req.body.adminCode == process.env.ADMIN_CODE)
         {
             User.findOne({email:req.body.email}).then(user=>{
                 if(user)
@@ -252,7 +284,7 @@ router.post("/register",function(req,res){
                 }
                 else{
                     //email verification
-                    const token = jwt.sign({username:req.body.username,password:req.body.password,email:req.body.email,role:req.body.role,adminCode:req.body.adminCode}, JWT_KEY,{expiresIn: '60m'});
+                    const token = jwt.sign({username:req.body.username,password:req.body.password,email:req.body.email,role:req.body.role,adminCode:req.body.adminCode},process.env.JWT_KEY,{expiresIn: '60m'});
                     const CLIENT_URL ='http://'+ req.headers.host;
                     const output = `
                                 <h2>Please click on below link to activate your account</h2>
@@ -265,15 +297,15 @@ router.post("/register",function(req,res){
                                 port: 587,
                                 secure :false,
                                 auth: {
-                                    user :'jobportal2525@gmail.com',
-                                    pass :'shaifali2727'
+                                    user :process.env.PORTAL_MAIL_ID,
+                                    pass :process.env.PORTAL_MAIL_PASSWORD
                                 },
                                 tls: {
                                     rejectUnauthorized :false
                                 }
                                 });
                     const mailOptions = {
-                                from :'"JobPortal" <jobportal916@gmail.com>',
+                                from :'"JobPortal"',
                                 to :req.body.email,
                                 subject : 'Account Verification:',
                                 text : '',
@@ -313,7 +345,7 @@ router.post("/register",function(req,res){
             }
             else{
                 //email verification
-                const token = jwt.sign({username:req.body.username,password:req.body.password,email:req.body.email,role:req.body.role,adminCode:req.body.adminCode}, JWT_KEY,{expiresIn: '60m'});
+                const token = jwt.sign({username:req.body.username,password:req.body.password,email:req.body.email,role:req.body.role,adminCode:req.body.adminCode}, process.env.JWT_KEY,{expiresIn: '60m'});
                 const CLIENT_URL ='http://'+ req.headers.host;
                 const output = `
                             <h2>Please click on below link to activate your account</h2>
@@ -326,15 +358,15 @@ router.post("/register",function(req,res){
                             port: 587,
                             secure :false,
                             auth: {
-                                user :'jobportal2525@gmail.com',
-                                pass :'shaifali2727'
+                                user :process.env.PORTAL_MAIL_ID,
+                                pass :process.env.PORTAL_MAIL_PASSWORD
                             },
                             tls: {
                                 rejectUnauthorized :false
                             }
                             });
                 const mailOptions = {
-                            from :'"JobPortal" <jobportal916@gmail.com>',
+                            from :'"JobPortal" ',//<jobportal916@gmail.com>',
                             to :req.body.email,
                             subject : 'Account Verification:',
                             text : '',
@@ -364,7 +396,7 @@ router.post("/register",function(req,res){
 router.get("/activate/:token",function(req,res){
     const token = req.params.token;
     if(token){
-        jwt.verify(token,JWT_KEY, function(err,decodedToken){
+        jwt.verify(token,process.env.JWT_KEY, function(err,decodedToken){
         if(err)
         {
             console.log(err);
@@ -392,7 +424,7 @@ router.get("/activate/:token",function(req,res){
                                 newUser.isCompany =true;
                             }
                         newUser.isVerified = true;
-                        if(newUser.adminCode == "bug2bug" && newUser.role=="Admin"){
+                        if(newUser.adminCode == process.env.ADMIN_CODE && newUser.role=="Admin"){
                             newUser.isAdmin = true;
                             newUser.isFill = true;
                         }

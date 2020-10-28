@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 //var passportLocalMongooseS = require('passport-local-mongoose'); 
 
-mongoose.connect("mongodb://localhost:27017/jobportalnew", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb://localhost:27017/"+process.env.DATABASE_NAME, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
