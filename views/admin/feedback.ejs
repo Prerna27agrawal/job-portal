@@ -1,0 +1,89 @@
+<%- include("../partials/header") %>
+<div class="container">       
+			<h1 >Feedbacks</h1>
+<% feedbacks.forEach(function(feedback){ %>
+    <div>
+        <p> <%= feedback.FirstName %></p>
+        <p> <%= feedback.LastName %></p>
+        <p> <%= feedback.email %></p>
+        <p><%= feedback.message %></p>
+        <p ><%= feedback.createdAt %></p>
+        
+        <br>
+        <div>
+        <% if((currentUser && currentUser.isAdmin)){ %>
+            <form onsubmit="return confirm('Do you really want to Post the following On AboutUs?');" action="/feedback/<%= feedback._id %>/aboutus" method="Post">
+                <button  id="demo" class="btn btn-success" name="post" value="" <% if(feedback.isPosted){ %> disabled <%}%> >
+                    Post on Main
+                </button>
+            </form>
+            <% } %>
+        </div>
+
+        <div>
+        <% if((currentUser && currentUser.isAdmin)){ %>
+            <form class="delete-form" action="/feedback/delete/<%= feedback._id %>?_method=DELETE"
+                method="POST">
+                <input class="btn btn-xs btn-danger" type="Submit" value="Delete">
+            </form> 
+        <% } %>
+        </div>
+        <div>
+        <% if((currentUser && currentUser.isAdmin)){ %>
+            <button  class="btn btn-info active pull-right">Send Mail</button>
+         <% } %>
+        </div>
+        <form onsubmit="return confirm('Do you really want to send the mail?');" action="/feedback/sendmail" method="POST">
+            <div class="form-group">
+                <label for="subject">Subject: </label>
+                <input id="subject" name="subject" type="text"  style="width: 100%;" placeholder="Enter Subject Of mail" required />
+            </div>
+            <div class="form-group">
+                <label for="body">Mail Content:</label>
+                <textarea id="project_title" name="content" type="text"  style="width: 100%;"  placeholder="Enter Body of mail" required ></textarea>
+            </div>
+            <div>
+            <input style="display: none;" name="email" value="<%= feedback.email %>">
+          </div>
+            <button class="btn btn-info active">Send</button>
+        </form>
+    </div>
+
+<% });%>
+           
+
+<!-- Pagination added -->
+<div class="row text-center" >
+<% if(pages >0){ %> 
+	<ul class="pagination text-center" >
+		<% if (current == 1) { %>
+			<li class="disabled"><a>First</a></li>
+		<% } else { %>
+			<li><a href="/admin/feedback/1">First</a></li>
+		<% } %>
+		<% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                    <% if (i !== 1) { %>
+                        <li class="disabled"><a>...</a></li>
+                    <% } %>
+                    <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                        <% if (i == current) { %>
+                            <li class="active"><a><%= i %></a></li>
+                        <% } else { %>
+                            <li><a href="/admin/feedback/<%= i %>"><%= i %></a></li>
+                        <% } %>
+                        <% if (i == Number(current) + 4 && i < pages) { %>
+                            <li class="disabled"><a>...</a></li>
+                        <% } %>
+                    <% } %>
+                    <% if (current == pages) { %>
+                        <li class="disabled"><a>Last</a></li>
+                    <% } else { %>
+                        <li><a href="/admin/feedback/<%= pages %>">Last</a></li>
+                    <% } %>
+				</ul>
+                </div>
+		<% }; %>
+                
+</div>
+		
+<%- include("../partials/footer") %> 

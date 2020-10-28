@@ -6,8 +6,6 @@ var crypto = require("crypto");
 var nodemailer = require("nodemailer");
 
 const jwt = require('jsonwebtoken');
-const JWT_KEY = "jwtactive987";
-const JWT_RESET_KEY = "jwtreset987";
 const bcryptjs = require('bcryptjs');
 
 var Company = require("../models/company");
@@ -16,6 +14,7 @@ var  Job = require("../models/job");
 var User = require("../models/user");
 var Posts =require("../models/posts");
 var Quiz1 = require("../models/quiz1");
+var FeedBack =require("../models/feedback");
 
 
 var middleware = require("../middleware/index.js");
@@ -26,159 +25,8 @@ const { emitKeypressEvents } = require("readline");
 router.get("/", function (req, res) {
     res.render("landing");
   });
-  
-router.get("/contactus",function(req,res){
-   res.render("contactus"); 
-});
+ 
 
-router.get("/aboutus",function(req,res){
-    res.render("aboutus");
-})
-
-router.get('/forgot', function(req, res) {
-    res.render('forgot');
-  });
-
-router.post('/forgot',function(req,res){
-    console.log(req.body.email);
-    var email = req.body.email;
-    if(!email)
-    {
-        req.flash("error","Please enter the email!");
-        res.redirect("back");
-    }
-    else{
-        User.findOne({email:email}).then(user=>{
-            if(!user)
-            {
-                req.flash("error","This email is not registered");
-                res.redirect("back");
-            }
-            else{
-                const token = jwt.sign({ _id: user._id }, JWT_RESET_KEY, { expiresIn: '60m' });
-                const CLIENT_URL = 'http://' + req.headers.host;
-                const output = `
-                <h2>Please click on below link to reset your account password</h2>
-                <p>${CLIENT_URL}/forgot/${token}</p>
-                <p><b>NOTE: </b> The activation link expires in 60 minutes.</p>
-                `;
-                 User.updateOne({resetLink: token},(err,success)=>{
-                       if(err)
-                       {
-                           req.flash("error","Error resetting password");
-                           res.redirect("back");
-                       }
-                       else{
-                        const transporter = nodemailer.createTransport({
-                            // host: 'mail.google.com',
-                            host:'smtp.gmail.com',
-                            port: 587,
-                            secure :false,
-                            auth: {
-                                user :'jobportal2525@gmail.com',
-                                pass :'shaifali2727'
-                            },
-                            tls: {
-                                rejectUnauthorized :false
-                            }
-                            });
-                            const mailOptions = {
-                            from :'"WeHire" <jobportal916@gmail.com>',
-                            to :req.body.email,
-                            subject : 'Account Verification',
-                            text : 'To create your WeHire account, we just need to verify your email address',
-                            html :output
-                            };
-                            transporter.sendMail(mailOptions, (error,info)=>{
-                                if(error)
-                                {
-                                    console.log(err);
-                                    req.flash('error',"something went wrong on our end.please register again");
-                                    res.redirect('/forgot');
-                                }
-                                else
-                                {
-                                    console.log('Message sent: %s',info.messageId);
-                                    req.flash('success',"Password reset link sent to email ID. Please follow the instructions.");
-                                    res.redirect('/login');
-                                }
-                            });
-
-
-                       }
-                 });
-            }
-              
-        });
-    }
-
-})
-
-router.get("/forgot/:token",function(req,res){
-    const {token} = req.params;
-    if(token)
-    {
-        jwt.verify(token, JWT_RESET_KEY, (err, decodedToken) => {
-            if (err) {
-                req.flash("error","Incorrect or expired link! Please try again.");
-                res.redirect('/login');
-            }
-            else{
-                 const{_id} = decodedToken;
-                 User.findById(_id, (err, user) => {
-                    if (err) {
-                        req.flash("error",'User with email ID does not exist! Please try again.');
-                        res.redirect('/login');
-                    }
-                    else {
-                        res.redirect(`/reset/${_id}`)
-                    }
-                });
-            }
-        });
-    }
-    else{
-        console.log("Password reset error");
-        req.flash("error","Internal Server Error");
-        res.redirect("/");
-    }
-});
-
-router.get("/reset/:id",function(req,res){
-   res.render("reset",{id:req.params.id});
-});
-router.post("/reset/:id",function(req,res){
-    var password=req.body.password;
-    var confirm_password = req.body.confirm;
-    const id= req.params.id;
-    if(!password || !confirm_password)
-    {
-        req.flash("error","Please fill all details");
-        res.redirect("back");
-    }
-    else if(password != confirm_password){
-        req.flash("error","Passwords does not match");
-        res.redirect("back");
-    }
-    else{
-        bcryptjs.genSalt(10, (err, salt) => {
-            bcryptjs.hash(password, salt, (err, hash) => {
-                if (err) throw err;
-                password = hash;
-        
-                User.findByIdAndUpdate({ _id: id },{ password },function (err, result) {
-                 if (err) {
-                            req.flash("error",'Error resetting password!');
-                            res.redirect(`/reset/${id}`);
-                        } else {
-                            req.flash("success",'Password reset successfully!');
-                            res.redirect('/login');
-                        }
-                    });
-            });
-        });
-    }
-});
 
 router.get("/logout",function(req,res){
     req.logout();
@@ -241,7 +89,7 @@ res.render("register");
 router.post("/register",function(req,res){
     if(req.body.role == 'Admin')
     {
-        if(req.body.adminCode == "bug2bug")
+        if(req.body.adminCode == process.env.ADMIN_CODE)
         {
             User.findOne({email:req.body.email}).then(user=>{
                 if(user)
@@ -252,7 +100,7 @@ router.post("/register",function(req,res){
                 }
                 else{
                     //email verification
-                    const token = jwt.sign({username:req.body.username,password:req.body.password,email:req.body.email,role:req.body.role,adminCode:req.body.adminCode}, JWT_KEY,{expiresIn: '60m'});
+                    const token = jwt.sign({username:req.body.username,password:req.body.password,email:req.body.email,role:req.body.role,adminCode:req.body.adminCode},process.env.JWT_KEY,{expiresIn: '60m'});
                     const CLIENT_URL ='http://'+ req.headers.host;
                     const output = `
                                 <h2>Please click on below link to activate your account</h2>
@@ -265,15 +113,15 @@ router.post("/register",function(req,res){
                                 port: 587,
                                 secure :false,
                                 auth: {
-                                    user :'jobportal2525@gmail.com',
-                                    pass :'shaifali2727'
+                                    user :process.env.PORTAL_MAIL_ID,
+                                    pass :process.env.PORTAL_MAIL_PASSWORD
                                 },
                                 tls: {
                                     rejectUnauthorized :false
                                 }
                                 });
                     const mailOptions = {
-                                from :'"JobPortal" <jobportal916@gmail.com>',
+                                from :'"JobPortal"',
                                 to :req.body.email,
                                 subject : 'Account Verification:',
                                 text : '',
@@ -283,8 +131,8 @@ router.post("/register",function(req,res){
                                     if(error)
                                     {
                                         console.log(error);
-                                        req.flash('error',"something went wrong on our end.please register again");
-                                        res.redirect('/login');
+                                        req.flash('error',"something went wrong on our end. Please register again");
+                                        res.redirect('/register');
                                     }
                                     else
                                     {
@@ -313,7 +161,7 @@ router.post("/register",function(req,res){
             }
             else{
                 //email verification
-                const token = jwt.sign({username:req.body.username,password:req.body.password,email:req.body.email,role:req.body.role,adminCode:req.body.adminCode}, JWT_KEY,{expiresIn: '60m'});
+                const token = jwt.sign({username:req.body.username,password:req.body.password,email:req.body.email,role:req.body.role,adminCode:req.body.adminCode}, process.env.JWT_KEY,{expiresIn: '60m'});
                 const CLIENT_URL ='http://'+ req.headers.host;
                 const output = `
                             <h2>Please click on below link to activate your account</h2>
@@ -326,15 +174,15 @@ router.post("/register",function(req,res){
                             port: 587,
                             secure :false,
                             auth: {
-                                user :'jobportal2525@gmail.com',
-                                pass :'shaifali2727'
+                                user :process.env.PORTAL_MAIL_ID,
+                                pass :process.env.PORTAL_MAIL_PASSWORD
                             },
                             tls: {
                                 rejectUnauthorized :false
                             }
                             });
                 const mailOptions = {
-                            from :'"JobPortal" <jobportal916@gmail.com>',
+                            from :'"JobPortal" ',//<jobportal916@gmail.com>',
                             to :req.body.email,
                             subject : 'Account Verification:',
                             text : '',
@@ -364,7 +212,7 @@ router.post("/register",function(req,res){
 router.get("/activate/:token",function(req,res){
     const token = req.params.token;
     if(token){
-        jwt.verify(token,JWT_KEY, function(err,decodedToken){
+        jwt.verify(token,process.env.JWT_KEY, function(err,decodedToken){
         if(err)
         {
             console.log(err);
@@ -392,7 +240,7 @@ router.get("/activate/:token",function(req,res){
                                 newUser.isCompany =true;
                             }
                         newUser.isVerified = true;
-                        if(newUser.adminCode == "bug2bug" && newUser.role=="Admin"){
+                        if(newUser.adminCode == process.env.ADMIN_CODE && newUser.role=="Admin"){
                             newUser.isAdmin = true;
                             newUser.isFill = true;
                         }

@@ -1,0 +1,70 @@
+<%- include("../partials/header")%>
+<style>
+	body{
+		background-color: #e2e8f0;
+	}
+</style>
+<div class="container">
+	<h2 class="text-center"><b>Companies</b></h2>
+			<br>
+			<br>
+	<div class="table-responsive">
+	<table class="table table-hover table-bordered " style="background-color:rgb(240, 246, 247);">
+		<!-- <thead class="thead-dark"> -->
+            <thead class="thead-dark" style="background-color: black;color:white">
+			<tr>
+				<th scope="col">No.</th>
+				<th scope="col">Name</th>
+                <th scope="col">tagline</th>
+                <th scope="col">EstablishmentDate</th>
+				<th scope="col">ContactNo</th>
+			</tr>
+		</thead>
+				     <% var i=1; %>
+					<% companies.forEach(function(company){ %>
+							<tbody>
+								<tr>
+									<th scope="row"><%=i %></th>
+									<td><a href="/company/<%= company.createdBy.id %>/myprofile"><%= company.name %></a></td>
+                                    <td><%= company.tagline %></td>
+									<td><%= company.establishmentDate %></td>
+									<td><%= company.contactno %></td>
+								</tr>
+							</tbody>
+				<% i++ %>
+				<% }); %>
+	</table>
+	</div>
+<div class="row text-center" >
+<% if(pages >0){ %> 
+	<ul class="pagination text-center" >
+		<% if (current == 1) { %>
+			<li class="disabled"><a>First</a></li>
+		<% } else { %>
+			<li><a href="/admin/companies/1">First</a></li>
+		<% } %>
+		<% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                    <% if (i !== 1) { %>
+                        <li class="disabled"><a>...</a></li>
+                    <% } %>
+                    <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                        <% if (i == current) { %>
+                            <li class="active"><a><%= i %></a></li>
+                        <% } else { %>
+                            <li><a href="/admin/companies/<%= i %>"><%= i %></a></li>
+                        <% } %>
+                        <% if (i == Number(current) + 4 && i < pages) { %>
+                            <li class="disabled"><a>...</a></li>
+                        <% } %>
+                    <% } %>
+                    <% if (current == pages) { %>
+                        <li class="disabled"><a>Last</a></li>
+                    <% } else { %>
+                        <li><a href="/admin/companies/<%= pages %>">Last</a></li>
+                    <% } %>
+				</ul>
+                </div>
+		<% }; %>
+                
+</div>
+<%- include("../partials/footer") %>

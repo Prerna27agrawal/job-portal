@@ -4,6 +4,7 @@ var Seeker = require("../models/seeker");
 var Job = require("../models/job");
 var Posts =require("../models/posts");
 var Quiz1 = require("../models/quiz1");
+var FeedBack =require("../models/feedback");
 
 var middlewareObj ={};
 middlewareObj.checkCompanyOwnership = function(req,res,next)
@@ -33,7 +34,7 @@ middlewareObj.checkSeekerOwnership = function(req,res,next)
 }
 middlewareObj.checkAdminOwnership = function(req,res,next)
 {
-   if(req.isAuthenticated() && (req.user.isAdmin == true) && (req.user.adminCode == 'bug2bug'))
+   if(req.isAuthenticated() && (req.user.isAdmin == true) && (req.user.adminCode == process.env.ADMIN_CODE))
    {
      next();
    }
@@ -55,6 +56,7 @@ middlewareObj.checkAdminOwnership = function(req,res,next)
         //  }
           return next();
      }
-     res.redirect("/");
+     req.flash("error","You need to login");
+     res.redirect("/login");
  }
  module.exports = middlewareObj;

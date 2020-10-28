@@ -1,4 +1,15 @@
 <%- include("partials/header1") %>
+<style>
+    .field-icon{
+        float: right;
+        margin-left: -25px;
+         margin-top: -25px;
+        margin-right: 10px;
+        position: relative;
+        cursor: pointer;
+        z-index: 2;
+    }
+</style>
 <div class="row mt-5">
     <div class="col-md-6 m-auto">
         <!-- <h1 style="text-align: center;"> -->
@@ -15,12 +26,13 @@
             <form action="login" method="POST">
                 <div class="form-group">
                     <label for="email" style="color:white;">Username</label>
-                    <input type="text" id="email" name="username" class="form-control" placeholder="Enter Username" />
+                    <input type="text" id="email" name="username" class="form-control" placeholder="Enter Username" required/>
                 </div>
                 <div class="form-group">
                     <label for="password" style="color:white;">Password</label>
                     <input type="password" id="password" name="password" class="form-control"
-                        placeholder="Enter Password" />
+                        placeholder="Enter Password" required/>
+                        <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                 </div>
                 <div class="form-group">
                 <button type="submit" class="btn btn-lg btn-primary btn-block">Login</button>
@@ -59,5 +71,16 @@
         </p>
     </div>
 </div> -->
-
+<script>
+$(".toggle-password").click(function() {
+    console.log("toggle");
+    $(this).toggleClass("fa-eye fa-eye-slash");
+    var input = $($(this).attr("toggle"));
+    if (input.attr("type") == "password") {
+      input.attr("type", "text");
+    } else {
+      input.attr("type", "password");
+    }
+    });
+</script>
 <%- include("partials/footer1") %>

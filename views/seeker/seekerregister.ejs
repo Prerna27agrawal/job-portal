@@ -17,18 +17,18 @@
     <div style="width: 30%; margin: 25px auto;">
         <form action="/register/seeker" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="name-f">First Name* </label>
+                <label for="name-f">First Name: </label>
                 <input style="
                     text-transform: capitalize;" class="form-control" type="text" placeholder="Enter First Name"
                     name="firstname" id="name-f" required>
             </div>
             <div class="form-group">
-                <label for="name-l">Last Name* </label>
+                <label for="name-l">Last Name: </label>
                 <input class="form-control" type="text" placeholder="Enter Last Name" name="lastname" id="name-l"
                     required>
             </div>
             <div class="form-group">
-                <label for="gender">Sex </label>
+                <label for="gender">Sex: </label>
                 <input class="form-control" type="text" list="gender-list" name="gender">
                 <datalist id="gender-list">
                     <option value="Female">
@@ -70,7 +70,7 @@
                 </datalist>
             </div> -->
             <div class="form-group">
-                <label for="status">I am currently a* </label>
+                <label for="status">I am currently a: </label>
                 <input class="form-control" type="text" list="title" name="status" required>
                 <datalist id="title">
                     <option value="Student">
@@ -78,7 +78,7 @@
                 </datalist>
             </div>
             <div class="form-group">
-                <label for="graduation">Graduation year* </label>
+                <label for="graduation">Graduation year: </label>
                 <input class="form-control" type="text" list="grad-year" name="gradyear" required>
                 <datalist id="grad-year">
                     <option value="2024">
@@ -118,11 +118,11 @@
                 </datalist>
             </div>
             <div class="form-group">
-                <label>College*</label>
+                <label>College:</label>
                 <input type="text" class="form-control" placeholder="University Name" name="education" required>
             </div>
             <div class="form-group">
-                <label for="degree">Degree*</label>
+                <label for="degree">Degree:</label>
                 <input type="text" class="form-control" placeholder="Choose your Degree" list="degree" name="degree"
                     required>
                 <datalist id="degree">
@@ -155,11 +155,11 @@
                 </datalist>
             </div>
             <div class="form-group">
-                <label>Major field of study</label>
+                <label>Major field of study: </label>
                 <input type="text" class="form-control" placeholder="Stream or Major Subject" name="stream">
             </div>
             <div class="form-group">
-                <label for="studyyear">Year of Study</label>
+                <label for="studyyear">Year of Study: </label>
                 <!-- Graduate,final year,fourth year,third year,second year,first year -->
                 <input class="form-control" type="text" list="studyyear" name="studyyear" required/>
                 <datalist id="studyyear">
@@ -173,51 +173,53 @@
                 </datalist>
             </div>
             <div class="form-group">
-                <label>CPI</label>
+                <label>CPI: </label>
                 <input type="text" class="form-control" placeholder="CPI /10.00" name="cgpa">
             </div>
 
             <div class="form-group">
-                <label for="Linkedin">LinkedIn ID </label>
+                <label for="Linkedin">LinkedIn ID: </label>
                 <input type="url" class="form-control" placeholder="Add your LinkedIn url if any" name="linkedinId">
             </div>
             <div class="form-group">
-                <label for="github">GitHub Profile </label>
+                <label for="github">GitHub Profile: </label>
                 <input type="url" class="form-control" placeholder="Add your Github Profile if any" name="githubId">
             </div>
             <div class="form-group">
-                <label for="website">Your Website</label>
+                <label for="website">Your Website: </label>
                 <input type="url" class="form-control" placeholder="Add your own Website if any" name="website">
             </div>
             <div class="form-group">
-                <label for="resume">Resume* </label>
+                <label for="resume">Resume: </label>
                 <input type="file" class="form-control-file" placeholder="Add resume" accept=".doc,.docx,.pdf,.txt"
-                    name="resume" required>
+                    name="resume" aria-describedby="passwordHelpInline" required>
                 <small id="passwordHelpInline" class="text-muted">
                     (Accepted file formats: PDF, DOCX, TXT)
                 </small>
             </div>
             <div class="form-group">
-                <label for="skill-set">Skills* </label>
-                <input class="form-control" type="text" list="skills" name="skills" required>
-                <datalist id="skills">
-                    <option value="C++">
-                    <option value="C">
-                    <option value="Java">
-                    <option value="JavaScript">
-                    <option value="HTM">
-                    <option value="CSS">
-                    <option value="NodeJS">
-                    <option value="Express">
-                </datalist>
+                <label for="skill-set">Skills: </label>
+                <select class="form-control" id="skill-set" name="skills" required multiple aria-describedby="passwordHelpInline">
+                    <option value="C++">C++</option>
+                    <option value="C">C</option>
+                    <option value="Java">Java</option>
+                    <option value="JavaScript">JavaScript</option>
+                    <option value="HTML">HTML</option>
+                    <option value="CSS">CSS</option>
+                    <option value="NodeJS">NodeJS</option>
+                    <option value="Express">Express</option>
+                </select>
+                <small id="passwordHelpInline" class="text-muted">
+                    Press CTRL and click above button to select multiple options at once.
+                </small>
             </div>
             <div class="form-group">
-                <label for="phone">Contact No </label>
+                <label for="phone">Contact No: </label>
                 <input type="tel" class="form-group" style="width:100%;padding:7px;
                 border-radius:7px; border: 1px solid rgb(185, 197, 199);" name="phone" pattern="[0-9]{10}" id="phone">
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2" for="pwd">Address</label>
+                <label class="control-label col-sm-2" for="pwd">Address:</label>
                 <div class="col-sm-8">
                     <!-- <input style="width:100%;padding:7px;
                     border-radius:7px; border: 1px solid rgb(185, 197, 199) ;margin:6px 0;" type="text" id="ownPlaces" name="ownPlaces" /> -->

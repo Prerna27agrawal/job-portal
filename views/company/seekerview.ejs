@@ -87,9 +87,11 @@
             <% if(pages >0){ %> 
                 <ul class="pagination text-center">
                     <% if (current == 1) { %>
-                        <li class="disabled"><a>First</a></li>
+                        <li class="disabled"><a>&#171;</a></li>
                     <% } else { %>
-                        <li><a href="/company/<%= job._id %>/jobstats/1">First</a></li>
+
+                        <li><a href="/company/<%= job._id %>/show/jobstats/1">First</a></li>
+
                     <% } %>
                     <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
                                 <% if (i !== 1) { %>
@@ -99,16 +101,17 @@
                                     <% if (i == current) { %>
                                         <li class="active"><a><%= i %></a></li>
                                     <% } else { %>
-                                        <li><a href="/company/<%= job._id %>/jobstats/<%= i %>"><%= i %></a></li>
+                                        <li><a href="/company/<%= job._id %>/show/jobstats/<%= i %>"><%= i %></a></li>
                                     <% } %>
                                     <% if (i == Number(current) + 4 && i < pages) { %>
                                         <li class="disabled"><a>...</a></li>
                                     <% } %>
                                 <% } %>
                                 <% if (current == pages) { %>
-                                    <li class="disabled"><a>Last</a></li>
+                                    <li class="disabled"><a>&#187;</a></li>
                                 <% } else { %>
-                                    <li><a href="/company/<%= job._id %>/jobstats/<%= pages %>">Last</a></li>
+
+                                    <li><a href="/company/<%= job._id %>/show/jobstats/<%= pages %>">Last</a></li>
                                 <% } %>
                             </ul>
                             </div>

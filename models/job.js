@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/jobportalnew",
+mongoose.connect("mongodb://localhost:27017/"+process.env.DATABASE_NAME,
  { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
@@ -11,14 +11,6 @@ var jobSchema = new mongoose.Schema({
     location: String,
     experience: String,
     description: String,
-   //employementype: String,
-    //createdAt: { type: Date, default: Date.now },
-    // appliedBy: [
-    //    {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "User"
-    //   }
-    // ],
     postedBy: {
       id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -35,6 +27,9 @@ var jobSchema = new mongoose.Schema({
        ref: "User",
        }
      }]
+  },
+  {
+    timestamps:true, 
   });
 
   module.exports = mongoose.model("Job", jobSchema);
