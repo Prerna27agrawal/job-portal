@@ -58,6 +58,8 @@
                     <li class="nav-item">
                         <a class="nav-link " style="color: #3a4066 !important; " href="/company/show">Dashboard <span
                                 class="sr-only">(current)</span></a></li>
+                    <% } else if(currentUser.isAdmin) { %>
+                    <li class="nav-item"><a style="color: floralwhite;" href="/admin/index">Home</a></li>
                     <% } else { %>
                     <li class="nav-item">
                         <a class="nav-link " style="hover  color: #3a4066 !important; " href="/seeker/index">Dashboard
@@ -76,6 +78,9 @@
                         <a class="nav-link" style="color: white;"
                             href="/company/<%= currentUser._id %>/myprofile">Signed In As
                             <%= currentUser.username %></a></li>
+                    <% } else if(currentUser.isAdmin) { %>
+                    <li><a class="dropdown-item" style="color: floralwhite;" href="/contactus">Contact Page</a></li>
+                    <li><a class="dropdown-item" style="color: floralwhite;" href="/aboutus">Profile</a></li>
                     <% } else { %>
                     <li class="nav-item">
                         <a class="nav-link " style="color: white;"
@@ -103,6 +108,12 @@
                                         Previous Jobs</a></li>
                                 <li><a class="dropdown-item" href="/company/createjob">Create a new Job</a></li>
                                 <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                <% } else if(currentUser && currentUser.isAdmin) {%>
+                                <li><a class="dropdown-item" href="/admin/companies/1">Registered Companies</a></li>
+                                <li><a class="dropdown-item" href="/admin/seekers/1">Registered Seekers</a></li>
+                                <li><a class="dropdown-item" href="/admin/jobs/1">Jobs Posted</a></li>
+                                <li><a class="dropdown-item" href="/admin/feedback/1">Feedbacks</a></li>
+                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
                                 <% } else if(currentUser) {%>
                                 <!-- <li ><a class="dropdown-item" href="/contactus">Edit Profile</a></li>   -->
                                 <li><a class="dropdown-item" href="/seeker/:seeker_id/appliedJobs">My Applied Jobs</a>
@@ -112,8 +123,10 @@
                                 <li><a class="dropdown-item" href="/login">Sign In</a></li>
                                 <li><a class="dropdown-item" href="/register">Register as a New User</a></li>
                                 <% } %>
-                                <li><a class="dropdown-item" href="/contactus">Contact Us</a></li>
-                                <li><a class="dropdown-item" href="/aboutus">About Us</a></li>
+                                
+                                    <li ><a class="dropdown-item"  href="/contactus">Contact Us</a></li>
+                                    <li><a class="dropdown-item" href="/aboutus">About Us</a></li>
+                                
                             </ul>
                         </ul>
                     </li>
