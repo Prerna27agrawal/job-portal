@@ -42,7 +42,14 @@ var companySchema = new mongoose.Schema({
     subscribedBy:[{
             type : mongoose.Schema.Types.ObjectId,
             ref: "User"
-        }]
+        }],
+    photos:[{
+         image: String,
+         imageId: String,
+         createdAt: {type:Date , default: Date.now},
+         caption: String
+
+    }]
 });
 
 //companySchema.plugin(passportLocalMongoose);
