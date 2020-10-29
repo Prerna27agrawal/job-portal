@@ -427,7 +427,7 @@
                             <!-- /.sp-content -->
                             <% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
                             <div class="btn-toolbar" style="padding-left: 15px">
-                                <form class="delete-form"
+                                <form onsubmit="return confirm('Do you really want to Delete the following?');"  class="delete-form"
                                     action="/company/<%= company._id%>/postsdelete/<%= post._id %>?_method=DELETE"
                                     method="POST">
                                     <button class="btn btn-xs btn-danger pull-right" type="Submit" value="Delete"><span class="glyphicon glyphicon-trash"></span></button>

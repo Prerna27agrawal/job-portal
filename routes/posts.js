@@ -32,7 +32,7 @@ router.get("/company/:id/posts/new", middleware.checkCompanyOwnership, function(
     });
   });
 
-  router.post("/company/:id/posts",middleware.checkCompanyOwnership,function(req,res){
+router.post("/company/:id/posts",middleware.checkCompanyOwnership,function(req,res){
       Company.findById(req.params.id,function(err,foundcompany){
         if (err) {
             console.log(err);

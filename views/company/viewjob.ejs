@@ -33,11 +33,11 @@
 									<td><%= job.experience %></td>
 									<td><%= job.description %></td>
 									<% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
-										<td><a class="btn btn-xs btn-warning" href="/company/<%= job._id %>/show/jobstats/1">
+										<td><a class="btn btn-xs btn-warning" href="/company/<%= job._id %>/show/jobstats">
 												Applied By</a>
 										</td>
 										<td>
-											<form class="delete-form" action="/company/jobdelete/<%= job._id %>?_method=DELETE"
+											<form   onsubmit="return confirm('Do you really want to Delete the following?');"class="delete-form" action="/company/jobdelete/<%= job._id %>?_method=DELETE"
 												method="POST">
 												<input class="btn btn-xs btn-danger" type="Submit" value="Delete">
 											</form>
