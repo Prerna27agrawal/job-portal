@@ -1,42 +1,29 @@
 <!-- <!DOCTYPE html>
 <html lang="en">
-<head> -->
-    <!-- <meta charset="UTF-8">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">-->
-    <!-- <meta charset="utf-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="path/to/intlTelInput.css">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-
-    <title>Document</title> -->
-    <%- include("../partials/header1") %>
-    <style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <title>Document</title> -->     
+    
+<%- include("../partials/header") %>  
+<style> 
 * {
   box-sizing: border-box;
 }
-
 body {
-  background-color: rgb(229, 237, 241);
-  /* padding: 20px; */
- 
-        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-        font-size:14px;
-    
+  background-color: #f1f1f1;
+  font-family: Arial;
 }
 hr{
-    color:rgb(0, 10, 4);
+    background-color: black;
+    border-color: rgb(201, 197, 197);
 }
 /* Center website */
 .main {
-  padding:20px 5% 20px;
+  padding:5px 5% 20px;
   margin: auto;
 }
-
 h1 {
   font-size: 40px;
   word-break: break-all;
@@ -48,7 +35,7 @@ h2{
 .thumbnail{
     padding: 20px ;
     box-shadow: 0 3px 10px 0 rgba(0,0,0,.1);
-    background-color:white;
+    background-color: white;
 }
 .row{
     margin: 0;
@@ -61,26 +48,7 @@ span{
 }
     </style>
 </head>
-
 <body>
-    <div class="container">
-        <% if(error && error.length >0){%>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            <%= error %>
-        </div>
-        <% }%>
-        <% if(success && success.length >0){%>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-            <%= success %>
-            </div>
-            <%}%>
-    </div>
     <div class="main">
         <% companies.forEach(function(company) {
              if(String(company.createdBy.id) == String(job.postedBy.id)){ 
@@ -93,8 +61,7 @@ span{
                         if(String(seeker.postedBy._id) == String(currentUser._id))
                          bool2=false;
                     }); %>
-
-        <h1><img src="https://tppwebsolutions.com/wp-content/uploads/logo-demo3.png" height="40px" width="40px"><%= (company.name).toUpperCase() %><span>
+        <h1><img src="https://tppwebsolutions.com/wp-content/uploads/logo-demo3.png" height="50px" width="50px"><%= company.name %><span>
             <% if(currentUser){ %>
             <% if(bool1){ %>
                  <a href="/seeker/<%= company._id %>/subscribe/<%= job._id %>" type="button" class="btn btn-danger">Subscribe</a>
@@ -129,14 +96,14 @@ span{
             <div class="col-lg-8 col-sm-12">
                 <div class="row">
                 <div class="thumbnail">
-                    <h5><b>JOB DESCRIPTION:</b></h5>
+                    <h4><b>JOB DESCRIPTION:</b></h4>
                     <p><%= job.description %></p>
                     <br><br>
                 </div>
                 </div>
                 <div class="row">
                 <div class="thumbnail">
-                    <h5><b>ABOUT <%=(company.name).toUpperCase() %>: </b></h5>
+                    <h4><b>ABOUT <%= company.name %>: </b></h4>
                     <p><%= company.description %></p>
                     <form action="/company/<%= job.postedBy.id %>/myprofile" method="GET">
                        <input type="submit" value="Visit Company website" name="submit2" class="btn btn-info active">
