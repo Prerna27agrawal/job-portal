@@ -446,7 +446,7 @@ element.style {
     width: 5px;
 } */
 </style>
-
+<div class="container">
 <div class="container">
     <% company.forEach(function(company){%>
     <div class="profile-wrapper">
@@ -525,9 +525,9 @@ element.style {
             <!-- Tab panes -->
             <div class="tab-content profile-tabs-content">
                 <div class="tab-pane active" id="profile-overview" role="tabpanel">
-                    <div class="post-editor " id="post-editor">
                         <% if((currentUser && company.createdBy.id.equals(currentUser._id)) && currentUser.isCompany){ %>
-                        <form action="/company/<%= company._id %>/posts" method="POST">
+                        <div class="post-editor " id="post-editor">
+                            <form action="/company/<%= company._id %>/posts" method="POST">
                             <input style="width: 100%; border:2mm; margin-bottom:5px" name="posts[heading]" placeholder="Post Heading"/>
                             <textarea name="posts[description]" id="post-field" class="post-field"
                                 placeholder="Write Something Cool!"></textarea>
@@ -535,8 +535,9 @@ element.style {
                             <button class="btn btn-success px-4 py-1" href="#">Post</button>
                        
                         </form>
-                        <% }%>
                     </div>
+                        <% }%>
+                 
 
                     <!-- /.post-editor -->
                     <div class="stream-posts">
@@ -572,13 +573,15 @@ element.style {
             <div class="tab-content profile-tabs-content">
                 <div class="tab-pane active" id="photo-overview" role="tabpanel">
                     <!-- image.form start-->
+                    <% if((currentUser && company.createdBy.id.equals(currentUser._id)) && currentUser.isCompany){ %>
                     <p style="text-align: right;">
                     <button class="btn btn-success" id="gallery-image" onclick="ShowAndHide()" onmouseover="Show()"> ADD IMAGE <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                       </svg></button>
                       </p>
+                      
                      <div class="post-editor " id="image-editor" style="display: none;">
-                         <% if((currentUser && company.createdBy.id.equals(currentUser._id)) && currentUser.isCompany){ %>
+                        
                         <form action="/company/<%= company._id %>/images" method="POST" enctype="multipart/form-data">
                             <input style="width: 90%; border:2mm; padding:5px; margin:10px 10px 0" name="caption" placeholder="Add caption(if any)"/>
                             <!-- <textarea name="posts[description]" id="post-field" class="post-field"
@@ -587,8 +590,9 @@ element.style {
                             <button class="btn btn-success px-4 py-1" style="margin:10px" href="#">Add </button>
                        
                         </form>
-                        <% }%> 
+                      
                     </div> 
+                    <% }%> 
                     <!--image.form end--> 
                     <hr>
                     <div id="gallery" class="container-fluid">  
