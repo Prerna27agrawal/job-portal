@@ -143,12 +143,12 @@ router.delete("/company/jobdelete/:id", middleware.checkCompanyOwnership, functi
 
 //for applied by seekrs view
 //id of job
-router.get("/company/:id/show/jobstats/:page", middleware.checkCompanyOwnership,
+router.get("/company/:id/show/jobstats", middleware.checkCompanyOwnership,
   function (req, res) {
-    var perPage = 3;
-    var page =req.params.page || 1
+    // var perPage = 3;
+    // var page =req.params.page || 1
     Job.findById(req.params.id).populate('postedBy').populate("appliedBy.postedBy").exec(function (err, foundJob) {
-      Seeker.find({}).skip((perPage * page)-perPage).limit(perPage).exec(function (err, seekers) {
+      Seeker.find({}).exec(function (err, seekers) {
        Seeker.count().exec(function(err,count){
         if (err) {
           console.log(err);
@@ -156,12 +156,87 @@ router.get("/company/:id/show/jobstats/:page", middleware.checkCompanyOwnership,
           return res.redirect("back");
         }
         else {
-          res.render("company/seekerview", { job: foundJob, seekers: seekers,current:page,pages: Math.ceil(count/perPage) });
+          res.render("company/seekerview", { job: foundJob, seekers: seekers });
         }
       });
     });
   });
   });
+
+router.post("/company/:id/show/jobstats/search",middleware.checkCompanyOwnership,
+function(req,res){
+  var filtername=req.body.filtername;
+  var filteryear=req.body.filteryear;
+  var filtercgpa=req.body.filtercgpa;
+  var lesser;
+  var greater;
+  if(filtercgpa != '')
+  {
+    console.log("hi");
+    console.log(filtercgpa);
+    //greater then equal to
+    //less than
+       if(filtercgpa == '0.0')
+       {
+           lesser=11;
+           greater=1;
+       }
+       else if(filtercgpa == '9.0'){
+        lesser=11;
+        greater=9;
+       }
+       else if(filtercgpa == '8.0'){
+        lesser=9;
+        greater=8;
+       }
+       else if(filtercgpa == '7.0'){
+        lesser=8;
+        greater=7;
+       }
+       else if(filtercgpa == '6.0'){
+        lesser=7;
+        greater=6;
+       }
+       else if(filtercgpa == '5.0'){
+        lesser=6;
+        greater=5;
+       }
+       else {
+        lesser=5;
+        greater=0;
+       }
+  }
+  Job.findById(req.params.id).populate('postedBy').populate("appliedBy.postedBy").exec(function (err, foundJob) {
+     
+if(filtercgpa!= '' && filtername!='' && filteryear!= ''){
+  var filterParameter = {education:filtername,gradyear:filteryear,cgpa:{$lt:lesser,$gte:greater}}
+}
+else if(filtercgpa!= '' && filtername!='' && filteryear== ''){
+  var filterParameter = {education:filtername,cgpa:{$lt:lesser,$gte:greater}}
+}
+else if(filtercgpa!= '' && filtername=='' && filteryear!= ''){
+  var filterParameter = {gradyear:filteryear,cgpa:{$lt:lesser,$gte:greater}}
+}
+else if(filtercgpa!= '' && filtername=='' && filteryear == ''){
+  var filterParameter = {cgpa:{$lt:lesser,$gte:greater}}
+}
+else{
+  var filterParameter={}
+}
+console.log(filterParameter);
+Seeker.find(filterParameter).exec(function (err, seekers) {
+   if (err) {
+     console.log(err);
+     req.flash("error", err.message);
+     return res.redirect("back");
+   }
+   else {
+     console.log(seekers);
+     res.render("company/seekerview", { job: foundJob, seekers: seekers});
+   }
+ });
+  });     
+});
 
 router.get("/seeker/:id/applyjob", middleware.checkSeekerOwnership, function (req, res) {
   Job.findById(req.params.id, function (err, job) {

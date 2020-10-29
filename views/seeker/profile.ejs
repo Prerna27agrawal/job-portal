@@ -268,9 +268,7 @@
                     <div class="col-md-12 mb-3">
                         <div class="card h-100">
                             <div class="card-body">
-                                <% if((currentUser && foundSeeker.seekerBy.id.equals(currentUser._id) && (!currentUser.isCompany))){ %>
-                                <button class="btn btn-secondary active pull-right" style="margin-inline-start: 7px;">Edit Project</button>
-                                <% } %>
+                               
                                 <% if((currentUser && foundSeeker.seekerBy.id.equals(currentUser._id) && (!currentUser.isCompany))){ %>
                                 <button id="projectBtn"  class="btn btn-info active pull-right"  >Add Projects</button>
                                 <% } %>
@@ -282,6 +280,14 @@
                                         <% foundSeeker.projects.forEach(function(project){ %>
                                             <div style="font-family: 'Roboto', sans-serif; margin-top: 20px; " class="panel panel-success">
                                                 <div class="panel-heading" style="color: black;"><%= project.title%></div>
+                                                <% if((currentUser && foundSeeker.seekerBy.id.equals(currentUser._id) && (!currentUser.isCompany))){ %>
+                                                    <a href="/seeker/<%= foundUser._id %>/editproject/<%= project._id %>" class="btn btn-secondary active pull-right" style="margin-inline-start: 7px;">Edit</a>
+                                                    <% } %>
+                                                    <% if((currentUser && foundSeeker.seekerBy.id.equals(currentUser._id) && (!currentUser.isCompany))){ %>
+                                                        <form class="delete-form" action="/seeker/<%= foundUser._id %>/delete/<%= project._id %>?_method=DELETE" method="post">
+                                                        <button  type="submit" class="btn btn-secondary active pull-right"  value="Delete"></button>
+                                                        </form>
+                                                    <% } %>
                                                 <div class="panel-body">
                                                     <p  class="text-muted"><%=project.starttime%> - <%= project.endtime%></p>
                                                     <p ><%= project.description%></p>

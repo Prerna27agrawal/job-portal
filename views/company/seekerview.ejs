@@ -2,6 +2,65 @@
         <h2 class="text-center"><b><%= job.name %></b></h2>
         <br>
         <div class="container">
+            <div class="row">
+                <h1>Filter Seeker Records</h1>
+                <div class="col-md-12">
+                    <form action="/company/<%= job._id %>/show/jobstats/search" class="form-horizontal" method="POST" role="form">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                            <label for="name" class="col-md-12 control-label">By CollegeName</label>
+                            <div class="col-md-12">
+                                <input type="text" id="name" class="form-control" name="filtername" placeholder="Enter college name">
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                            <label for="year" class="col-md-12 control-label">By GraduationYear</label>
+                            <div class="col-md-12">
+                                <input type="text" id="year" class="form-control" name="filteryear" placeholder="Enter year">
+                            </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-md-3">
+                            <div class="form-group">
+                            <label for="status" class="col-md-12 control-label">By Status</label>
+                            <div class="col-md-12">
+                                <select class="form-control" name="filterstatus">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Accepted">Accepted</option>
+                                    <option value="Rejected">Rejected</option>
+                                </select>
+                            </div>
+                            </div>
+                        </div> -->
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                            <label for="status" class="col-md-12 control-label">By Cgpa</label>
+                            <div class="col-md-12">
+                                <!-- <input type="text" id="status" class="form-control" name="filtercgpa" placeholder="Enter cgpa"> -->
+                                 <select class="form-control"id="status" name="filtercgpa">
+                                    <option value="0.0">0.0-10.00</option>
+                                    <option value="9.0">9.0-10.00</option>
+                                    <option value="8.0">8.0-8.9</option>
+                                    <option value="7.0">7.0-7.9</option>
+                                    <option value="6.0">6.0-6.9</option>
+                                    <option value="5.0">5.0-5.9</option>
+                                    <option value="4.9">0.0-4.9</option>
+                            </select> 
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="submit" class="form-control btn btn-primary" name="submit" placeholder="Filter">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="container">
         <div class="table-responsive">
         <table class="table table-hover table-bordered">
             <thead class="thead-dark" style="background-color: black;color:white">
@@ -78,40 +137,6 @@
         </table>
         </div>
         <!-- /company/:id/show/jobstats/:page -->
-        <div class="row text-center">
-            <% if(pages >0){ %> 
-                <ul class="pagination text-center">
-                    <% if (current == 1) { %>
-                        <li class="disabled"><a>&#171;</a></li>
-                    <% } else { %>
-
-                        <li><a href="/company/<%= job._id %>/show/jobstats/1">First</a></li>
-
-                    <% } %>
-                    <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
-                                <% if (i !== 1) { %>
-                                    <li class="disabled"><a>...</a></li>
-                                <% } %>
-                                <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
-                                    <% if (i == current) { %>
-                                        <li class="active"><a><%= i %></a></li>
-                                    <% } else { %>
-                                        <li><a href="/company/<%= job._id %>/show/jobstats/<%= i %>"><%= i %></a></li>
-                                    <% } %>
-                                    <% if (i == Number(current) + 4 && i < pages) { %>
-                                        <li class="disabled"><a>...</a></li>
-                                    <% } %>
-                                <% } %>
-                                <% if (current == pages) { %>
-                                    <li class="disabled"><a>&#187;</a></li>
-                                <% } else { %>
-
-                                    <li><a href="/company/<%= job._id %>/show/jobstats/<%= pages %>">Last</a></li>
-                                <% } %>
-                            </ul>
-                            </div>
-                <%}%>
-            </div>
  <!-- <script type="text/javascript">
 
 document.getElementById("demo").addEventListener("click",myFunction);
