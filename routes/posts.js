@@ -54,7 +54,7 @@ router.get("/company/:id/posts/new", middleware.checkCompanyOwnership, function(
                    foundcompany.save();
                    console.log("successfully added post");
                    req.flash("success","Successfully added post");
-                   res.redirect('/company/'+foundcompany.createdBy.id+'/myprofile')
+                   res.redirect('/company/'+foundcompany.createdBy.id+'/myprofile');
                }
             });
         }
