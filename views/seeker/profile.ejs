@@ -281,12 +281,15 @@
                                             <div style="font-family: 'Roboto', sans-serif; margin-top: 20px; " class="panel panel-success">
                                                 <div class="panel-heading" style="color: black;"><%= project.title%></div>
                                                 <% if((currentUser && foundSeeker.seekerBy.id.equals(currentUser._id) && (!currentUser.isCompany))){ %>
-                                                    <a href="/seeker/<%= foundUser._id %>/editproject/<%= project._id %>" class="btn btn-secondary active pull-right" style="margin-inline-start: 7px;">Edit</a>
+                                            
+                                                    <!-- <a href="/seeker/<%= foundUser._id %>/editproject/<%= project._id %>" class="btn btn-secondary active pull-right" style="margin-inline-start: 7px;">Edit</a> -->
                                                     <% } %>
                                                     <% if((currentUser && foundSeeker.seekerBy.id.equals(currentUser._id) && (!currentUser.isCompany))){ %>
                                                         <form   onsubmit="return confirm('Do you really want to Delete the following?');" action="/seeker/<%= foundUser._id %>/delete/<%= project._id %>?_method=DELETE" method="post">
-                                                        <button  type="submit" class="btn btn-secondary active pull-right" style="margin-inline-start: 7px;" value="Delete">Delete</button>
+                                                        <button  type="submit" class="btn btn-danger btn-xs active pull-right" style="margin-left: 2px;"  value="Delete" title="Delete"><span class="glyphicon glyphicon-trash"></span></button>
                                                         </form>
+                                                        <button class="btn btn-primary active btn-xs pull-right" title="Edit"><a href="/seeker/<%= foundUser._id %>/editproject/<%= project._id %>">
+                                                            <span class="glyphicon glyphicon-edit"></span></a></button>
                                                     <% } %>
                                                 <div class="panel-body">
                                                     <p  class="text-muted"><%=project.starttime%> - <%= project.endtime%></p>
