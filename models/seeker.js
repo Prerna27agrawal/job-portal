@@ -21,7 +21,7 @@ var seekerSchema = new mongoose.Schema({
     degree:String,
     stream:String,
     studyYear:String,
-    cgpa:String,
+    cgpa:mongoose.Decimal128,
     phone:String,
     country:String,
     state:String,
