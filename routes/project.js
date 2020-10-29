@@ -60,7 +60,7 @@ router.get("/seeker/:id/editproject/:projectid",middleware.checkSeekerOwnership,
        });
     });
 });
-router.put("/seeker/:id/editproject/:projectid",middleware.checkSeekerOwnership,function (req,res){
+router.post("/seeker/:id/editproject/:projectid",middleware.checkSeekerOwnership,function (req,res){
   console.log(req.body);
   var title =req.body.project_title;
     var url=req.body.project_url;
@@ -71,11 +71,11 @@ router.put("/seeker/:id/editproject/:projectid",middleware.checkSeekerOwnership,
          endtime ="Current";
        }
   Seeker.update({"seekerBy.id": req.params.id , "projects._id":req.params.projectid},
-  {$set:{"project.$.title":title,
-  "project.$.url":url,
-  "project.$.starttime":starttime,
-  "project.$.endtime":endtime,
-  "project.$.description":description } },function(err,data) {
+  {$set:{"projects.$.title":title,
+  "projects.$.url":url,
+  "projects.$.starttime":starttime,
+  "projects.$.endtime":endtime,
+  "projects.$.description":description } },function(err,data) {
         if (err) {
           console.log(err);
           req.flash("error",err.message);
@@ -88,7 +88,7 @@ router.put("/seeker/:id/editproject/:projectid",middleware.checkSeekerOwnership,
                   req.flash("success","Project updated");
                   res.redirect("/seeker/"+req.user._id+"/myprofile");
       });
-  
+    });
   // Seeker.findOne().where('seekerBy.id').equals(req.user._id).exec(function(err,seeker){
   //   if (err) {
   //     console.log(err);
@@ -112,7 +112,7 @@ router.put("/seeker/:id/editproject/:projectid",middleware.checkSeekerOwnership,
   // });
   // }
   // });
-});
+// });
 router.delete("/seeker/:id/delete/:projectid",middleware.checkSeekerOwnership,function (req,res){
   Seeker.findOneAndUpdate({"seekerBy.id": req.params.id},{$pull:{"projects":{"_id":req.params.projectid}}},function(err,data){
     if (err) {

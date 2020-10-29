@@ -5,7 +5,7 @@
                     Edit Project <%= project.title %>
                 </h1>
                     <div style="width:30%; margin:25px auto;">
-<form action="/seeker/<%=foundSeeker.seekerBy.id%>/editproject/<%= project._id %>?_method=PUT" method="post" name="projects">
+<form action="/seeker/<%=foundSeeker.seekerBy.id%>/editproject/<%= project._id %>" method="post" name="projects">
     <div class="form-group">
         <label for="project_name">Project Name</label>
         <input id="project_title" class="form-control" name="project_title" type="text"  style="width: 100%;" value="<%= project.title %>" required />

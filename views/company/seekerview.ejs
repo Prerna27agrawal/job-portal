@@ -3,43 +3,18 @@
         <br>
         <div class="container">
             <div class="row">
-                <h1>Filter Seeker Records</h1>
-                <div class="col-md-12">
-                    <form action="/company/<%= job._id %>/show/jobstats/search" class="form-horizontal" method="POST" role="form">
-                        <div class="col-md-3">
+                <div>
+                    <form action="/company/<%= job._id %>/show/jobstats/search" class="form-inline" method="POST" role="form">
                             <div class="form-group">
-                            <label for="name" class="col-md-12 control-label">By CollegeName</label>
-                            <div class="col-md-12">
-                                <input type="text" id="name" class="form-control" name="filtername" placeholder="Enter college name">
+                            <label for="name">By CollegeName</label>
+                                <input type="text" id="name"  class="form-control" name="filtername" placeholder="Enter college name">
                             </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
                             <div class="form-group">
-                            <label for="year" class="col-md-12 control-label">By GraduationYear</label>
-                            <div class="col-md-12">
+                            <label for="year">By GraduationYear</label>
                                 <input type="text" id="year" class="form-control" name="filteryear" placeholder="Enter year">
                             </div>
-                            </div>
-                        </div>
-
-                        <!-- <div class="col-md-3">
                             <div class="form-group">
-                            <label for="status" class="col-md-12 control-label">By Status</label>
-                            <div class="col-md-12">
-                                <select class="form-control" name="filterstatus">
-                                    <option value="Pending">Pending</option>
-                                    <option value="Accepted">Accepted</option>
-                                    <option value="Rejected">Rejected</option>
-                                </select>
-                            </div>
-                            </div>
-                        </div> -->
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                            <label for="status" class="col-md-12 control-label">By Cgpa</label>
-                            <div class="col-md-12">
+                            <label for="status">By Cgpa</label>
                                 <!-- <input type="text" id="status" class="form-control" name="filtercgpa" placeholder="Enter cgpa"> -->
                                  <select class="form-control"id="status" name="filtercgpa">
                                     <option value="0.0">0.0-10.00</option>
@@ -49,17 +24,16 @@
                                     <option value="6.0">6.0-6.9</option>
                                     <option value="5.0">5.0-5.9</option>
                                     <option value="4.9">0.0-4.9</option>
-                            </select> 
+                            </select>
                             </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="submit" class="form-control btn btn-primary" name="submit" placeholder="Filter">
-                        </div>
+                            <button type="submit" class="btn btn-primary" name="submit" placeholder="Filter">Submit</button>
+                        <br>
                     </form>
                 </div>
             </div>
         </div>
+        <br>
+        <br>
         <div class="container">
         <div class="table-responsive">
         <table class="table table-hover table-bordered">

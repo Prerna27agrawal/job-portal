@@ -37,7 +37,7 @@
 												Applied By</a>
 										</td>
 										<td>
-											<form class="delete-form" action="/company/jobdelete/<%= job._id %>?_method=DELETE"
+											<form   onsubmit="return confirm('Do you really want to Delete the following?');"class="delete-form" action="/company/jobdelete/<%= job._id %>?_method=DELETE"
 												method="POST">
 												<input class="btn btn-xs btn-danger" type="Submit" value="Delete">
 											</form>

@@ -430,7 +430,7 @@
                                 <a class="btn btn-xs btn-info  active" style="padding-right: 10px;"
                                     href="/company/<%= company._id%>/posts/<%= post._id %>/edit">
                                     Edit</a>
-                                <form class="delete-form"
+                                <form  onsubmit="return confirm('Do you really want to Delete the following?');" class="delete-form"
                                     action="/company/<%= company._id%>/postsdelete/<%= post._id %>?_method=DELETE"
                                     method="POST">
                                     <button class="btn btn-xs btn-warning active" type="Submit" value="Delete">
