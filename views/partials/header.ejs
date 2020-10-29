@@ -103,7 +103,7 @@
                                     <li ><a class="dropdown-item" href="/admin/jobs/1">Jobs Posted</a></li>    
                                     <li ><a class="dropdown-item" href="/admin/feedback/1">Feedbacks</a></li>  
                                     <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                                    <% }else {%>
+                                    <% }else if(currentUser) {%>
                                     <!-- <li ><a class="dropdown-item" href="/contactus">Edit Profile</a></li>   -->
                                     <li ><a class="dropdown-item" href="/seeker/:seeker_id/appliedJobs">My Applied Jobs</a></li>   
                                     <li><a class="dropdown-item" href="/logout">Logout</a></li>
