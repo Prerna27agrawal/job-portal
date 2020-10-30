@@ -131,17 +131,6 @@ router.get("/quiz1/showquiz",function(req,res){
 });
 });
 router.post("/quiz1/showquiz",function(req,res){
-        res.send("to calculate total");
-        console.log(req.body);
-        console.log(req.body.ans);
-        console.log(typeof(req.body));
-        console.log(typeof(req.body.ans));
-        for (var key in req.body) {
-                if (req.body.hasOwnProperty(key)) {
-                  item = req.body[key];
-                  console.log(key);
-                  console.log(item);
-                }
-              }
+       
 });
 module.exports = router;
