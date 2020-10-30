@@ -88,3 +88,89 @@ if (input.attr("type") == "password") {
 </script>
 </div>
 <%- include("partials/footer1") %>
+<style>
+    .field-icon{
+        float: right;
+        margin-left: -25px;
+         margin-top: -25px;
+        margin-right: 10px;
+        position: relative;
+        cursor: pointer;
+        z-index: 2;
+    }
+</style>
+<div class="container">
+<div class="row mt-5">
+    <div class="col-md-6 m-auto">
+        <!-- <h1 style="text-align: center;"> -->
+           <!-- <b>Login</b> -->
+        <!-- </h1> -->
+        <h1 class="display-4 mb-2" style="text-align: center;">Login</h1>
+        <br>
+
+        <div class="card card-body text-center" style="background:#303030;">
+            <h1 class="mb-3">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQyvIJ7YVlDsEb4piSedEzYc1UR8T2K50ZYsA&usqp=CAU" alt="icon" width="20%" />
+            </h1>
+            
+            <form action="login" method="POST">
+                <div class="form-group">
+                    <label for="email" style="color:white;">Username</label>
+                    <input type="text" id="email" name="username" class="form-control" placeholder="Enter Username" required/>
+                </div>
+                <div class="form-group">
+                    <label for="password" style="color:white;">Password</label>
+                    <input type="password" id="password" name="password" class="form-control"
+                        placeholder="Enter Password" required/>
+                        <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                </div>
+                <div class="form-group">
+                <button type="submit" class="btn btn-lg btn-primary btn-block">Login</button>
+                </div>
+            </form>
+            
+            <p class="mt-2" style="color:white;">
+                New User? <a href="/register">Register</a>
+            </p>
+            <p class="mt-2" style="color:white;">
+                Forgot Password? <a href="/forgot">Reset</a>
+            </p>
+        </div>
+    </div>
+</div>
+<!-- 
+<div class="row">
+    <h1 style="text-align: center">Log In</h1>
+    <div style="width: 40%; margin: 25px auto;">
+        <form action="/login" method="post">
+            <div class="form-group">
+                <input class="form-control" type="text" name="username" placeholder="username">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" placeholder="password">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-secondary btn-block active">Login</button>
+            </div>
+        </form>
+        <p class="mt-4 text-center">
+            New User? <a href="/register">Register</a>
+        </p>
+        <p class="mt-4 text-center">
+            Forgot Password? <a href="/forgot">Reset</a>
+        </p>
+    </div>
+</div> -->
+</div>
+<script>
+$(".toggle-password").click(function() {
+    console.log("toggle");
+    $(this).toggleClass("fa-eye fa-eye-slash");
+    var input = $($(this).attr("toggle"));
+    if (input.attr("type") == "password") {
+      input.attr("type", "text");
+    } else {
+      input.attr("type", "password");
+    }
+    });
+</script>

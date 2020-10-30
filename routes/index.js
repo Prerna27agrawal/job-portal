@@ -22,6 +22,7 @@ var middleware = require("../middleware/index.js");
 var passport   = require("passport");
 var path= require("path");
 const { emitKeypressEvents } = require("readline");
+const { log } = require("console");
 
 router.get("/", function (req, res) {
     res.render("landing");
@@ -38,7 +39,7 @@ router.get("/logout",function(req,res){
 
 
 router.get("/login", function (req, res) {
-    res.render("login");
+    res.render("login",{log:false});
   });
 
 
@@ -78,13 +79,13 @@ else if(req.user.isVerified == true && req.user.isFill == true){
 }
 else{
   console.log("first fill your details and verify yourself");
-   res.redirect("/register");
+   res.redirect("/login");
 }
 });
 
 
 router.get("/register", function (req, res) {
-res.render("register");
+res.render("login",{log:true});
 });
 
 router.post("/register",function(req,res){
