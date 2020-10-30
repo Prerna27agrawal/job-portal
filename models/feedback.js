@@ -9,12 +9,6 @@ var feedbackSchema = new mongoose.Schema({
     email:String,
     message:String,
     createdAt:{type:Date , default: Date.now},
-    isPosted: {type:Boolean,default:false},
-    postedBy: {
-        id:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
-        },
-    }
+    isPosted: {type:Boolean,default:false}
 });
 module.exports = mongoose.model("FeedBack",feedbackSchema);

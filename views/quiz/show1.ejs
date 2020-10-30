@@ -10,15 +10,15 @@
     <p>1. <%= incorrect %></p>
     <%});%>
     <br><br>
-        <input type="radio" id="opt1" name="ans[<%= question._id %>]" value="<%= question.answers.correct %>">
+        <input type="radio" id="opt1" name="<%= question._id %>" value="<%= question.answers.correct %>">
         <label for="opt1" ><%= question.answers.correct %></label><br>
-        <input type="radio" id="opt2" name="ans[<%= question._id %>]" value="<%= question.answers.incorrect[0] %>">
+        <input type="radio" id="opt2" name="<%= question._id %>" value="<%= question.answers.incorrect[0] %>">
         <label for="opt2" ><%= question.answers.incorrect[0] %></label><br>
-        <input type="radio" id="opt3" name="ans[<%= question._id %>]" value="<%= question.answers.incorrect[1] %>">
+        <input type="radio" id="opt3" name="<%= question._id %>" value="<%= question.answers.incorrect[1] %>">
         <label for="opt3" ><%= question.answers.incorrect[1] %></label><br>
-        <input type="radio" id="opt4" name="ans[<%= question._id %>]" value="<%= question.answers.incorrect[2] %>">
+        <input type="radio" id="opt4" name="<%= question._id %>" value="<%= question.answers.incorrect[2] %>">
         <label for="opt4" ><%= question.answers.incorrect[2] %></label><br>
-        <input type="radio" id="opt5" style="display: none;" name="ans[<%= question._id %>]" checked value="notattempted">
+        <input type="radio" id="opt5" style="display: none;" name="<%= question._id %>" checked value="notattempted">
         <label for="opt5" ></label>
     </div>
     <%});%>
