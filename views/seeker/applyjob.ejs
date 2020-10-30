@@ -1,54 +1,55 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <title>Document</title> -->     
-    
-<%- include("../partials/header") %>  
-<style> 
-* {
-  box-sizing: border-box;
-}
-body {
-  background-color: #f1f1f1;
-  font-family: Arial;
-}
-hr{
-    background-color: black;
-    border-color: rgb(201, 197, 197);
-}
-/* Center website */
-.main {
-  padding:5px 5% 20px;
-  margin: auto;
-}
-h1 {
-  font-size: 40px;
-  word-break: break-all;
+<%- include("../partials/header") %>
+<style>
+    * {
+        box-sizing: border-box;
+    }
 
-}
-h2{
-    margin-bottom: 10px;
-    margin-left:25px;
-}
-.thumbnail{
-    padding: 20px ;
-    box-shadow: 0 3px 10px 0 rgba(0,0,0,.1);
-    background-color: white;
-}
-.row{
-    margin: 0;
-}
-span{
-    position: relative;
-    bottom: 0;
-    right: 0;
-    float: right;
-}
-    </style>
+    body {
+        background-color: #f1f1f1;
+        font-family: Arial;
+    }
+
+    hr {
+        background-color: black;
+        border-color: rgb(201, 197, 197);
+    }
+
+    /* Center website */
+    .main {
+        padding: 5px 5% 20px;
+        margin: auto;
+    }
+
+    h1 {
+        font-size: 40px;
+        word-break: break-all;
+
+    }
+
+    h2 {
+        margin-bottom: 10px;
+        margin-left: 25px;
+    }
+
+    .thumbnail {
+        padding: 20px;
+        box-shadow: 0 3px 10px 0 rgba(0, 0, 0, .1);
+        background-color: white;
+    }
+
+    .row {
+        margin: 0;
+    }
+
+    span {
+        position: relative;
+        bottom: 0;
+        right: 0;
+        float: right;
+    }
+</style>
 </head>
+
 <body>
     <div class="main">
         <% companies.forEach(function(company) {
@@ -62,64 +63,97 @@ span{
                         if(String(seeker.postedBy._id) == String(currentUser._id))
                          bool2=false;
                     }); %>
-        <h1><img src="https://tppwebsolutions.com/wp-content/uploads/logo-demo3.png" height="50px" width="50px"><%= company.name %><span>
-            <% if(currentUser){ %>
-            <% if(bool1){ %>
-                 <a href="/seeker/<%= company._id %>/subscribe/<%= job._id %>" type="button" class="btn btn-danger">Subscribe</a>
-             <% } else { %>
-                <a href="/seeker/<%= company._id %>/unsubscribe/<%= job._id %>" type="button" class="btn btn-primary" style="opacity: 0.7;">Subscribed</a>
-            <% } %>
-            <% } %>
-        </span></h1>
+        <h1><img src="https://tppwebsolutions.com/wp-content/uploads/logo-demo3.png" height="50px"
+                width="50px"><%= company.name %><span>
+                <% if(currentUser){ %>
+                <% if(bool1){ %>
+                <a href="/seeker/<%= company._id %>/subscribe/<%= job._id %>" type="button"
+                    class="btn btn-danger">Subscribe</a>
+                <% } else { %>
+                <a href="/seeker/<%= company._id %>/unsubscribe/<%= job._id %>" type="button" class="btn btn-primary"
+                    style="opacity: 0.7;">Subscribed</a>
+                <% } %>
+                <% } %>
+            </span></h1>
         <hr>
         <h2><%= job.name %></h2>
         <br>
         <div class="container">
             <div class="row" style="display: flex; flex-wrap: wrap;padding: 10px;">
-            <div class="col-lg-4 col-sm-12">
-                <div class="thumbnail" style="  position: sticky;top: 20px;" >
-                    <div class="caption">
-                        <p><b>JOB POSITION:  </b><%= job.name %></p>
-                        <p><b>JOB LOCATION:  </b><%= job.location %></p>
-                        <p><b>JOB EXPERIENCE: </b><%= job.experience %>+ years of experience</p>
+                <div class="col-lg-4 col-sm-12">
+                    <div class="thumbnail" style="  position: sticky;top: 20px;">
+                        <div class="caption">
+                            <p><b>JOB POSITION: </b><%= job.name %></p>
+                            <p><b>JOB LOCATION: </b><%= job.location %></p>
+                            <p><b>JOB EXPERIENCE: </b><%= job.experience %>+ years of experience</p>
+                            <p><b>EMPLOYEMENT TYPE: </b><%= job.employementType %></p>
+                            <% if(job.employementType==='Intern'){%>
+                            <p><b>STIPEND:  </b><%= job.stipend %></p>
+                            <p><b>PROVISION OF PPO:  </b><% if(job.ppo){ %>
+                                Yes
+                            <%}else{%>
+                                No
+                                <%}%>
+                            </p>
+                            <%}%>
+                        <p><b>EXPECTED CTC:  </b><%= job.ctc %></p>
+                            <p><b>REQUIRED SKILLS: </b><%= job.reqSkills %></p>
+                        </div>
+                        <br><br>
+                        <% if(currentUser){ %>
+                        <% if(bool2){ %>
+                        <form action="/seeker/<%= job._id %>/applyjob" method="POST">
+                            <input type="submit" name="submit" value="Apply" class="btn btn-success active">
+                        </form>
+                        <% } else { %>
+                        <button class="btn btn-success" type="button" disabled>Applied</button>
+                        <% }} %>
                     </div>
-                    <br><br>
-                   <% if(currentUser){ %>
-                   <% if(bool2){ %>
-                    <form action="/seeker/<%= job._id %>/applyjob" method="POST">
-                      <input type="submit" name="submit" value="Apply" class="btn btn-success active">
-                    </form>
-                <% } else { %>
-                    <button class="btn btn-success" type="button" disabled>Applied</button>
-                   <% }} %>
                 </div>
-            </div>
-            <div class="col-lg-8 col-sm-12">
-                <div class="row">
-                <div class="thumbnail" >
-                    <h4><b>JOB DESCRIPTION:</b></h4>
-                    <p><%= job.description %>ydwhqdhq wdyvhxhe wyfvys21hvdu1 wydg1udb In botany, a tree is a perennial plant with an elongated stem, or trunk, supporting branches and leaves in most species. In some usages, the definition of a tree may be narrower, including only woody plants with secondary growth, plants that are usable as lumber or plants above a specified height. In wider definitions, the taller palms, tree ferns, bananas, and bamboos are also trees. Trees are not a taxonomic group but include a variety of plant species that have independently evolved a trunk and branches as a way to tower above other plants to compete for sunlight. Trees tend to be long-lived, some reaching several thousand years old. Trees have been in existence for 370 million years. It is estimated that there are some three trillion mature trees in the world.[1]
+                <div class="col-lg-8 col-sm-12">
+                    <div class="row">
+                        <div class="thumbnail">
+                            <h4><b>JOB DESCRIPTION:</b></h4>
+                            <p><%= job.description %>ydwhqdhq wdyvhxhe wyfvys21hvdu1 wydg1udb In botany, a tree is a
+                                perennial plant with an elongated stem, or trunk, supporting branches and leaves in most
+                                species. In some usages, the definition of a tree may be narrower, including only woody
+                                plants with secondary growth, plants that are usable as lumber or plants above a
+                                specified height. In wider definitions, the taller palms, tree ferns, bananas, and
+                                bamboos are also trees. Trees are not a taxonomic group but include a variety of plant
+                                species that have independently evolved a trunk and branches as a way to tower above
+                                other plants to compete for sunlight. Trees tend to be long-lived, some reaching several
+                                thousand years old. Trees have been in existence for 370 million years. It is estimated
+                                that there are some three trillion mature trees in the world.[1]
 
-                        A tree typically has many secondary branches supported clear of the ground by the trunk. This trunk typically contains woody tissue for strength, and vascular tissue to carry materials from one part of the tree to another. For most trees it is surrounded by a layer of bark which serves as a protective barrier. Below the ground, the roots branch and spread out widely; they serve to anchor the tree and extract moisture and nutrients from the soil. Above ground, the branches divide into smaller branches and shoots. The shoots typically bear leaves, which capture light energy and convert it into sugars by photosynthesis, providing the food for the tree's growth and development.</p>
-                    <br><br>
-                </div>
-                </div>
-                <div class="row">
-                <div class="thumbnail">
-                    <h4><b>ABOUT <%= company.name %>: </b></h4>
-                    <p><%= company.description %></p>
-                    <form action="/company/<%= job.postedBy.id %>/myprofile" method="GET">
-                       <input type="submit" value="Visit Company website" name="submit2" class="btn btn-info active">
-                    </form>
-                </div>
+                                A tree typically has many secondary branches supported clear of the ground by the trunk.
+                                This trunk typically contains woody tissue for strength, and vascular tissue to carry
+                                materials from one part of the tree to another. For most trees it is surrounded by a
+                                layer of bark which serves as a protective barrier. Below the ground, the roots branch
+                                and spread out widely; they serve to anchor the tree and extract moisture and nutrients
+                                from the soil. Above ground, the branches divide into smaller branches and shoots. The
+                                shoots typically bear leaves, which capture light energy and convert it into sugars by
+                                photosynthesis, providing the food for the tree's growth and development.</p>
+                            <br><br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="thumbnail">
+                            <h4><b>ABOUT <%= company.name %>: </b></h4>
+                            <p><%= company.description %></p>
+                            <form action="/company/<%= job.postedBy.id %>/myprofile" method="GET">
+                                <input type="submit" value="Visit Company website" name="submit2"
+                                    class="btn btn-info active">
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-            </div>
-            </div>
-            <% } %>
-            <% }); %>
         </div>
+        <% } %>
+        <% }); %>
+    </div>
 </body>
+
 </html>
 
 <%- include("../partials/footer") %>

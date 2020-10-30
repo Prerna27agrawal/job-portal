@@ -44,7 +44,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id", middleware
               }
             });
             const output = `
-                   <p> You have been  selected for the following job</p>
+                   <p>Congratulations, You have been  selected for the following job!!</p>
                    <h3>Job details</h3>
                    <ul>
                    <li>Company: ${foundCompany.name} </li>
@@ -52,7 +52,8 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id", middleware
                    <li>Job location: ${foundjob.location} </li>
                    </ul>
                    <p>
-                   for further details you will be contacted by the company
+                   For further procedure, you will be contacted by the Comapny.
+                   All the Best.
                    </p>
                `;
   
@@ -72,7 +73,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id", middleware
             });
   
             const mailOptions = {
-              from: '"JobPortal" <jobporta2525@gmail.com>',
+              from: '"WeHire" <jobporta2525@gmail.com>',
               to: foundUser.email,
               subject: 'Job Offer',
               text: '',
@@ -142,7 +143,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id", middleware
             });
   
             const mailOptions = {
-              from: '"JobPortal" ',//<jobportal916@gmail.com>',
+              from: '"WeHire" ',//<jobportal916@gmail.com>',
               to: foundUser.email,
               subject: 'Job Offer',
               text: '',

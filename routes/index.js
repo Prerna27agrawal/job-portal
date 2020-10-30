@@ -132,7 +132,7 @@ router.post("/register",function(req,res){
                                     if(error)
                                     {
                                         console.log(error);
-                                        req.flash('error',"something went wrong on our end. Please register again");
+                                        req.flash('error',"Something went wrong on our end. Please register again");
                                         res.redirect('/register');
                                     }
                                     else
@@ -183,7 +183,7 @@ router.post("/register",function(req,res){
                             }
                             });
                 const mailOptions = {
-                            from :'"JobPortal" ',//<jobportal916@gmail.com>',
+                            from :'"WeHire" ',//<jobportal916@gmail.com>',
                             to :req.body.email,
                             subject : 'Account Verification:',
                             text : '',
@@ -193,7 +193,7 @@ router.post("/register",function(req,res){
                                 if(error)
                                 {
                                     console.log(error);
-                                    req.flash('error',"something went wrong on our end.please register again");
+                                    req.flash('error',"Something went wrong on our end.please register again");
                                     res.redirect('/login');
                                 }
                                 else
