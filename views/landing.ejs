@@ -41,9 +41,11 @@
          <h4 style="color: white;">WORK WHERE YOU'RE HAPPY</h4>
         <% if(currentUser && currentUser.isCompany == true){ %>
             <a href="/company/show" style="margin: 20px 5px;" class="btn btn-lg btn-success active">Go to Dashboard &#8594;</a>
-        <% } else if(currentUser && currentUser.isCompany == false){ %>
+        <% } else if(currentUser && currentUser.isCompany == false && currentUser.isAdmin == true){ %>
+            <a href="/admin/index" style="margin: 20px 5px;" class="btn btn-lg btn-success active">Go to Dashboard &#8594;</a>
+        <% } else if(currentUser && currentUser.isCompany == false ) { %>
             <a href="/seeker/index" style="margin: 20px 5px;" class="btn btn-lg btn-success active">Go to Dashboard &#8594;</a>
-        <% } else { %>
+            <% } else { %>
         <a href="/login" style="margin: 20px 5px;" class="btn btn-lg btn-success active">Login</a>
         <a href="/register" style="margin: 20px 5px ;" class="btn btn-lg btn-success active">Register</a>
         <% } %>
