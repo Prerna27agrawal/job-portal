@@ -1,33 +1,106 @@
 <%- include("../partials/header") %>
+<style>
+    .onlyintern{
+        display: none;
+    }
+</style>
 <div class="container">
-<div class="row" style="margin-top: 50px;">
-    <h2 style="text-align: center">CREATE A NEW JOB</h2>
-    <div style="width: 30%; margin: 25px auto;">
-        <form action="/login/company/createjob" method="post">
-            <div class="form-group">
-                <input class="form-control" type="text"  name="job[name]" placeholder=" Job Title/Position">
-            </div>
-            
-            <div class="form-group">
-                <input class="form-control" type="text"  name="job[location]" placeholder="Job Location">
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="text"  name="job[experience]" placeholder="Work-Experience">
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="text"  name="job[description]" placeholder="Job Description">
-            </div>
-            <!---<div class="form-group">
-                <input class="form-control" type="password"  placeholder="Required Skills">
-            </div>-->
-          <!---  <div class="form-group">
-                <input class="form-control" type="password"  placeholder="Employement Type">
-            </div>-->
-            <div class="form-group">
-                <button class="btn btn-lg btn-success btn-block active">POST</button>
-            </div>
-        </form>
+    <div class="row" >
+        <h1 style="text-align: center">CREATE A NEW JOB</h1>
+        <div style="width: 30%; margin: 25px auto;">
+            <form action="/login/company/createjob" method="post">
+                <div class="form-group">
+                    <label >Job Position</label>
+                    <input class="form-control" type="text" name="job[name]" placeholder=" Job Title/Position">
+                </div>
+
+                <div class="form-group">
+                    <label >Job Location</label>
+                    <input class="form-control" type="text" name="job[location]" placeholder="Job Location">
+                </div>
+                <div class="form-group">
+                    <label >Required Work-Experience in Years</label>
+                    <input class="form-control" type="number" name="job[experience]" placeholder="Work-Experience">
+                </div>
+                <div class="form-group">
+                    <label for="skill-set">Required Skills </label>
+                    <select class="form-control" id="skill-set" name="job[reqSkills]" required multiple
+                        aria-describedby="passwordHelpInline">
+                        <option value="C++">C++</option>
+                        <option value="C">C</option>
+                        <option value="CSS">C#</option>
+                        <option value="Java">Java</option>
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="HTML">HTML</option>
+                        <option value="CSS">CSS</option>
+                        <option value="NodeJS">NodeJS</option>
+                        <option value="Django">Django</option>
+                        <option value="Python">Python</option>
+                        <option value="Ruby">Ruby</option>
+                        <option value="React.Js">React.Js</option>
+                        <option value="React Native">React Native</option>
+                        <option value="Android">Android</option>
+                        <option value="Machine Learning">Machine Learning</option>
+                        <option value="Angular">Angular</option>
+                        <option value="Git">Git</option>
+                        <option value="OOPs">OOPs</option>
+                        <option value="OS">OS</option>
+                        <option value="Linux">Linux</option>
+                        <option value="DBMS">DBMS</option>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Cryptography">Cryptography</option>
+                        <option value="Ethical Hacking">Ethical Hacking</option>
+                        <option value="Android Development">Android Development</option>
+                    </select>
+                    <small id="passwordHelpInline" class="text-muted">
+                        Press CTRL and click above button to select multiple options at once.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label>Employement Type:</label>
+                    <input  type="radio" class="choice" name="job[employementType]" value="Full-Time">
+                    <label for="choice1">Full-Time</label>
+                    <input  type="radio" class="choice" name="job[employementType]" value="Intern">
+                    <label for="choice2">Intern</label>
+                </div>
+                <!-- ONLY FOR INTERNS -->
+                <div class="form-group onlyintern">
+                    <label >Stipend</label>
+                    <input class="form-control" type="number" name="job[stipend]" placeholder="Stipend">
+                </div>
+                <div class="form-group onlyintern">
+                    <label>Provision of PPO?</label>
+                    <input  type="radio" name="job[ppo]" id="ppoyes" value="yes">
+                    <label for="ppoyes">Yes</label>
+                    <input  type="radio" name="job[ppo]" id="ppono" value="no">
+                    <label for="ppono">No</label>
+                </div>
+                <!-- ////////////// -->
+                <div class="form-group">
+                    <label >Job Description</label>
+                    <input style="height: 150px;" class="form-control" type="text" name="job[description]"
+                        placeholder="Job Description">
+                </div>
+                <div class="form-group">
+                    <label >Expected Salary/CTC</label>
+                    <input class="form-control" type="number" name="job[ctc]" placeholder="Salary">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-success btn-block active">POST</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-</div>
+<script>
+$(document).ready(function(){
+    $('.choice').click(function(){
+        if($(this).val()=='Intern'){
+            $('.onlyintern').show();
+        }else{
+            $('.onlyintern').hide();
+        }
+    });
+});
+</script>
 <%- include("../partials/footer") %>

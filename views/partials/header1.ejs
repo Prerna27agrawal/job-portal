@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="path/to/intlTelInput.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <script type="text/javascript"
@@ -35,6 +34,7 @@
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-size: 14px;
     }
+    
 </style>
 
 <body>
@@ -56,34 +56,34 @@
                     <% if(currentUser){ %>
                     <% if(currentUser.isCompany) { %>
                     <li class="nav-item">
-                        <a class="nav-link " style="color: #3a4066;" href="/company/show">Dashboard <span
+                        <a class="nav-link " style="color: floralwhite;margin-top: 10px;" href="/company/show">Dashboard <span
                                 class="sr-only">(current)</span></a></li>
                     <% } else if(currentUser.isAdmin) { %>
-                    <li class="nav-item"><a style="color: floralwhite;" href="/admin/index">Home</a></li>
+                    <li class="nav-item"><a class="nav-link " style="color: floralwhite;" href="/admin/index">Home</a></li>
                     <% } else { %>
                     <li class="nav-item">
-                        <a class="nav-link " style=" color: #3a4066;" href="/seeker/index">Dashboard
+                        <a class="nav-link " style=" color: floralwhite;margin-top: 10px;" href="/seeker/index">Dashboard
                             <span class="sr-only">(current)</span></a></li>
                     <% } %>
                     <% } %>
                 </ul>
                 <ul class="navbar-nav  justify-content-end">
                     <% if(!currentUser){ %>
-                    <li class="nav-item"><a style="color: white; " class="nav-link " href="/login">Login</a></li>
-                    <li class="nav-item"><a style="color: white;padding-right: 40px;" class="nav-link"
+                    <li class="nav-item"><a  class="nav-link " style="color: floralwhite;" href="/login">Login</a></li>
+                    <li class="nav-item"><a style="color:floralwhite;padding-right: 40px;" class="nav-link"
                             href="/register">Sign Up</a></li>
                     <% } else { %>
                     <% if(currentUser.isCompany) { %>
                     <li class="nav-item">
-                        <a class="nav-link" style="color: white;"
+                        <a class="nav-link" style="color: floralwhite;margin-top: 10px;"
                             href="/company/<%= currentUser._id %>/myprofile">Signed In As
                             <%= currentUser.username %></a></li>
                     <% } else if(currentUser.isAdmin) { %>
-                    <li><a class="dropdown-item" style="color: floralwhite;" href="/contactus">Contact Page</a></li>
-                    <li><a class="dropdown-item" style="color: floralwhite;" href="/aboutus">Profile</a></li>
+                    <li><a class="dropdown-item" class="nav-link " style="color: floralwhite;"  href="/contactus">Contact Page</a></li>
+                    <li><a class="dropdown-item" class="nav-link " style="color: floralwhite;"  href="/aboutus">Profile</a></li>
                     <% } else { %>
                     <li class="nav-item">
-                        <a class="nav-link " style="color: white;"
+                        <a class="nav-link " style="color:floralwhite ;margin-top: 10px;"
                             href="/seeker/<%= currentUser._id %>/myprofile">Signed In As
                             <%= currentUser.username %></a></li>
                     <% } %>

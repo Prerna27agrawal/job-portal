@@ -45,14 +45,14 @@ router.post("/login/company/createjob", middleware.checkCompanyOwnership, functi
       req.flash("success", "Successfully Created New Job");
       Company.findOne().where('createdBy.id').equals(req.user._id).populate('subscribedBy').exec(function (err, company) {
         var users = [];
-        console.log(company);
+        // console.log(company);
         company.subscribedBy.forEach(function (eachuser) {
           users.push(eachuser.email);
         });
         //email for notification of new job
         if (users.length > 0) {
           const output = `
-      <p>Hello Seeker,</p>
+      <p>Greetings from WeHire,</p>
       <p> ${company.name} is hiring ${job.name} for the following job profile</p>
       <h3>Job details</h3>
       <ul>

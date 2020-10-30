@@ -30,7 +30,7 @@
 									<td><%= job.name %></td>
 									<td><%= job.location %></td>
 									<td><%= moment(job.createdAt).format('YYYY-MM-DD')%></td>
-									<td><%= job.experience %></td>
+									<td><%= job.experience %>+ years</td>
 									<td><%= job.description %></td>
 									<% if((currentUser && company.createdBy.id.equals(currentUser._id) && currentUser.isCompany)){ %>
 										<td><a class="btn btn-xs btn-warning" href="/company/<%= job._id %>/show/jobstats">

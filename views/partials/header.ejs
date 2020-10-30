@@ -8,7 +8,7 @@
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="path/to/intlTelInput.css">
+    <!-- <link rel="stylesheet" href="path/to/intlTelInput.css"> -->
     <link ref="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -107,7 +107,8 @@
                                     <li ><a class="dropdown-item" href="/admin/jobs/1">Jobs Posted</a></li>    
                                     <li ><a class="dropdown-item" href="/admin/feedback/1">Feedbacks</a></li>  
                                     <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                                    <% }else if(currentUser && !currentUser.isCompany) {%>
+
+                                    <% }else if(currentUser) {%>
                                     <!-- <li ><a class="dropdown-item" href="/contactus">Edit Profile</a></li>   -->
                                     <li ><a class="dropdown-item" href="/seeker/:seeker_id/appliedJobs">My Applied Jobs</a></li>   
                                     <li><a class="dropdown-item" href="/logout">Logout</a></li>

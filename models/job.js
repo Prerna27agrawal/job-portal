@@ -7,10 +7,14 @@ mongoose.set('useCreateIndex', true);
 
 var jobSchema = new mongoose.Schema({
     name: String,
-    //company: String,
     location: String,
-    experience: String,
+    experience: Number,
     description: String,
+    ctc:Number,
+    employementType:String,
+    ppo:Boolean,
+    stipend:Number,
+    reqSkills:[String],
     postedBy: {
       id: {
         type: mongoose.Schema.Types.ObjectId,
