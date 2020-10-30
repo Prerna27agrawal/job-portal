@@ -7,11 +7,13 @@ var User = require("../models/user");
 var Posts =require("../models/posts");
 var Quiz1 = require("../models/quiz1");
 var FeedBack =require("../models/feedback");
+var Submission = require("../models/submission");
 
 var middleware = require("../middleware/index.js");
 const { runInContext, isContext } = require("vm");
 var path= require("path");
 const { networkInterfaces } = require("os");
+var async = require("async");
 ////Multer config
 router.use(express.static(__dirname+"./public/"));
 
@@ -104,7 +106,9 @@ Quiz1.findById(req.params.id,function(err,foundQuestion){
 });
 });
 router.delete('/quiz1/delete/:id',middleware.checkAdminOwnership,function(req,res){
-   Quiz1.findByIdAndRemove(req.params.id,function(err,foundQuestion){
+   console.log("typeof id");
+   console.log(typeof(req.params.id));
+        Quiz1.findByIdAndRemove(req.params.id,function(err,foundQuestion){
         if (err) {
                 console.log(err);
                 req.flash("error",err.message);
@@ -131,17 +135,110 @@ router.get("/quiz1/showquiz",function(req,res){
 });
 });
 router.post("/quiz1/showquiz",function(req,res){
-        res.send("to calculate total");
-        console.log(req.body);
-        console.log(req.body.ans);
-        console.log(typeof(req.body));
-        console.log(typeof(req.body.ans));
+        var map = new Map();
+        //  let score= 0;
         for (var key in req.body) {
-                if (req.body.hasOwnProperty(key)) {
-                  item = req.body[key];
-                  console.log(key);
-                  console.log(item);
-                }
-              }
+                   item = req.body[key];
+                   map.set(key,item);
+
+        }
+        let count=0;
+         map.forEach((values,keys)=>{
+                 var newSubmission = new Submission(
+                         {
+                                "submissionOf.id": keys,
+                                answer: values
+                         }
+
+                 )
+                  Submission.create(newSubmission, function(err,submission){
+                           console.log("created");
+                           if (err) {
+                                console.log(err);
+                                req.flash("error", err.message);
+                                return res.redirect("back");
+                              }
+                              else{
+                                      count++;
+                                      submission.submittedBy.id = "5f99694ad045515b9836b31d";//req.user._id;
+                                      submission.save();
+                              }
+                              if(count == map.size)
+                              {
+                                      re();
+                              }
+
+                 })  ; 
+        });
+        function re(){
+        console.log("after");
+        res.redirect("/score/5f99694ad045515b9836b31d");
+        }
 });
+
+router.get("/score/:id",function(req,res){
+        Seeker.findOne({"seekerBy.id":req.params.id}).exec(function(err,seeker){
+        let score=0;
+        Submission.find({"submittedBy.id":req.params.id}).populate('submissionOf').exec(function(err,submission){
+                Submission.countDocuments({}).exec(function(err,count){
+                     submission.forEach(function(submission,index){
+                             Quiz1.findOne({"_id":submission.submissionOf.id}).exec(function(err,question){
+                            if(String(submission.answer) == String(question.answers.correct))
+                            {
+                                    score++;
+                                    if(index == (count-1))
+                                     {
+                                           check();
+                                      }  
+                                
+                            } 
+                        });
+                     });
+function check(){
+       // console.log(score);
+        seeker.Score = score;
+        seeker.save();
+        console.log(seeker.Score);
+        //console.log("after");
+        req.flash("success","Your response has been submitted");
+        res.redirect("/login");
+         }
+        });
+});
+});
+      
+});
+
 module.exports = router;
+
+
+  // console.log(key);
+                // console.log(typeof(map.get(key)));
+                // console.log(map.get(key));
+        //         var myDocument = Quiz1.findOne({"_id":"key","answers.correct":"map.get(key)"});
+        //         if(myDocument)
+        //         {
+        //                 console.log(score);
+        //                 score++;
+        //         }
+//   Quiz1.find({_id:key,"answers.correct":item}).exec(function(err,Question){
+        //             console.log(Question);
+        //             i++;
+        //         //   console.log('check');
+        // //           if(Question == 1)
+        // //           {
+        // //                   console.log("hi");
+        // //                   score++;
+        // //                   console.log(score);
+        // //           }
+        // // console.log(score);
+
+        //         //   score= Number(score) + Number(Question);
+        //         //   console.log(typeof(Question));
+        //         //   if( String(Question.answers.correct) == String(item) )
+        //         //   {
+        //         //           console.log("hi");
+        //         //           score++;
+        //         //   }
+        //    });
+        // console.log(score);

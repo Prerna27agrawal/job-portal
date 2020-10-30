@@ -15,6 +15,7 @@ var User = require("../models/user");
 var Posts =require("../models/posts");
 var Quiz1 = require("../models/quiz1");
 var FeedBack =require("../models/feedback");
+var Submission = require("../models/submission");
 
 
 var middleware = require("../middleware/index.js");
