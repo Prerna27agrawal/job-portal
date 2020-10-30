@@ -178,16 +178,13 @@ router.post("/reset/:id",function(req,res){
 router.get("/contactus",function(req,res){
     res.render("contactus"); 
  });
- router.post("/contactus",middleware.isLoggedIn,function(req,res){
+ router.post("/contactus",function(req,res){
      var newfeedback = new FeedBack({
          FirstName:req.body.FirstName,
          LastName:req.body.LastName,
          email:req.body.email,
          message:req.body.message
      });
-     newfeedback.postedBy ={
-         id: req.user._id
-     }
      FeedBack.create(newfeedback,function(err,newfeedback){
          if (err) {
              console.log(err);

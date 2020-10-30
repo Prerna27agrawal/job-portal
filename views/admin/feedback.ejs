@@ -76,7 +76,7 @@
                                     </form>
                                     <div >
                                         <% if((currentUser && currentUser.isAdmin)){ %>
-                                            <form class="delete-form" action="/feedback/delete/<%= feedback._id %>?_method=DELETE"
+                                            <form onsubmit="return confirm('Do you really want to Delete the following?');" class="delete-form" action="/feedback/delete/<%= feedback._id %>?_method=DELETE"
                                                 method="POST">
                                                 <button class="btn btn-danger btn-xs active pull-right" style="margin-right: 2px;" type="Submit" title="Delete Comment" value="Delete"><span class="glyphicon glyphicon-trash" ></span></button>
                                             </form> 
