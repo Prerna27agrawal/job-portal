@@ -5,16 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
     <%- include("../partials/header1") %>
- 
     <style>
         body{
-            background-color:rgb(229, 237, 241);
+            background-color:rgb(243,247,247);
             margin: 0px;
             line-height: 1.4em;
-            
-        
-        font-size:14px;
-            font-family:"Helvetica Neue",Helvetica,Arial,sans-serif, Avenir, "Segoe UI", Ubuntu, ;
+            font-family: "Whitney SSm A", "Whitney SSm B", Avenir, "Segoe UI", Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
             font-weight: normal;
         }
         div{
@@ -25,7 +21,6 @@
             box-shadow: 0.1px 1px 4px 0 #e7eeef;
             min-height: 60px;
             width: 100%;
-            margin-top: 10px;
         }
         .empty{
             display: flex;
@@ -40,7 +35,6 @@
             font-weight: bold;
             font-size:18px;
             line-height:1em;
-
         }
         .container{
             box-sizing: border-box;
@@ -49,8 +43,8 @@
             position: relative;
             max-width: 1240px;
             min-width: 1024px;
-            padding-left: 20px;
-            padding-right: 20px;
+            /* padding-left: 20px;
+            padding-right: 20px; */
         }
         .inner-container{
             flex: 0 1 75%;
@@ -67,13 +61,13 @@
             align-self: stretch;
             min-height: 260px;
         }
-        ul{
+        .ul-class{
             z-index: 1;
             list-style: none;
             margin:0;
             padding:0;
         }
-        li{
+        .li-class{
             margin-bottom: 10px;
             padding: 0;
         }
@@ -82,26 +76,26 @@
             font-weight: 700;
             text-decoration: none;
         }
-        .nav-item{
-            /* display: block;
-            color: #39424e; */
+        .nav-item-2{
+            display: block;
+            color: #39424e;
             text-transform: capitalize;
             cursor:pointer;
             transition: 0.3s;
         }
-        /* .nav-item:hover{
+        .nav-item-2:hover{
             background-color: #e6eef3;
             text-decoration: none;
             color:black;
-        } */
-        /* .nav-item.active{
-            color:#347aa3;
+        }
+        .nav-item-2.active{
+            color:#297fb1;
             background-color: #e6eef3;
-        } */
-        a:hover{
+        }
+        .a-class:hover{
             text-decoration: none;
         }
-        a:active{
+        .a-class:active{
             text-decoration: none;
         }
         .tabcontent{
@@ -113,12 +107,10 @@
   from {opacity: 0;}
   to {opacity: 1;}
 }
-
 @keyframes fadeEffect {
   from {opacity: 0;}
   to {opacity: 1;}
 }
-
 /* JOB STYLING */
 .m-15px-tb {
     margin-top: 15px;
@@ -177,16 +169,16 @@
     <header>
         <div class="container">
            <div class="inner-container">
-               <h2 style="color: rgb(74, 49, 143);">MY APPLICATIONS</h2>
+               <h1>My Applications</h1>
            </div>
         </div>
     </header>
     <div class="container">
             <div class="row" style="margin-top:30px;">
                 <div class="col-md-2 col-sm-12">
-                    <ul>
-                        <li>
-                            <a class="nav-item" onclick="openCity( event , 'Pending' )" id="defaultOpen">
+                    <ul class="ul-class">
+                        <li class="li-class">
+                            <a class="nav-item-2 a-class" onclick="openCity( event , 'Pending' )" id="defaultOpen">
                                 <div class="list-item">
                                     <svg width="1.3em" height="1.3em" viewBox="0 0 16 16" class="bi bi-clock" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm8-7A8 8 0 1 1 0 8a8 8 0 0 1 16 0z"/>
@@ -196,8 +188,8 @@
                                 </div>
                             </a>
                         </li>
-                        <li>
-                            <a class="nav-item" onclick="openCity( event , 'Accepted' )">
+                        <li class="li-class">
+                            <a class="nav-item-2 a-class" onclick="openCity( event , 'Accepted' )">
                                 <div class="list-item">
                                     <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-check2-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M15.354 2.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L8 9.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
@@ -207,8 +199,8 @@
                                 </div>
                             </a>
                         </li>
-                        <li>
-                            <a class="nav-item" onclick="openCity( event , 'Rejected' )">
+                        <li class="li-class">
+                            <a class="nav-item-2 a-class" onclick="openCity( event , 'Rejected' )">
                                 <div class="list-item">
                                     <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-bookmark-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
@@ -247,11 +239,11 @@
                                         <img src="<%= company.logo %>" width="50px" height="50px">
                                     </div>
                                     <div class="p-20px-l media-body">
-                                        <h5 class="m-5px-tb"><%= (company.name).toUpperCase() %></h5>
+                                        <h5 class="m-5px-tb"><%= company.name %></h5>
                                         <h6 class="m-5px-tb"><%= job.name %></h6>
                                         <p class="m-5px-tb"><%= job.location %></p>
                                         <p class="m-5px-tb font-small"><%= job.experience %>+ years of experience</p>
-                                        <a href="/seeker/<%= job._id %>/applyjob">
+                                        <a href="/seeker/<%= job._id %>/applyjob" class="a-class">
                                         <span class="theme2nd-bg white-color p-0px-tb p-10px-lr border-radius-15">More info</span>
                                         </a>
                                     </div>
@@ -267,7 +259,7 @@
                                     <h3>There are no Pending jobs to show yet.</h3>
                                 </div>
                                 <% } %>
-                          
+
                     </div>
                     <div class="tabcontent" id="Accepted">
                         <div class="row">
@@ -299,7 +291,7 @@
                                             <h6 class="m-5px-tb"><%= job.name %></h6>
                                             <p class="m-5px-tb"><%= job.location %></p>
                                             <p class="m-5px-tb font-small"><%= job.experience %>+ years of experience</p>
-                                            <a href="/seeker/<%= job._id %>/applyjob">
+                                            <a href="/seeker/<%= job._id %>/applyjob" class="a-class">
                                             <span class="theme2nd-bg white-color p-0px-tb p-10px-lr font-small border-radius-15">More info</span>
                                             </a>
                                         </div>
@@ -316,7 +308,7 @@
                                 </div>
                                 <% } %>
                     </div>
-                   
+
                     <div class="tabcontent" id="Rejected">
                         <div class="row">
                             <% var count3=0;
@@ -347,7 +339,7 @@
                                             <h6 class="m-5px-tb"><%= job.name %></h6>
                                             <p class="m-5px-tb"><%= job.location %></p>
                                             <p class="m-5px-tb font-small"><%= job.experience %>+ years of experience</p>
-                                            <a href="/seeker/<%= job._id %>/applyjob">
+                                            <a href="/seeker/<%= job._id %>/applyjob" class="a-class">
                                             <span class="theme2nd-bg white-color p-0px-tb p-10px-lr font-small border-radius-15">More info</span>
                                             </a>
                                         </div>
@@ -377,7 +369,7 @@
             for (i = 0; i < tabcontent.length; i++) {
                tabcontent[i].style.display = "none";
             }
-            navitem = document.getElementsByClassName("nav-item");
+            navitem = document.getElementsByClassName("nav-item-2");
             for (i = 0; i < navitem.length; i++) {
                 navitem[i].className = navitem[i].className.replace(" active", "");
             }

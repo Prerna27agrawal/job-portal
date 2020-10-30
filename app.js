@@ -41,7 +41,7 @@ var job_part2 = require("./routes/job_part2");
 var pass_reset = require("./routes/pass_reset");
 var profile = require("./routes/profile");
 var project = require("./routes/project");
-
+var imagesroute = require("./routes/images");
 
 
 
@@ -115,7 +115,9 @@ app.use(adminroutes);
 app.use(job_part2);
 app.use(pass_reset);
 app.use(profile);
+app.use(imagesroute);
 app.use(project);
+
 var port = process.env.PORT || 3000;
 app.listen(port, function () {
   console.log("Server has started");
