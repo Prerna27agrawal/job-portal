@@ -1,7 +1,7 @@
 <%- include("../partials/header") %>
 <div class="container">
 <div class="row">
-    <h1 style="text-align: center">Edit your profile <%= company.name %></h1>
+    <h1 style="text-align: center;margin-top: 40px;">EDIT <i><%= company.name.toUpperCase() %></i> PROFILE</h1>
     <div style="width: 30%; margin: 25px auto;">
         <form action="/company/updateprofile/<%= company._id %>?_method=PUT" method="post" enctype="multipart/form-data">
             <div class="form-group">
@@ -54,7 +54,7 @@
                 <button class="btn btn-lg btn-primary btn-block">Update</button>
             </div>
         </form>
-        <a href="/register">Go Back</a>
+        <a href="/company/show">Go Back</a>
     </div>
 </div>
 </div>

@@ -45,12 +45,12 @@
           <% if(currentUser){ %>
           <% if(currentUser.isCompany) { %>
           <li class="nav-item">
-            <a class="nav-link" href="/company/show">Dashboard <span class="sr-only">(current)</span></a></li>
+            <a class="nav-link" style="color: floralwhite;" href="/company/show">Dashboard <span class="sr-only">(current)</span></a></li>
           <% } else if(currentUser.isAdmin) { %>
           <li class="nav-item"><a style="color: floralwhite;" href="/admin/index">Home</a></li>
           <% } else { %>
           <li class="nav-item">
-            <a class="nav-link" href="/seeker/index">Dashboard <span class="sr-only">(current)</span></a></li>
+            <a class="nav-link" style="color: floralwhite;" href="/seeker/index">Dashboard <span class="sr-only">(current)</span></a></li>
           <% } %>
           <% } %>
         </ul>
@@ -62,14 +62,14 @@
           <% } else { %>
           <% if(currentUser.isCompany) { %>
           <li class="nav-item">
-            <a class="nav-link" style="color: white;" href="/company/<%= currentUser._id %>/myprofile">Signed In As
+            <a class="nav-link" style="color: white; margin-top: 8px;" href="/company/<%= currentUser._id %>/myprofile">Signed In As
               <%= currentUser.username %></a></li>
           <% } else if(currentUser.isAdmin) { %>
-          <li><a class="dropdown-item" style="color: floralwhite;" href="/contactus">Contact Page</a></li>
-          <li><a class="dropdown-item" style="color: floralwhite;" href="/aboutus">Profile</a></li>
+          <li><a class="dropdown-item" style="color: floralwhite; margin-top: 8px;" href="/contactus">Contact Page</a></li>
+          <li><a class="dropdown-item" style="color: floralwhite;margin-top: 8px;" href="/aboutus">Profile</a></li>
           <% } else { %>
           <li class="nav-item">
-            <a class="nav-link" style="color: white;" href="/seeker/<%= currentUser._id %>/myprofile">Signed In As
+            <a class="nav-link" style="color: white; margin-top: 8px;" href="/seeker/<%= currentUser._id %>/myprofile">Signed In As
               <%= currentUser.username %></a></li>
           <% } %>
           <!-- <li class="nav-item">

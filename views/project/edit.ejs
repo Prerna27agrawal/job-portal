@@ -1,9 +1,9 @@
 <%- include("../partials/header") %>
 <div class="container">       
-    <div class="row">
-                <h1 style="text-align: center">
-                    Edit Project <%= project.title %>
-                </h1>
+    <div class="row" >
+                <h2 style="text-align: center;margin-top: 50px;">
+                    EDIT PROJECT <%= (project.title).toUpperCase() %>
+                </h2>
                     <div style="width:30%; margin:25px auto;">
 <form action="/seeker/<%=foundSeeker.seekerBy.id%>/editproject/<%= project._id %>" method="post" name="projects">
     <div class="form-group">
@@ -130,7 +130,7 @@
         <textarea cols="80" rows="6" name="project_description" style="width: 100%;"></textarea>
     </div> -->
    
-    <button id="addproject" class="btn btn-success active" >Save</button>
+    <button id="addproject" class="btn btn-success active btn-block" >Save</button>
 </form>
 <a href="/seeker/<%= foundSeeker.seekerBy.id %>/myprofile">Go Back</a>
 				</div>
