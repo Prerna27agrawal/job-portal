@@ -4,27 +4,25 @@
 		<div class="col-md-auto">
 			<div class="well">
 				<div class="text-right">
-					<a class="btn btn-success" href="/quiz1/questions">create Question</a>
+					<a class="btn btn-success" href="/quiz/<%= quiz._id %>/questions">create Question</a>
 				</div>
-                <hr>
-                <h3>Total Questions for this test: <%= count %></h3>
+				<h1><%= quiz.title %></h1>
                 <br>
                 <% var j=1 %>
-				<% questions.forEach(function(question){%>
+				<% quiz.questions.forEach(function(question){%>
 						<div class="row">
 							<div class="col-md-12">
                                 <strong>Q.<%= question.description %></strong>
                                 <!----- make moment to app.js-->
                                 <br>
-                                <p>1. <%=question.answers.correct %></p>
-                                <%  var i=2;
-                                    question.answers.incorrect.forEach(function(incorrect){ %>
-                                <p><%= i %>  <%= incorrect %></p>
+                                <%  var i=1;
+                                    question.options.forEach(function(option){ %>
+                                <p><%= i %>  <%= option %></p>
                                 <% i++ ; }); %>
-                                <p>Ans: <%= question.answers.correct %></p>
-				<a class="btn btn-xs btn-warning" 	href="/quiz1/edit/<%= question._id%>">Edit</a>
+                                <p>Ans: <%= question.correct %></p>
+				<a class="btn btn-xs btn-warning" 	href="/quiz/<%= quiz._id %>/edit/<%= question._id%>">Edit</a>
 								<form class="delete-form"
-									  action="/quiz1/delete/<%= question._id%>/?_method=DELETE" method="POST">
+									  action="/quiz/<%= quiz._id %>/delete/<%= question._id%>/?_method=DELETE" method="POST">
 									<input class="btn btn-xs btn-danger" type="Submit" value="Delete">
 								</form>
 								<hr>

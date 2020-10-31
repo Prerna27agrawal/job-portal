@@ -3,9 +3,10 @@ var Company = require("../models/company");
 var Seeker = require("../models/seeker");
 var Job = require("../models/job");
 var Posts =require("../models/posts");
-var Quiz1 = require("../models/quiz1");
-var FeedBack =require("../models/feedback");
+var Quiz = require("../models/quiz");
+var Question = require("../models/question");
 var Submission = require("../models/submission");
+var FeedBack =require("../models/feedback");
 
 
 var middlewareObj ={};

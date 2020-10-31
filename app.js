@@ -24,9 +24,15 @@ var Seeker = require("./models/seeker");
 var Job = require("./models/job");
 var User = require("./models/user");
 var Posts =require("./models/posts");
-var Quiz1 = require("./models/quiz1");
 var FeedBack =require("./models/feedback");
+var Quiz = require("./models/quiz");
+var Question = require("./models/question");
+// var Quiz2 = require("./models/quiz1");
+// var Quiz3 = require("./models/quiz1");
 var Submission = require("./models/submission");
+// var Submission2 = require("./models/submission");
+// var Submission3 = require("./models/submission");
+
 
 var middleware = require("./middleware/index.js");
 

@@ -7,7 +7,6 @@ mongoose.set('useCreateIndex', true);
 
 
 var seekerSchema = new mongoose.Schema({
-   // username:String,
     firstname:String,
     lastname: String,
     email: String ,
@@ -29,13 +28,6 @@ var seekerSchema = new mongoose.Schema({
     resume: String,
     skills: [String],
     image :{type:String,default:"https://i0.wp.com/www.mvhsoracle.com/wp-content/uploads/2018/08/default-avatar.jpg?ssl=1"},
-   // password: String ,
-    // appliedJobs:[{
-    //   id: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "Job"
-    //   },
-    // }]
     seekerBy: {
       id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -50,9 +42,22 @@ var seekerSchema = new mongoose.Schema({
           endtime:String,
           description:String,
   }],
-  Score: Number
+Score:{type:Number,default:0},
+ScoreStatus:[{
+         score:Number,
+         test_id:String,
+}]
+//   test_title:String,
+
+//   isattempted:{type:Boolean,default:false},
+// }
+//   Score: Number,
+//   Score1: Number,
+//   Score2: Number,
+//   Score3:Number,
+//   istest1:{type:Boolean,default:false},
+//   istest2:{type:Boolean,default:false},
+//   istest3:{type:Boolean,default:false},
   });
   
-//seekerSchema.plugin(passportLocalMongooseS)
-
   module.exports = mongoose.model("Seeker", seekerSchema);
