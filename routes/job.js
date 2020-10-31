@@ -42,6 +42,7 @@ router.post("/login/company/createjob", middleware.checkCompanyOwnership, functi
       return res.redirect("back");
     }
     else {
+      console.log(job);
       req.flash("success", "Successfully Created New Job");
       Company.findOne().where('createdBy.id').equals(req.user._id).populate('subscribedBy').exec(function (err, company) {
         var users = [];
