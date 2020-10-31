@@ -17,6 +17,7 @@ var path= require("path");
 var passportLocalMongoose = require('passport-local-mongoose'); 
 var methodOverride = require("method-override");
 var flash = require('connect-flash');
+const {check, validationResult} = require('express-validator');
 const bcrypt = require('bcryptjs');
 
 var Company = require("./models/company");

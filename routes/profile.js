@@ -5,6 +5,8 @@ var async = require("async");
 var crypto = require("crypto");
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
+const {check, validationResult} = require('express-validator');
+
 
 var Company = require("../models/company");
 var  Seeker = require("../models/seeker");
