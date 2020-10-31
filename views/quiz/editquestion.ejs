@@ -1,30 +1,30 @@
 <%- include("../partials/header1") %>
 <div class="container">
-<div class="row mt-5">
+<div class="row mt-5 text-center">
     <div class="col-md-6 m-auto">
-        <h1 class="display-4 mb-2" style="text-align: center;">Edit Question of Test <%= quiz.title %></h1><br>
-        <div class="card card-body text-center" style="background:#303030;">
+        <h2>Edit Question of  <%= quiz.title %></h2><br>
+        <div class="card card-body"  style="background:#89bfcc;margin-bottom: 40px;">
             <form action="/quiz/<%= quiz._id %>/edit/<%= question._id %>?_method=PUT" method="POST">
                 <div class="form-group">
-                    <label for="question" style="color:white;">Question: </label>
+                    <h5>Question</h5>
                     <input type="text" id="question" name="description" value="<%= question.description %>" class="form-control" placeholder="Enter Question data"  required/>
                 </div>
   
                 <div class="form-group">
-                    <label for="opt2" style="color:white;">option1: </label>
+                    <h6>Option 1</h6>
                     <input type="text" id="opt2" name="opt1"value="<%= question.options[0] %>"  class="form-control"
                         placeholder="Enter Option1" required/>
                 </div><div class="form-group">
-                    <label for="opt3" style="color:white;">option2: </label>
+                    <h6>Option 2</h6>
                     <input type="text" id="opt3" name="opt2" value="<%=  question.options[1] %>"  class="form-control"
                         placeholder="Enter Option2"required />
                 </div><div class="form-group">
-                    <label for="opt4" style="color:white;">option3: </label>
+                    <h6>Option 3</h6>
                     <input type="text" id="opt4" name="opt3" value="<%=  question.options[2] %>" class="form-control"
                         placeholder="Enter Option3" required/>
                 </div> 
                 <div class="form-group">
-                    <label for="opt4" style="color:white;">option4: </label>
+                    <h6>Option 4</h6>
                     <input type="text" id="opt4" name="opt4" value="<%=  question.options[3] %>" class="form-control"
                         placeholder="Enter Option4" required/>
                 </div> 
@@ -33,33 +33,10 @@
                     <input type="text" id="opt1" name="correctAnswer" value="<%= question.correct %>" class="form-control"
                         placeholder="Enter correctAnswer" required/>
                 </div>
-                <button type="submit" class="btn btn-lg btn-primary btn-block">Add</button>
+                <button type="submit" class="btn btn-lg btn-secondary btn-block">Edit</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<!-- 
-<div class="row">
-    <h1 style="text-align: center">Log In</h1>
-    <div style="width: 40%; margin: 25px auto;">
-        <form action="/login" method="post">
-            <div class="form-group">
-                <input class="form-control" type="text" name="username" placeholder="username">
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="password" name="password" placeholder="password">
-            </div>
-            <div class="form-group">
-                <button class="btn btn-lg btn-secondary btn-block active">Login</button>
-            </div>
-        </form>
-        <p class="mt-4 text-center">
-            New User? <a href="/register">Register</a>
-        </p>
-        <p class="mt-4 text-center">
-            Forgot Password? <a href="/forgot">Reset</a>
-        </p>
-    </div>
-</div> -->
 <%- include("../partials/footer1") %>

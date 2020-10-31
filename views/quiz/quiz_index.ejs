@@ -1,10 +1,15 @@
 <%- include("../partials/header") %>
+<style>
+	.well{
+		background-color: rgb(241, 250, 252);
+	}
+</style>
 <div class="container">
 	<div class="row">
 		<div class="col-md-auto">
 			<div class="well">
 				<div class="text-right">
-					<a class="btn btn-success" href="/quiz/<%= quiz._id %>/questions">create Question</a>
+					<a class="btn btn-success" href="/quiz/<%= quiz._id %>/questions">Add a New Question</a>
 				</div>
 				<h1><%= quiz.title %></h1>
                 <br>
@@ -20,10 +25,10 @@
                                 <p><%= i %>  <%= option %></p>
                                 <% i++ ; }); %>
                                 <p>Ans: <%= question.correct %></p>
-				<a class="btn btn-xs btn-warning" 	href="/quiz/<%= quiz._id %>/edit/<%= question._id%>">Edit</a>
+				<a class="btn btn-xs btn-warning pull-right" 	href="/quiz/<%= quiz._id %>/edit/<%= question._id%>">Edit</a>
 								<form class="delete-form"
 									  action="/quiz/<%= quiz._id %>/delete/<%= question._id%>/?_method=DELETE" method="POST">
-									<input class="btn btn-xs btn-danger" type="Submit" value="Delete">
+									<input class="btn btn-xs btn-danger pull-right" type="Submit" value="Delete">
 								</form>
 								<hr>
 							</div>
