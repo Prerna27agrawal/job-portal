@@ -1,32 +1,63 @@
 <%- include("../partials/header") %>
+<style>
+    .qstn {
+        background-color: rgb(96, 134, 168);
+        color:white;
+        border-radius: 25px;
+        margin-bottom: 0%;
+        padding:0.2%;
+    }
+    .qstn h5{
+        margin-left: 15px;
+    }
+    .answer {
+        background-color: rgb(242, 248, 248);
+        border-radius: 25px;
+        margin-top: 0.5%;
+        margin-bottom:40px;
+        padding:1%;
+    }
+    #quiztitle{
+       color:teal;
+        margin-bottom: 40px;
+    }
+</style>
+<div class="container">
+
+</div>
+
 <div class="container">
     <form action="/quiz/<%= quiz._id %>/takequiz" method="POST">
-        <h1>online quiz <%= quiz.title %></h1>
-       <% function shuffleArray(array) { 
-            for (var i = array.length - 1; i > 0; i--) { 
-                
-                // Generate random number 
-                var j = Math.floor(Math.random() * (i + 1)); 
-                                
-                var temp = array[i]; 
-                array[i] = array[j]; 
-                array[j] = temp; 
-            } 
-                    
-            return array; 
-            } %>
-<% quiz.questions.forEach(function(question){%> 
-            <div class="form-group">
-                <p>Q. <%= question.description %></p>
-               <% var aftershuffle = shuffleArray(question.options); %>
-        <% aftershuffle.forEach(function(option){
-            console.log(option); %>
-                <input type="radio"  name="<%= question._id %>" value="<%= option %>"> <%= option %>
-            <br>
-            <% }); %>
+        <h1 id="quiztitle"><%= quiz.title %></h1>
+        <% function shuffleArray(array) { 
+                    for (var i = array.length - 1; i > 0; i--) { 
+                        
+                        // Generate random number 
+                        var j = Math.floor(Math.random() * (i + 1)); 
+                                        
+                        var temp = array[i]; 
+                        array[i] = array[j]; 
+                        array[j] = temp; 
+                    } 
+                            
+                    return array; 
+        } %>
+        <% quiz.questions.forEach(function(question){%>
+        <div class="row">
+            <div class="col-xs-8 qstn">
+                <h5>Q. <%= question.description %> ?</h5>
             </div>
-            <%});%>
-            <center><input type="submit" value="submit" class="btn btn-success"/></center>
-            </form>
+            <div class="col-xs-8 answer">
+                <% var aftershuffle = shuffleArray(question.options); %>
+                <% aftershuffle.forEach(function(option){ %>
+                <input type="radio" name="<%= question._id %>" value="<%= option %>"> <%= option %>
+                <br>
+                <% }); %>
+            </div>
         </div>
+<%});%>
+<center><input type="submit" value="submit" class="btn btn-success pull-right"/></center>
+</form>
+
+</div>
 <%- include("../partials/footer") %>

@@ -269,7 +269,7 @@ Seeker.find(filterParameter).exec(function (err, seekers) {
   });     
 });
 
-router.get("/seeker/:id/applyjob", middleware.checkSeekerOwnership, function (req, res) {
+router.get("/seeker/:id/applyjob", middleware.isLoggedIn, function (req, res) {
   Job.findById(req.params.id, function (err, job) {
     company.find({}).exec(function (err, allcompanies) {
       if (err) {
@@ -284,7 +284,7 @@ router.get("/seeker/:id/applyjob", middleware.checkSeekerOwnership, function (re
   });
 });
 
-router.post("/seeker/:id/applyjob", middleware.checkSeekerOwnership, function (req, res) {
+router.post("/seeker/:id/applyjob", middleware.isLoggedIn, function (req, res) {
   Job.findById(req.params.id).populate('postedBy').populate("appliedBy.postedBy").exec(function (err, foundJob) {
     if (err) {
       console.log(err);

@@ -76,21 +76,9 @@
         font-family: 'Roboto', sans-serif;
     }
 
-    #message {
-        background-color: rgb(185, 224, 211);
-    }
 
 </style>
-<div id="message">
-    <div class="container text-center">
-        <div style="padding-top: 10px; height: 50px;" >
-            <div id="inner-message"> 
-                <button type="button" class="close" id="closebtn" data-dismiss="alert">&times;</button>
-                <h5>To Increase your Chance Of Selection, take this Quiz . You can attempt at max 3 times. <a href="/quiz/show"> Take A Quiz</a></h5>
-            </div>
-        </div>
-    </div>
-</div>
+
 <div class="container">
 
     <div class="main-body">
@@ -467,11 +455,6 @@
     btn.addEventListener('click', function () {
         document.querySelector('#projectForm').classList.toggle('displayform');
     });
-    //message of quiz
-    document.getElementById('closebtn').addEventListener('click', function(e) {
-    e.preventDefault();
-    document.getElementById('message').style.display= 'none';
-}, false);
 
 </script>
 

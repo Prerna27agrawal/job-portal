@@ -15,9 +15,9 @@
                             <label for="name">By CollegeName</label>
                                 <input type="text" id="name"  class="form-control" name="filtername" placeholder="Enter college name">
                             </div> -->
-                            <div class="form-group">
+                            <div class="form-group col-xs-3">
                                 <label for="status">By Profession</label>
-                                <input class="form-control" type="text" list="title" name="filterstatus" >
+                                <input class="form-control" type="text" list="title" placeholder="Choose a profession" name="filterstatus" >
                                 <datalist id="title">
                                     <option value="Student">
                                     <option value="Professional">
@@ -27,9 +27,9 @@
                             <label for="year">By GraduationYear</label>
                                 <input type="text" id="year" class="form-control" name="filteryear" placeholder="Enter year">
                             </div> -->
-                            <div class="form-group">
+                            <div class="form-group col-xs-3">
                                 <label for="degree">By Degree</label>
-                                <input type="text" class="form-control" placeholder="Choose your Degree" list="degree" name="filterdegree">
+                                <input type="text" class="form-control" placeholder="Choose a Degree" list="degree" name="filterdegree">
                                 <datalist id="degree">
                                     <option value="Associate of Arts (AA)">
                                     <option value="Associate of Science (AS)">
@@ -59,8 +59,9 @@
                                     <option value="Other">
                                 </datalist>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group col-xs-3">
                             <label for="status">By Cgpa</label>
+                            <br>
                                 <!-- <input type="text" id="status" class="form-control" name="filtercgpa" placeholder="Enter cgpa"> -->
                                  <select class="form-control"id="status" name="filtercgpa">
                                     <option value="0.0">All</option>
@@ -77,12 +78,23 @@
                                     <option value="1.0">above-1</option>
                             </select>
                             </div>
-                            <button type="submit" class="btn btn-primary" name="submit" placeholder="Filter">Submit</button>
+                            <div class="col-xs-3">
+                                <br>
+                                <button type="submit" class="btn btn-primary " name="submit" placeholder="Filter">
+                                    Submit</button>
+                            </div>
+                            
                         <br>
                     </form>
-                        <a href="/company/<%= job._id %>/show/jobstats"   class="btn btn-info" name="refresh" >Refresh</a>
+                        
 
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3" style="margin-top: 10px;">
+                    <a href="/company/<%= job._id %>/show/jobstats"   class="btn btn-info" name="refresh" >Refresh</a>
+                </div>
+
             </div>
         </div>
         </div>
@@ -164,6 +176,9 @@
 <% }); %>
         </table>
         </div>
+        <div>
+            <a class="pull-right" href="/company/<%= currentUser.id %>/viewjob/:page">Go Back</a>
+        </div>
         </div>
         <!-- /company/:id/show/jobstats/:page -->
  <!-- <script type="text/javascript">
@@ -192,5 +207,6 @@ document.getElementById("demo").addEventListener("click",myFunction);
         }
     }
 </script>  -->
+
 
 <%- include("../partials/footer") %>

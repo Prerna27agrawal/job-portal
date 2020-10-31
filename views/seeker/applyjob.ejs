@@ -65,7 +65,7 @@
                     }); %>
         <h1><img src="https://tppwebsolutions.com/wp-content/uploads/logo-demo3.png" height="50px"
                 width="50px"><%= company.name %><span>
-                <% if(currentUser){ %>
+                <% if(currentUser && !currentUser.isCompany){ %>
                 <% if(bool1){ %>
                 <a href="/seeker/<%= company._id %>/subscribe/<%= job._id %>" type="button"
                     class="btn btn-danger">Subscribe</a>
@@ -100,7 +100,7 @@
                             <p><b>REQUIRED SKILLS: </b><%= job.reqSkills %></p>
                         </div>
                         <br><br>
-                        <% if(currentUser){ %>
+                        <% if(currentUser && !currentUser.isCompany){ %>
                         <% if(bool2){ %>
                         <form action="/seeker/<%= job._id %>/applyjob" method="POST">
                             <input type="submit" name="submit" value="Apply" class="btn btn-success active">
@@ -140,10 +140,12 @@
                         <div class="thumbnail">
                             <h4><b>ABOUT <%= company.name %>: </b></h4>
                             <p><%= company.description %></p>
+                            <% if(!currentUser.isCompany) {%>
                             <form action="/company/<%= job.postedBy.id %>/myprofile" method="GET">
                                 <input type="submit" value="Visit Company website" name="submit2"
                                     class="btn btn-info active">
                             </form>
+                            <% } %>
                         </div>
                     </div>
                 </div>
