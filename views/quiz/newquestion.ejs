@@ -2,32 +2,32 @@
 <div class="container">
 <div class="row mt-5">
     <div class="col-md-6 m-auto">
-        <h1 class="display-4 mb-2" style="text-align: center;">Add New Question</h1><br>
+        <h1 class="display-4 mb-2" style="text-align: center;">Add New Question to test <%= quiz.title %></h1><br>
         <div class="card card-body text-center" style="background:#303030;">
-            <form action="/quiz1/questions" method="POST">
+            <form action="/quiz/<%= quiz._id %>/questions" method="POST">
                 <div class="form-group">
                     <label for="question" style="color:white;">Question: </label>
                     <input type="text" id="question" name="description" class="form-control" placeholder="Type the question" />
                 </div>
                 <div class="form-group">
-                    <label for="opt1" style="color:white;">Correct Answer: </label>
-                    <input type="text" id="opt1" name="correctAnswer" class="form-control"
-                        placeholder="Type correct answer" />
+                    <label for="opt1" style="color:white;">Answer 1: </label>
+                    <input type="text" id="opt1" name="opt1" class="form-control"
+                        placeholder="Type answer 1" />
                 </div>
                 <div class="form-group">
-                    <label for="opt2" style="color:white;">Wrong Answer 1: </label>
-                    <input type="text" id="opt2" name="wrongAnswer1" class="form-control"
-                        placeholder="Type wrong answer 1" />
+                    <label for="opt2" style="color:white;">Answer 2: </label>
+                    <input type="text" id="opt2" name="opt2" class="form-control"
+                        placeholder="Type answer 2" />
                     
                 </div><div class="form-group">
-                    <label for="opt3" style="color:white;">Wrong Answer 2: </label>
-                    <input type="text" id="opt3" name="wrongAnswer2" class="form-control"
-                        placeholder="Type wrong answer 2" />
+                    <label for="opt3" style="color:white;">Answer 3: </label>
+                    <input type="text" id="opt3" name="opt3" class="form-control"
+                        placeholder="Type answer 3" />
                   
                 </div><div class="form-group">
-                    <label for="opt4" style="color:white;">Wrong Answer 3: </label>
-                    <input type="text" id="opt4" name="wrongAnswer3" class="form-control"
-                        placeholder="Type wrong answer 3" />
+                    <label for="opt4" style="color:white;">Answer 4: </label>
+                    <input type="text" id="opt4" name="opt4" class="form-control"
+                        placeholder="Type answer 4" />
                     <!-- <div class="form-group" style="color:white;">
                             <p>Is this correct?: </p>
                             <input type="radio" id="correct" name="opt4isCorrect" value="Yes">
@@ -36,6 +36,11 @@
                             <label for="correct" style="color:white;">No</label><br>
                      </div> -->
                 </div> 
+                <div class="form-group">
+                    <label for="opt1" style="color:white;">Correct Answer: </label>
+                    <input type="text" id="opt1" name="correctAnswer" class="form-control"
+                        placeholder="Type correct answer" />
+                </div>
                 <button type="submit" class="btn btn-lg btn-primary btn-block">Add</button>
                 </div>
             </form>

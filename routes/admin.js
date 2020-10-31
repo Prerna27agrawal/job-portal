@@ -8,9 +8,10 @@ var  Job = require("../models/job");
 var User = require("../models/user");
 var Posts =require("../models/posts");
 var FeedBack =require("../models/feedback");
+
+var Quiz = require("../models/quiz");
+var Question = require("../models/question");
 var Submission = require("../models/submission");
-
-
 var middleware = require("../middleware/index.js");
 const { runInContext, isContext } = require("vm");
 var path= require("path");
@@ -22,9 +23,11 @@ var crypto = require("crypto");
 var nodemailer = require("nodemailer");
 router.use(express.static(__dirname+"./public/"));
 
-
 router.get("/admin/index",middleware.checkAdminOwnership,function(req,res){
-        res.render("admin/index",{admin:req.user}); 
+    // Quiz.find({}).exec(function(err,quiz){
+    res.render("admin/index",{admin:req.user}); 
+// });
+
 });
 
 router.get("/admin/companies/:page",middleware.checkAdminOwnership,function(req,res){
