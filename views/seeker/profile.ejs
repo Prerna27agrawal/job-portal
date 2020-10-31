@@ -4,8 +4,7 @@
         /* margin-top: 20px; */
         color: #1a202c;
         text-align: left;
-        background-color: rgb(243,247,247)
-       
+        background-color: rgb(243, 247, 247)
     }
 
     .main-body {
@@ -61,21 +60,39 @@
     .shadow-none {
         box-shadow: none !important;
     }
-    .displayform{
+
+    .displayform {
         display: none;
     }
-    .projectform_input{
+
+    .projectform_input {
         margin: 5px 10px 5px 0;
         padding: 10px;
         background-color: #fff;
         border: 1px solid #ddd;
     }
-    .fontstyle{
+
+    .fontstyle {
         font-family: 'Roboto', sans-serif;
     }
-</style>
 
+    #message {
+        background-color: rgb(185, 224, 211);
+    }
+
+</style>
+<div id="message">
+    <div class="container text-center">
+        <div style="padding-top: 10px; height: 50px;" >
+            <div id="inner-message"> 
+                <button type="button" class="close" id="closebtn" data-dismiss="alert">&times;</button>
+                <h5>To Increase your Chance Of Selection, take this Quiz . You can attempt at max 3 times. <a href="/quiz/show"> Take A Quiz</a></h5>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container">
+
     <div class="main-body">
 
         <!-- Breadcrumb -->
@@ -95,10 +112,9 @@
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
                             <%  var str1= foundSeeker.image; %>
-                           <% if(str1.startsWith('https')){ %>
-                                <img src="<%= str1 %>" alt="Admin" class="rounded-circle"
-                                width="150">
-                           <% } else{ %>
+                            <% if(str1.startsWith('https')){ %>
+                            <img src="<%= str1 %>" alt="Admin" class="rounded-circle" width="150">
+                            <% } else{ %>
                             <img src="/resume_folder/<%= foundSeeker.image %>" alt="Admin" class="rounded-circle"
                                 width="150">
                             <% } %>
@@ -107,13 +123,14 @@
                                 <p class="text-secondary mb-1"><%= foundSeeker.status%></p>
                                 <p class="text-muted font-size-sm"><%= foundSeeker.city%>, <%= foundSeeker.state%>,
                                     <%= foundSeeker.country%></p>
-                                    <% if((currentUser && foundSeeker.seekerBy.id.equals(currentUser._id) && (!currentUser.isCompany))){ %>
+                                <% if((currentUser && foundSeeker.seekerBy.id.equals(currentUser._id) && (!currentUser.isCompany))){ %>
                                 <a href="/seeker/<%= foundSeeker._id %>/appliedJobs"
                                     class="btn btn-primary active ">Applied Jobs</a>
-                                    <% } %>
-                                    <% if((currentUser && foundSeeker.seekerBy.id.equals(currentUser._id) && (!currentUser.isCompany))){ %>
-                                  <a href="/seeker/<%= foundSeeker._id %>/editprofile" class="btn btn-primary active">Edit Profile</a>
-                                 <% } %>
+                                <% } %>
+                                <% if((currentUser && foundSeeker.seekerBy.id.equals(currentUser._id) && (!currentUser.isCompany))){ %>
+                                <a href="/seeker/<%= foundSeeker._id %>/editprofile" class="btn btn-primary active">Edit
+                                    Profile</a>
+                                <% } %>
                             </div>
                         </div>
                     </div>
@@ -268,50 +285,60 @@
                     <div class="col-md-12 mb-3">
                         <div class="card h-100">
                             <div class="card-body">
-                               
+
                                 <% if((currentUser && foundSeeker.seekerBy.id.equals(currentUser._id) && (!currentUser.isCompany))){ %>
-                                <button id="projectBtn"  class="btn btn-info active pull-right"  >Add Projects</button>
+                                <button id="projectBtn" class="btn btn-info active pull-right">Add Projects</button>
                                 <% } %>
                                 <div id="inline">
                                     <h6 class="d-flex align-items-center mb-3"><i
-                                        class="material-icons text-info mr-2"></i>Project Status</h6>
+                                            class="material-icons text-info mr-2"></i>Project Status</h6>
 
-                                        <!-- Show Project Details -->
-                                        <% foundSeeker.projects.forEach(function(project){ %>
-                                            <div style="font-family: 'Roboto', sans-serif; margin-top: 20px; " class="panel panel-success">
-                                                <div class="panel-heading" style="color: black;"><%= project.title%></div>
-                                                <% if((currentUser && foundSeeker.seekerBy.id.equals(currentUser._id) && (!currentUser.isCompany))){ %>
-                                            
-                                                    <!-- <a href="/seeker/<%= foundUser._id %>/editproject/<%= project._id %>" class="btn btn-secondary active pull-right" style="margin-inline-start: 7px;">Edit</a> -->
-                                                    <% } %>
-                                                    <% if((currentUser && foundSeeker.seekerBy.id.equals(currentUser._id) && (!currentUser.isCompany))){ %>
-                                                        <form   onsubmit="return confirm('Do you really want to Delete the following?');" action="/seeker/<%= foundUser._id %>/delete/<%= project._id %>?_method=DELETE" method="post">
-                                                        <button  type="submit" class="btn btn-danger btn-xs active pull-right" style="margin-left: 2px;"  value="Delete" title="Delete"><span class="glyphicon glyphicon-trash"></span></button>
-                                                        </form>
-                                                        <button class="btn btn-primary active btn-xs pull-right" title="Edit"><a href="/seeker/<%= foundUser._id %>/editproject/<%= project._id %>">
-                                                            <span class="glyphicon glyphicon-edit"></span></a></button>
-                                                    <% } %>
-                                                <div class="panel-body">
-                                                    <p  class="text-muted"><%=project.starttime%> - <%= project.endtime%></p>
-                                                    <p ><%= project.description%></p>
-                                                    <br>
-                                                    <b>Link: </b><a><%=project.url%></a>
-                                                    
-                                                </div>
-                                            </div>
-                                       <% })%>
+                                    <!-- Show Project Details -->
+                                    <% foundSeeker.projects.forEach(function(project){ %>
+                                    <div style="font-family: 'Roboto', sans-serif; margin-top: 20px; "
+                                        class="panel panel-success">
+                                        <div class="panel-heading" style="color: black;"><%= project.title%></div>
+                                        <% if((currentUser && foundSeeker.seekerBy.id.equals(currentUser._id) && (!currentUser.isCompany))){ %>
 
-                                        <!-- hidden inline form -->
-                                    <form class="form-inline displayform fontstyle" id="projectForm" action="/seeker/<%=foundUser._id%>/addproject" method="post" name="projects">
+                                        <!-- <a href="/seeker/<%= foundUser._id %>/editproject/<%= project._id %>" class="btn btn-secondary active pull-right" style="margin-inline-start: 7px;">Edit</a> -->
+                                        <% } %>
+                                        <% if((currentUser && foundSeeker.seekerBy.id.equals(currentUser._id) && (!currentUser.isCompany))){ %>
+                                        <form onsubmit="return confirm('Do you really want to Delete the following?');"
+                                            action="/seeker/<%= foundUser._id %>/delete/<%= project._id %>?_method=DELETE"
+                                            method="post">
+                                            <button type="submit" class="btn btn-danger btn-xs active pull-right"
+                                                style="margin-left: 2px;" value="Delete" title="Delete"><span
+                                                    class="glyphicon glyphicon-trash"></span></button>
+                                        </form>
+                                        <button class="btn btn-primary active btn-xs pull-right" title="Edit"><a
+                                                href="/seeker/<%= foundUser._id %>/editproject/<%= project._id %>">
+                                                <span class="glyphicon glyphicon-edit"></span></a></button>
+                                        <% } %>
+                                        <div class="panel-body">
+                                            <p class="text-muted"><%=project.starttime%> - <%= project.endtime%></p>
+                                            <p><%= project.description%></p>
+                                            <br>
+                                            <b>Link: </b><a><%=project.url%></a>
+
+                                        </div>
+                                    </div>
+                                    <% })%>
+
+                                    <!-- hidden inline form -->
+                                    <form class="form-inline displayform fontstyle" id="projectForm"
+                                        action="/seeker/<%=foundUser._id%>/addproject" method="post" name="projects">
                                         <div class="projectform_input">
                                             <label for="project_name">Project Name</label>
-                                            <input id="project_title" name="project_title" type="text"  style="width: 100%;" required />
+                                            <input id="project_title" name="project_title" type="text"
+                                                style="width: 100%;" required />
                                         </div>
                                         <div class="projectform_input">
                                             <label for="project_url">Project URL</label>
-                                            <input id="project_url" name="project_url" type="url"style="width: 100%;" required />
+                                            <input id="project_url" name="project_url" type="url" style="width: 100%;"
+                                                required />
                                         </div>
-                                        <div class="form-inline projectform_input" style="display: flex;flex-flow: row wrap; align-items: center;vertical-align: middle">
+                                        <div class="form-inline projectform_input"
+                                            style="display: flex;flex-flow: row wrap; align-items: center;vertical-align: middle">
                                             <label for="project_time">Project Duration</label>
                                             <br>
                                             <div class="float-left">
@@ -419,9 +446,10 @@
                                         </div>
                                         <div class="projectform_input">
                                             <label>Description</label>
-                                            <textarea cols="80" rows="6" name="project_description" style="width: 100%;"></textarea>
+                                            <textarea cols="80" rows="6" name="project_description"
+                                                style="width: 100%;"></textarea>
                                         </div>
-                                       
+
                                         <button id="addproject" class="btn btn-success active">Save</button>
                                     </form>
                                 </div>
@@ -429,77 +457,22 @@
                         </div>
                     </div>
                 </div>
-                <div>
-                    <a href="/quiz/show" class="btn btn-success" >Quiz</a>
-                </div>
-                <!--  -->
-<!-- 
-                <div class="row gutters-sm">
-                    <div class="col-md-12 mb-3">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="d-flex align-items-center mb-3"><i
-                                        class="material-icons text-info mr-2">assignment</i>Project Status</h6>
-                                <small>Web Design</small>
-                                <div class="progress mb-3" style="height: 5px">
-                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 80%"
-                                        aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <small>Website Markup</small>
-                                <div class="progress mb-3" style="height: 5px">
-                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 72%"
-                                        aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <small>One Page</small>
-                                <div class="progress mb-3" style="height: 5px">
-                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 89%"
-                                        aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <small>Mobile Template</small>
-                                <div class="progress mb-3" style="height: 5px">
-                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 55%"
-                                        aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <small>Backend API</small>
-                                <div class="progress mb-3" style="height: 5px">
-                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 66%"
-                                        aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-
-
-                    <!-- <div class="col-sm-6 mb-3">
-                        <div class="card h-100">
-                            <div class="card-body">
-
-                                <!-- <p>
-                                    <a href="/resume_folder/<%= foundSeeker.resume %>" download width="100%" height="200px">
-                                  with a tag</a>
-                                        <!-- <a href="" class="btn btn-primary" download>download resume</a> -->
-                    <!-- <embed src="/resume_folder/<%= foundSeeker.resume %>" alt="image" type="application/pdf"   height="700px" width="500">
-                                </p> -->
-                    <!-- <p>
-                                    <img src="/resume_folder/<%= foundSeeker.image %>" alt="not uploaded" width="200" height="300" >
-                                            </p> -->
-
-                    <!-- </div> -->
-                    <!-- </div> -->
-                    <!-- </div> -->
-
-
-                <!-- </div> -->
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    var btn=document.querySelector('#projectBtn');
-    btn.addEventListener('click',function(){
-            document.querySelector('#projectForm').classList.toggle('displayform');
-    })
+    var btn = document.querySelector('#projectBtn');
+    btn.addEventListener('click', function () {
+        document.querySelector('#projectForm').classList.toggle('displayform');
+    });
+    //message of quiz
+    document.getElementById('closebtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('message').style.display= 'none';
+}, false);
+
 </script>
 
 <%- include("../partials/footer") %>

@@ -1,31 +1,31 @@
 <%- include("../partials/header1") %>
 <div class="container">
-<div class="row mt-5">
+<div class="row mt-5 text-center">
     <div class="col-md-6 m-auto">
-        <h1 class="display-4 mb-2" style="text-align: center;">Add New Question to test <%= quiz.title %></h1><br>
-        <div class="card card-body text-center" style="background:#303030;">
+        <h2 >Add New Question to "<%= quiz.title %>" Quiz</h2><br>
+        <div class="card card-body " style="background:#89bfcc;margin-bottom: 40px;">
             <form action="/quiz/<%= quiz._id %>/questions" method="POST">
                 <div class="form-group">
-                    <label for="question" style="color:white;">Question: </label>
+                    <h5>Question</h5>
                     <input type="text" id="question" name="description" class="form-control" placeholder="Type the question" />
                 </div>
                 <div class="form-group">
-                    <label for="opt1" style="color:white;">Answer 1: </label>
+                    <h6>Option 1</h6>
                     <input type="text" id="opt1" name="opt1" class="form-control"
                         placeholder="Type answer 1" />
                 </div>
                 <div class="form-group">
-                    <label for="opt2" style="color:white;">Answer 2: </label>
+                    <h6>Option 2</h6>
                     <input type="text" id="opt2" name="opt2" class="form-control"
                         placeholder="Type answer 2" />
                     
                 </div><div class="form-group">
-                    <label for="opt3" style="color:white;">Answer 3: </label>
+                    <h6>Option 3</h6>
                     <input type="text" id="opt3" name="opt3" class="form-control"
                         placeholder="Type answer 3" />
                   
                 </div><div class="form-group">
-                    <label for="opt4" style="color:white;">Answer 4: </label>
+                    <h6>Option 4</h6>
                     <input type="text" id="opt4" name="opt4" class="form-control"
                         placeholder="Type answer 4" />
                     <!-- <div class="form-group" style="color:white;">
@@ -41,34 +41,12 @@
                     <input type="text" id="opt1" name="correctAnswer" class="form-control"
                         placeholder="Type correct answer" />
                 </div>
-                <button type="submit" class="btn btn-lg btn-primary btn-block">Add</button>
+                <button type="submit" class="btn btn-lg btn-secondary btn-block">Add</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<!-- 
-<div class="row">
-    <h1 style="text-align: center">Log In</h1>
-    <div style="width: 40%; margin: 25px auto;">
-        <form action="/login" method="post">
-            <div class="form-group">
-                <input class="form-control" type="text" name="username" placeholder="username">
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="password" name="password" placeholder="password">
-            </div>
-            <div class="form-group">
-                <button class="btn btn-lg btn-secondary btn-block active">Login</button>
-            </div>
-        </form>
-        <p class="mt-4 text-center">
-            New User? <a href="/register">Register</a>
-        </p>
-        <p class="mt-4 text-center">
-            Forgot Password? <a href="/forgot">Reset</a>
-        </p>
-    </div>
-</div> -->
+
 
 <%- include("../partials/footer1") %>
