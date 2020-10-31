@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router();
 var async = require("async");
 var crypto = require("crypto");
+const {check, validationResult} = require('express-validator');
+
 
 
 var Company = require("../models/company");

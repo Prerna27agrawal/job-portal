@@ -4,6 +4,8 @@ var async = require("async");
 //crypto is part of express no need to install is
 var crypto = require("crypto");
 var nodemailer = require("nodemailer");
+const {check, validationResult} = require('express-validator');
+
 
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
@@ -44,9 +46,20 @@ router.get("/login", function (req, res) {
   });
 
 
-router.post("/login",passport.authenticate('local',{failureRedirect:'/login',failureFlash: 'Invalid username or password.'}),function(req,res){
+router.post("/login",[
+    check('username','Username is required').not().isEmpty(),
+    check('password').not().isEmpty().withMessage('Password Is required').isLength({min:8}).withMessage('Length should be atleast 8').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]){8,}/).withMessage('Password should contain atleast one number,one uppercase and lowercase letter, and should be atleast 8 characters long'),
+   // check('password','Password in not matching the format').not().isEmpty().isLength({min:8})
+  ],passport.authenticate('local',{failureRedirect:'/login',failureFlash: 'Invalid username or password.'}),function(req,res){
+    const errors = validationResult(req);
+    if(!errors.isEmpty())
+    {
+          var errorResponse = errors.array({ onlyFirstError: true });
+          req.flash("error",errorResponse[0].msg);
+          res.redirect("/register");
+    }else{
+    console.log("Current user");
     console.log(req.user);
-   //console.log(req.body);
  if(req.user.isVerified == true  && req.user.isFill == false){
     if(req.user.isCompany == true)
     {
@@ -82,6 +95,7 @@ else{
   console.log("first fill your details and verify yourself");
    res.redirect("/login");
 }
+    }
 });
 
 
@@ -89,7 +103,22 @@ router.get("/register", function (req, res) {
 res.render("login",{log:true});
 });
 
-router.post("/register",function(req,res){
+router.post("/register",[
+    check('username','Username is required').not().isEmpty(),
+    check('password').not().isEmpty().withMessage('Password Is required').isLength({min:8}).withMessage('Length should be atleast 8').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]){8,}/).withMessage('Password should contain atleast one number,one uppercase and lowercase letter, and should be atleast 8 characters long'),
+    check('confirm_password').not().isEmpty().withMessage('Confirm Password Is required').isLength({min:8}).withMessage('Length should be atleast 8').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]){8,}/).withMessage('Password should contain atleast one number,one uppercase and lowercase letter, and should be atleast 8 characters long'),      
+   // check('confirm_password','Password Confirm is not in matching  format').not().isEmpty().isLength({min:8}),
+    check('email', 'Your email is not valid').not().isEmpty().isEmail().isLength({ min: 10, max: 30 }).normalizeEmail(),
+    check('confirm_password', 'Passwords do not match').custom((value, {req}) => (value === req.body.password))
+  ],(req,res)=>{
+    const errors = validationResult(req);
+    if(!errors.isEmpty())
+    {
+          var errorResponse = errors.array({ onlyFirstError: true });
+          req.flash("error",errorResponse[0].msg);
+          res.redirect("/register");
+    }
+    else{
     if(req.body.role == 'Admin')
     {
         if(req.body.adminCode == process.env.ADMIN_CODE)
@@ -148,11 +177,11 @@ router.post("/register",function(req,res){
                 }
             });
         }
-    else{
-        console.log("fake admin attempt");
-        req.flash("error","Sorry!You are not  the admin and do not have permission to do so");
-        res.redirect("/register");
-         }
+            else{
+            console.log("fake admin attempt");
+            req.flash("error","Sorry!You are not  the admin and do not have permission to do so");
+            res.redirect("/register");
+            }
     }
     else{   
         User.findOne({email:req.body.email}).then(user=>{
@@ -209,6 +238,7 @@ router.post("/register",function(req,res){
             }
         });
     }
+}
     
 });
 
