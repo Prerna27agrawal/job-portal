@@ -1,0 +1,27 @@
+<%- include("../partials/header") %>
+<style>
+    #hiddenDiv {
+        display: none;
+         }
+    #btn1[disabled]:hover + #hiddenDiv{
+        display: block;
+    }
+</style>
+<div class="container">
+<div class="row">
+ <h1>Your Quiz stats <%= seeker.firstname %>  <%= seeker.lastname %></h1>
+ <% quiz.forEach(function(quiz){ 
+    var check=false;
+    seeker.ScoreStatus.forEach(function(test){
+        if(String(test.test_id) == String(quiz._id))
+        {
+                check = true;
+        }
+    }); %>
+     <a href="/quiz/<%= quiz._id %>/takequiz"  class="btn btn-primary"  <% if(check){%> id="btn1" disabled <%}%> >Give quiz <%= quiz.title %></a>
+     <div class="main" id="hiddenDiv">You have already given this test</div>
+ <% }); %>
+      
+ </div>
+</div>
+<%- include("../partials/footer") %>

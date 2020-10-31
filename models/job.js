@@ -31,5 +31,5 @@ var jobSchema = new mongoose.Schema({
   {
     timestamps:true, 
   });
-
   module.exports = mongoose.model("Job", jobSchema);
+  module.exports = mongoose.model("Job2", jobSchema);

@@ -4,11 +4,14 @@ var router = express.Router();
 var Company = require("../models/company");
 var Seeker = require("../models/seeker");
 var Job = require("../models/job");
+var Job2 = require("../models/job");
 var User = require("../models/user");
 var Posts = require("../models/posts");
-var Quiz1 = require("../models/quiz1");
-var FeedBack =require("../models/feedback");
+var Quiz = require("../models/quiz");
+var Question = require("../models/question");
 var Submission = require("../models/submission");
+var FeedBack =require("../models/feedback");
+
 
 
 var middleware = require("../middleware/index.js");
@@ -35,7 +38,7 @@ router.post("/login/company/createjob", middleware.checkCompanyOwnership, functi
     id: req.user._id,
     username: req.user.username
   }
-  Job.create(req.body.job, function (err, job) {
+  Job2.create(req.body.job, function (err, job) {
     if (err) {
       console.log(err);
       req.flash("error", err.message);
