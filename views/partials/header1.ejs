@@ -117,6 +117,7 @@
                                 <li><a class="dropdown-item" href="/logout">Logout</a></li>
                                 <% } else if(currentUser) {%>
                                 <!-- <li ><a class="dropdown-item" href="/contactus">Edit Profile</a></li>   -->
+                                <li><a class="dropdown-item" href="/seeker/<%= currentUser._id %>/myprofile">My Profile</a></li>
                                 <li><a class="dropdown-item" href="/seeker/:seeker_id/appliedJobs">My Applied Jobs</a>
                                 </li>
                                 <li><a class="dropdown-item" href="/quiz/show">Take A Quiz</a></li>
