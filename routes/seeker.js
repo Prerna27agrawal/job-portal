@@ -222,13 +222,6 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
           }
           else{
             //console.log(alljobs);
-            var len=Number(alljobs.length);
-            //console.log(len);
-             if(len == 0)
-             {
-               console.log("no such job");
-               req.flash("error","No Job found");
-             }
                //console.log("these jobs");
               // req.flash("success","Following Jobs match with your search");
               res.render("seeker/index",{jobs:alljobs,companies:allcompany});
