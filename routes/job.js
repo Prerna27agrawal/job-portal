@@ -169,9 +169,13 @@ router.get("/company/:id/show/jobstats", middleware.checkCompanyOwnership,
 
 router.post("/company/:id/show/jobstats/search",middleware.checkCompanyOwnership,
 function(req,res){
-  var filtername=req.body.filtername;
-  var filteryear=req.body.filteryear;
+ // var filteryear=req.body.filteryear;
   var filtercgpa=req.body.filtercgpa;
+  var filterdegree1 = req.body.filterdegree;
+  var filterdegree= filterdegree1.toUpperCase();
+  var filterstatus1 = req.body.filterstatus;
+  var filterstatus= filterstatus1.toUpperCase();
+
   var lesser;
   var greater;
   if(filtercgpa != '')
@@ -180,49 +184,72 @@ function(req,res){
     console.log(filtercgpa);
     //greater then equal to
     //less than
+      
        if(filtercgpa == '0.0')
        {
-           lesser=11;
-           greater=1;
+           lesser=10;
+           greater=0;
        }
        else if(filtercgpa == '9.0'){
-        lesser=11;
+        lesser=10;
         greater=9;
        }
+       else if(filtercgpa == '8.5')
+       {
+           lesser=10;
+           greater=8.5;
+       }
        else if(filtercgpa == '8.0'){
-        lesser=9;
+        lesser=10;
         greater=8;
        }
+       else if(filtercgpa == '7.5'){
+        lesser=10;
+        greater=7.5;
+       }
        else if(filtercgpa == '7.0'){
-        lesser=8;
+        lesser=10;
         greater=7;
        }
        else if(filtercgpa == '6.0'){
-        lesser=7;
+        lesser=10;
         greater=6;
        }
        else if(filtercgpa == '5.0'){
-        lesser=6;
+        lesser=10;
         greater=5;
        }
+       else if(filtercgpa == '4.0')
+       {
+           lesser=10;
+           greater=4;
+       }  else if(filtercgpa == '3.0')
+       {
+           lesser=10;
+           greater=3;
+       }  else if(filtercgpa == '2.0')
+       {
+           lesser=10;
+           greater=2;
+       }  
        else {
         lesser=5;
-        greater=0;
+        greater=1;
        }
   }
   Job.findById(req.params.id).populate('postedBy').populate("appliedBy.postedBy").exec(function (err, foundJob) {
      
-if(filtercgpa!= '' && filtername!='' && filteryear!= ''){
-  var filterParameter = {education:filtername,gradyear:filteryear,cgpa:{$lt:lesser,$gte:greater}}
+if(filtercgpa!= '' && filterdegree!='' && filterstatus!= ''){
+  var filterParameter = {status:filterstatus,degree:filterdegree,cgpa:{$lte:lesser,$gte:greater}}
 }
-else if(filtercgpa!= '' && filtername!='' && filteryear== ''){
-  var filterParameter = {education:filtername,cgpa:{$lt:lesser,$gte:greater}}
+else if(filtercgpa!= '' && filterdegree!='' && filterstatus== ''){
+  var filterParameter = {degree:filterdegree,cgpa:{$lte:lesser,$gte:greater}}
 }
-else if(filtercgpa!= '' && filtername=='' && filteryear!= ''){
-  var filterParameter = {gradyear:filteryear,cgpa:{$lt:lesser,$gte:greater}}
+else if(filtercgpa!= '' && filterdegree=='' && filterstatus!= ''){
+  var filterParameter = {status:filterstatus,cgpa:{$lte:lesser,$gte:greater}}
 }
-else if(filtercgpa!= '' && filtername=='' && filteryear == ''){
-  var filterParameter = {cgpa:{$lt:lesser,$gte:greater}}
+else if(filtercgpa!= '' && filterdegree=='' && filterstatus == ''){
+  var filterParameter = {cgpa:{$lte:lesser,$gte:greater}}
 }
 else{
   var filterParameter={}
