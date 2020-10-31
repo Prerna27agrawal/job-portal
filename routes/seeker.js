@@ -71,6 +71,9 @@ router.get("/register/seeker", middleware.checkSeekerOwnership,function (req, re
  router.post("/register/seeker",middleware.checkSeekerOwnership,upload, function (req, res) {
   //console.log(req.files); 
   //console.log(req.files.image);
+  var status = req.body.status;
+  var degree = req.body.degree;
+
   var newSeeker=new Seeker({
           firstname:req.body.firstname,
           lastname:req.body.lastname,
@@ -80,10 +83,10 @@ router.get("/register/seeker", middleware.checkSeekerOwnership,function (req, re
           state:req.body.ownState,
           city:req.body.ownCity,
           phone:req.body.phone,
-          status:req.body.status,
+          status:status.toUpperCase(),
           gradyear:req.body.gradyear,
           education:req.body.education,
-          degree:req.body.degree,
+          degree:degree.toUpperCase(),
           studyYear:req.body.studyyear,
           stream:req.body.stream,
           cgpa:req.body.cgpa,
@@ -274,6 +277,8 @@ Seeker.findById(req.params.id,function(err,foundSeeker){
     res.redirect("back");
   }
   else{
+    var status = req.body.status;
+    var degree = req.body.degree;  
     foundSeeker.firstname=req.body.firstname,
     foundSeeker.lastname=req.body.lastname,
     foundSeeker.email=req.body.email,
@@ -282,10 +287,10 @@ Seeker.findById(req.params.id,function(err,foundSeeker){
     foundSeeker.state=req.body.ownState,
     foundSeeker.city=req.body.ownCity,
     foundSeeker.phone=req.body.phone,
-    foundSeeker.status=req.body.status,
+    foundSeeker.status=status.toUpperCase(),
     foundSeeker.gradyear=req.body.gradyear,
     foundSeeker.education=req.body.education,
-    foundSeeker.degree=req.body.degree,
+    foundSeeker.degree=degree.toUpperCase(),
     foundSeeker.studyYear=req.body.studyyear,
     foundSeeker.stream=req.body.stream,
     foundSeeker.studyYear=req.body.year,

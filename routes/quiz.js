@@ -40,7 +40,7 @@ router.post("/quiz/new",function(req,res){
         })
         Quiz.create(newQuiz,function(err,quiz){
            req.flash("success", "Successfully Created New Quiz");
-           res.redirect("/admin/index");
+           res.redirect("/quiz");
         });
 });
 router.post("/quiz/post/:quizid",function(req,res){

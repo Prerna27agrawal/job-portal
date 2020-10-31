@@ -11,30 +11,77 @@
             <div class="row">
                 <div>
                     <form action="/company/<%= job._id %>/show/jobstats/search" class="form-inline" method="POST" role="form">
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                             <label for="name">By CollegeName</label>
                                 <input type="text" id="name"  class="form-control" name="filtername" placeholder="Enter college name">
-                            </div>
+                            </div> -->
                             <div class="form-group">
+                                <label for="status">By Profession</label>
+                                <input class="form-control" type="text" list="title" name="filterstatus" >
+                                <datalist id="title">
+                                    <option value="Student">
+                                    <option value="Professional">
+                                </datalist>
+                            </div>
+                            <!-- <div class="form-group">
                             <label for="year">By GraduationYear</label>
                                 <input type="text" id="year" class="form-control" name="filteryear" placeholder="Enter year">
+                            </div> -->
+                            <div class="form-group">
+                                <label for="degree">By Degree</label>
+                                <input type="text" class="form-control" placeholder="Choose your Degree" list="degree" name="filterdegree">
+                                <datalist id="degree">
+                                    <option value="Associate of Arts (AA)">
+                                    <option value="Associate of Science (AS)">
+                                    <option value="Bachelor of Applied Science (B.ASc)">
+                                    <option value="Bachelor of Architecture (B.Arch)">
+                                    <option value="Bachelor of Arts (BA)">
+                                    <option value="Bachelor of Buisness Administration (BBA)">
+                                    <option value="Bachelor of Commerce">
+                                    <option value="Bachelor of Computer Applications (BCA)">
+                                    <option value="Bachelor of Design (BD)">
+                                    <option value="Bachelor of Engineering (BE)">
+                                    <option value="Bachelor of Law (L.L.B)">
+                                    <option value="Bachelor of Science (B.Sc)">
+                                    <option value="Bachelor of Technology (B.Tech)">
+                                    <option value="Master of Applied Science (B.ASc)">
+                                    <option value="Master of Architecture (B.Arch)">
+                                    <option value="Master of Arts (BA)">
+                                    <option value="Master of Buisness Administration (BBA)">
+                                    <option value="Master of Commerce">
+                                    <option value="Master of Computer Applications (BCA)">
+                                    <option value="Master of Design (BD)">
+                                    <option value="Master of Engineering (BE)">
+                                    <option value="Master of Law (L.L.B)">
+                                    <option value="Master of Science (B.Sc)">
+                                    <option value="Master of Technology (B.Tech)">
+                                    <option value="Research Doctorate">
+                                    <option value="Other">
+                                </datalist>
                             </div>
                             <div class="form-group">
                             <label for="status">By Cgpa</label>
                                 <!-- <input type="text" id="status" class="form-control" name="filtercgpa" placeholder="Enter cgpa"> -->
                                  <select class="form-control"id="status" name="filtercgpa">
-                                    <option value="0.0">0.0-10.00</option>
-                                    <option value="9.0">9.0-10.00</option>
-                                    <option value="8.0">8.0-8.9</option>
-                                    <option value="7.0">7.0-7.9</option>
-                                    <option value="6.0">6.0-6.9</option>
-                                    <option value="5.0">5.0-5.9</option>
-                                    <option value="4.9">0.0-4.9</option>
+                                    <option value="0.0">All</option>
+                                    <option value="9.0">above-9</option>
+                                    <option value="8.5">above-8.5</option>
+                                    <option value="8.0">above-8</option>
+                                    <option value="7.5">above-7.5</option>
+                                    <option value="7.0">above-7</option>
+                                    <option value="6.0">above-6</option>
+                                    <option value="5.0">above-5</option>
+                                    <option value="4.0">above-4</option>
+                                    <option value="3.0">above-3</option>
+                                    <option value="2.0">above-2</option>
+                                    <option value="1.0">above-1</option>
                             </select>
                             </div>
                             <button type="submit" class="btn btn-primary" name="submit" placeholder="Filter">Submit</button>
                         <br>
                     </form>
+                        <a href="/company/<%= job._id %>/show/jobstats"   class="btn btn-info" name="refresh" >Refresh</a>
+
                 </div>
             </div>
         </div>
@@ -49,9 +96,9 @@
                     <th scope="col">No.</th>
                     <th scope="col">FirstName</th>
                     <th scope="col">LastName</th>
-                    <th scope="col">College</th>
-                    <th scope="col">Graduation Year</th>
-                    <th scope="col">Stream</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Degree</th>
+                    <th scope="col">Cgpa</th>
                     <th scope="col">Resume download</th>
                     <th scope="col">Current Status</th>
                     <th scope="col">More Info</th>
@@ -69,9 +116,9 @@
                 <th scope="row"><%=i %></th>
                 <td><%=seeker.firstname %></td>
                 <td><%=seeker.lastname %></td>
-                <td><%=seeker.education %></td>
-                <td><%=seeker.gradyear %></td>
-                <td><%=seeker.stream %></td>
+                <td><%=seeker.status %></td>
+                <td><%=seeker.degree %></td>
+                <td><%=seeker.cgpa %></td>
                 <td>
                     <a class="btn btn-light" role="button" href="/resume_folder/<%= seeker.resume %>" download><i class="fa fa-file-text" style="font-size: 36px;color:red;"></i></a>
                 </td>

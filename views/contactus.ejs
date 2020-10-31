@@ -92,6 +92,7 @@
                 <li><a class="dropdown-item" href="/company/createjob">Create a new Job</a></li>
                 <li><a class="dropdown-item" href="/logout">Logout</a></li>
                 <% } else if(currentUser && currentUser.isAdmin) {%>
+                  <li ><a class="dropdown-item" href="/quiz">Show Quiz</a></li>
                 <li><a class="dropdown-item" href="/admin/companies/1">Registered Companies</a></li>
                 <li><a class="dropdown-item" href="/admin/seekers/1">Registered Seekers</a></li>
                 <li><a class="dropdown-item" href="/admin/jobs/1">Jobs Posted</a></li>
@@ -100,6 +101,7 @@
                 <% } else if(currentUser) {%>
                 <!-- <li ><a class="dropdown-item" href="/contactus">Edit Profile</a></li>   -->
                 <li><a class="dropdown-item" href="/seeker/:seeker_id/appliedJobs">My Applied Jobs</a></li>
+                <li><a class="dropdown-item" href="/quiz/show">Take A Quiz</a></li>
                 <li><a class="dropdown-item" href="/logout">Logout</a></li>
                 <% } else{ %>
                 <li><a class="dropdown-item" href="/login">Sign In</a></li>

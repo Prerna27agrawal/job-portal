@@ -1,4 +1,23 @@
 <%- include("../partials/header")%>
+<style>
+    #message {
+        margin-bottom: 10px;
+        background-color: rgb(185, 224, 211);
+    }
+    #message-content{
+        padding-top: 10px; height: 50px;
+    }
+</style>
+<div id="message">
+    <div class="container text-center">
+        <div id="message-content">
+            <div id="inner-message"> 
+                <button type="button" class="close" id="closebtn" data-dismiss="alert">&times;</button>
+                <h5>To Increase your Chance Of Selection, Take A Quiz . You can attempt at max 3 times. <a href="/quiz/show"> Take A Quiz</a></h5>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container">
 <div class="container">
     <header class="jumbotron">
@@ -116,10 +135,14 @@
         <% } %>
         <% }); %>
     </div>
-
-    <!-- <a class="btn btn-success" type="button" href="/seeker/<%= currentUser._id %>/myprofile">View profile</a> -->
-
-
 </div>
 </div>
+<script>
+    //message of quiz
+    document.getElementById('closebtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('message').style.display= 'none';
+}, false);
+
+</script>
 <%- include("../partials/footer") %>
