@@ -20,7 +20,8 @@ const { networkInterfaces } = require("os");
 var async = require("async");
 const { where } = require("../models/company");
 ////Multer config
-router.use(express.static(__dirname + "./public/"));
+router.use(express.static(__dirname+"/public"));
+
 
 
 

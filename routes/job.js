@@ -26,7 +26,7 @@ const { use } = require("passport");
 
 
 var path= require("path");
-router.use(express.static(__dirname+"./public/"));
+router.use(express.static(__dirname+"/public"));
 
 //jb company login kre toh usko job create karkee id mil jae company ki
 router.get("/company/createjob", middleware.checkCompanyOwnership, function (req, res) {
@@ -46,6 +46,7 @@ router.post("/login/company/createjob", middleware.checkCompanyOwnership, functi
       return res.redirect("back");
     }
     else {
+      console.log(job);
       req.flash("success", "Successfully Created New Job");
       Company.findOne().where('createdBy.id').equals(req.user._id).populate('subscribedBy').exec(function (err, company) {
         var users = [];
@@ -129,6 +130,19 @@ router.get("/seeker/:seeker_id/appliedJobs", middleware.checkSeekerOwnership, fu
   });
 });
 
+router.delete("/seeker/:job_id/withdraw/:id",middleware.checkSeekerOwnership,function(req,res){
+  Job.findOneAndUpdate({_id:req.params.job_id},{$pull:{"appliedBy":{"_id":req.params.id,"isStatus":'Pending'}}},{multi:true}).exec(function(err,job){
+    if (err) {
+      console.log(err);
+      req.flash("error", err.message);
+      return res.redirect("back");
+    }
+    console.log("removed the application");
+    req.flash('success', "Your application has been withdrawn");
+    res.redirect("/seeker/" + req.user._id + "/appliedJobs");
+  });
+  
+});
 
 
 router.delete("/company/jobdelete/:id", middleware.checkCompanyOwnership, function (req, res) {
@@ -272,14 +286,14 @@ Seeker.find(filterParameter).exec(function (err, seekers) {
 
 router.get("/seeker/:id/applyjob", middleware.isLoggedIn, function (req, res) {
   Job.findById(req.params.id, function (err, job) {
-    company.find({}).exec(function (err, allcompanies) {
+    company.findOne({"createdBy.id":job.postedBy.id}).exec(function (err, company) {
       if (err) {
         console.log(err);
         req.flash("error", err.message);
         return res.redirect("back");
       }
       else {
-        res.render("seeker/applyjob", { job: job, companies: allcompanies });
+        res.render("seeker/applyjob", { job: job, company: company });
       }
     });
   });
@@ -288,10 +302,13 @@ router.get("/seeker/:id/applyjob", middleware.isLoggedIn, function (req, res) {
 router.post("/seeker/:id/applyjob", middleware.isLoggedIn, function (req, res) {
   Job.findById(req.params.id).populate('postedBy').populate("appliedBy.postedBy").exec(function (err, foundJob) {
     if (err) {
+
       console.log(err);
       req.flash("error", err.message);
       return res.redirect("back");
+
     } else {
+
       var find = false;
       foundJob.appliedBy.forEach(function (eachSeeker) {
         if (String(eachSeeker.postedBy.id) == String(req.user._id)) {

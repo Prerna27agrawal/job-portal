@@ -20,7 +20,7 @@ var middleware = require("../middleware/index.js");
 
 var passport   = require("passport");
 var path= require("path");
-
+router.use(express.static(__dirname+"/public"));
 
 router.get("/company/:id/posts/new", middleware.checkCompanyOwnership, function(req,res){
     Company.findById(req.params.id,function(err,foundcompany){
@@ -54,11 +54,11 @@ router.post("/company/:id/posts",middleware.checkCompanyOwnership,function(req,r
                    post.postedBy.id = foundcompany._id;
                    post.postedBy.companyname = foundcompany.name;
                    post.save();
-                   foundcompany.posts.push(post);
+                   foundcompany.posts.unshift(post);
                    foundcompany.save();
                    console.log("successfully added post");
                    req.flash("success","Successfully added post");
-                   res.redirect('/company/'+foundcompany.createdBy.id+'/myprofile');
+                   res.redirect('/company/'+foundcompany._id+'/myprofile');
                }
             });
         }
@@ -99,7 +99,7 @@ router.post("/company/:id/posts",middleware.checkCompanyOwnership,function(req,r
         }
       else{
           req.flash("success","Post updated");
-          res.redirect("/company/"+ foundcompany.createdBy.id +"/myprofile");
+          res.redirect("/company/"+ foundcompany._id +"/myprofile");
       }
     });
 });
@@ -115,7 +115,7 @@ router.post("/company/:id/posts",middleware.checkCompanyOwnership,function(req,r
     }
      else{
          req.flash("success","Post deleted");
-         res.redirect("/company/"+ foundcompany.createdBy.id +"/myprofile");
+         res.redirect("/company/"+ foundcompany._id +"/myprofile");
      }
     });
  });

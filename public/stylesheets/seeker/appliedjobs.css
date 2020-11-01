@@ -1,0 +1,170 @@
+
+body{
+    background-color:rgb(243,247,247);
+    margin: 0px;
+    line-height: 1.4em;
+    font-family: "Whitney SSm A", "Whitney SSm B", Avenir, "Segoe UI", Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+}
+div{
+    box-sizing: border-box;
+}
+header{
+    background-color: #fff;
+    box-shadow: 0.1px 1px 4px 0 #e7eeef;
+    min-height: 60px;
+    width: 100%;
+}
+.empty{
+    display: flex;
+    min-height: 200px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    color: #738f93;
+    text-align: center;
+}
+h3{
+    font-weight: bold;
+    font-size:18px;
+    line-height:1em;
+}
+.container{
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    max-width: 1240px;
+    min-width: 1024px;
+    /* padding-left: 20px;
+    padding-right: 20px; */
+}
+.inner-container{
+    flex: 0 1 75%;
+    padding: 20px 0;
+    min-width: 0;
+}
+h1{
+    font-weight:700;
+}
+.col-md-10{
+    background-color: #fff;
+    padding:30px 40px;
+    box-shadow: 0 6px 16px 0 rgba(0,0,0,.2);
+    align-self: stretch;
+    min-height: 260px;
+}
+.ul-class{
+    z-index: 1;
+    list-style: none;
+    margin:0;
+    padding:0;
+    position: sticky;
+    top: 40px;
+}
+.li-class{
+    margin-bottom: 10px;
+    padding: 0;
+}
+.list-item{
+     padding: 15px;
+    font-weight: 700;
+    text-decoration: none;
+}
+.nav-item-2{
+    display: block;
+    color: #39424e;
+    text-transform: capitalize;
+    cursor:pointer;
+    transition: 0.3s;
+}
+.nav-item-2:hover{
+    background-color: #e6eef3;
+    text-decoration: none;
+    color:black;
+}
+.nav-item-2.active{
+    color:#297fb1;
+    background-color: #e6eef3;
+}
+.a-class:hover{
+    text-decoration: none;
+}
+.a-class:active{
+    text-decoration: none;
+}
+.tabcontent{
+    -webkit-animation: fadeEffect 1s;
+    animation: fadeEffect 1s;
+}
+/* Fade in tabs */
+@-webkit-keyframes fadeEffect {
+from {opacity: 0;}
+to {opacity: 1;}
+}
+@keyframes fadeEffect {
+from {opacity: 0;}
+to {opacity: 1;}
+}
+/* JOB STYLING */
+.m-15px-tb {
+margin-top: 15px;
+margin-bottom: 15px;
+}
+.m-5px-tb{
+margin-top: 5px;
+margin-bottom: 5px;
+}
+.box-shadow-only-hover:hover {
+box-shadow: 0 1.5rem 4rem rgba(22, 28, 45, 0.1);
+}
+.font-small {
+font-size: .75rem;
+line-height: 1rem;
+}
+.hover-top {
+position: relative;
+top: 0;
+}
+.border-color-gray {
+border-color: #f2f3fa !important;
+}
+.border-all-1 {
+border: 1px solid;
+}
+.p-20px-l {
+padding-left: 20px;
+}
+.p-15px {
+padding: 15px;
+}
+.m-0px {
+margin: 0px;
+}
+.theme2nd-bg {
+background-color: #53d267;
+}
+.theme1st-bg{
+    background-color: rgb(241, 186, 83);
+}
+.border-radius-15 {
+border-radius: 15px;
+}
+.p-10px-lr {
+padding-left: 10px;
+padding-right: 10px;
+}
+.p-0px-tb {
+padding-top: 0px;
+padding-bottom: 0px;
+}
+.white-color {
+color: #ffffff;
+}
+.delete-form{
+    display: inline-block;
+}
+.delete-form input{
+    border: none;
+    cursor: pointer;
+}

@@ -16,7 +16,7 @@ var middleware = require("../middleware/index.js");
 const { runInContext } = require("vm");
 var path= require("path");
 ////Multer config
-router.use(express.static(__dirname+"./public/"));
+router.use(express.static(__dirname+"/public"));
 
  var multer = require('multer');
  var storage = multer.diskStorage({
@@ -245,13 +245,6 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
           }
           else{
             //console.log(alljobs);
-            var len=Number(alljobs.length);
-            //console.log(len);
-             if(len == 0)
-             {
-               console.log("no such job");
-               req.flash("error","No Job found");
-             }
                //console.log("these jobs");
               // req.flash("success","Following Jobs match with your search");
               res.render("seeker/index",{jobs:alljobs,companies:allcompany});
@@ -264,7 +257,7 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
  });
 
    
-router.get("/seeker/:id/myprofile",function(req,res){
+router.get("/seeker/:id/myprofile",middleware.isLoggedIn,function(req,res){
   User.findById(req.params.id,function(err,foundUser){
     if (err) {
       console.log(err);

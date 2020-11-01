@@ -1,0 +1,52 @@
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #f1f1f1;
+        font-family: Arial;
+    }
+
+    hr {
+        background-color: black;
+        border-color: rgb(201, 197, 197);
+    }
+
+    /* Center website */
+    .main {
+        padding: 5px 5% 20px;
+        margin: auto;
+    }
+
+    h1 {
+        font-size: 40px;
+        word-break: break-all;
+
+    }
+
+    h2 {
+        margin-bottom: 10px;
+        margin-left: 25px;
+    }
+
+    .thumbnail {
+        padding: 20px;
+        box-shadow: 0 3px 10px 0 rgba(0, 0, 0, .1);
+        background-color: white;
+    }
+
+    .row {
+        margin: 0;
+    }
+
+    span {
+        position: relative;
+        bottom: 0;
+        right: 0;
+        float: right;
+    }
+    .delete-form{
+        display: inline-block;
+        margin-left: 10px;
+    }

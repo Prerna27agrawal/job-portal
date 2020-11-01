@@ -31,7 +31,7 @@
     // show the alert
     setTimeout(function() {
         $(".alert").alert('close');
-    }, 2000);
+    }, 5000);
     });
       // show the alert
      
@@ -76,7 +76,7 @@
                     <li class="nav-item"><a style="color: floralwhite;padding-right: 40px;" href="/register">Sign Up</a></li>
                     <% } else { %>
                     <% if(currentUser.isCompany) { %>
-                    <li class="nav-item"><a style="color: floralwhite;" href="/company/<%= currentUser._id %>/myprofile">Signed In As
+                    <li class="nav-item"><a style="color: floralwhite;" href="#">Signed In As
                             <%= currentUser.username %></a></li>
                     <% } else if(currentUser.isAdmin) { %>
                         <li ><a class="dropdown-item" style="color: floralwhite;" href="/contactus">Contact Page</a></li>

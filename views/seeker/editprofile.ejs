@@ -1,17 +1,6 @@
 <%- include("../partials/header")%>
 <script src="path/to/intlTelInput.js"></script>
-<style>
-    .iti__flag {
-        background-image: url("path/to/flags.png");
-    }
 
-    @media (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
-        .iti__flag {
-            background-image: url("path/to/flags@2x.png");
-        }
-    }
-</style>
 <div class="container">
 <div class="row">
     <h2 style="text-align: center"> EDIT YOUR PROFILE</h2>
@@ -276,6 +265,7 @@
     //     $('#select-name').selectize({
     //         plugins: ['remove_button']
     //     });
+    $('head').append('<link rel="stylesheet" type="text/css" href="/stylesheets/seeker/editprofile.css">')
     google.maps.event.addDomListener(window, 'load', function () {
         var places = new google.maps.places.Autocomplete(document.getElementById('ownCountry'));
         google.maps.event.addListener(places, 'place_changed', function () {
