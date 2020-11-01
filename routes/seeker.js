@@ -354,7 +354,7 @@ router.get("/seeker/:id/subscribe/:job_id",middleware.checkSeekerOwnership,funct
   }
     else
     {
-      //company.save();
+      company.save();
       console.log(company);
       req.flash("success","Further updates will be mailed to you as you subscribed this company")
       res.redirect("/seeker/"+req.params.job_id+"/applyjob");

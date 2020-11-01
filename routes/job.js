@@ -35,10 +35,12 @@ router.get("/company/createjob", middleware.checkCompanyOwnership, function (req
 
 //after creating job post
 router.post("/login/company/createjob", middleware.checkCompanyOwnership, function (req, res) {
+  Company.findOne().where('createdBy.id').equals(req.user._id).populate('subscribedBy').exec(function (err, company) {
   req.body.job.postedBy = {
     id: req.user._id,
     username: req.user.username
   }
+  req.body.job.company= company.name;
   Job.create(req.body.job, function (err, job) {
     if (err) {
       console.log(err);
@@ -46,11 +48,10 @@ router.post("/login/company/createjob", middleware.checkCompanyOwnership, functi
       return res.redirect("back");
     }
     else {
-      console.log(job);
       req.flash("success", "Successfully Created New Job");
-      Company.findOne().where('createdBy.id').equals(req.user._id).populate('subscribedBy').exec(function (err, company) {
         var users = [];
-        // console.log(company);
+        
+        console.log(job);
         company.subscribedBy.forEach(function (eachuser) {
           users.push(eachuser.email);
         });
@@ -108,8 +109,9 @@ router.post("/login/company/createjob", middleware.checkCompanyOwnership, functi
         req.flash('success', "Notification sent to all the Subscribed Users");
         res.redirect('/company/' + job.postedBy.id + '/viewjob/1');
 
-      });
+      
     }
+  });
   });
 });
 

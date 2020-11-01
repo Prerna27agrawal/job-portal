@@ -13,7 +13,7 @@
                              status= seeker.isStatus;
                         }
                     }); %>
-        <h1><img src="https://tppwebsolutions.com/wp-content/uploads/logo-demo3.png" height="50px"
+        <h1><img src="<%= company.logo %>" height="50px"
                 width="50px"><%= company.name %><span>
                 <% if(currentUser && currentUser.isCompany == false){ %>
 
@@ -90,7 +90,6 @@
                                 <input type="submit" value="Visit Company website" name="submit2"
                                     class="btn btn-info active">
                             </form>
-                            <% } %>
                         </div>
                     </div>
                 </div>

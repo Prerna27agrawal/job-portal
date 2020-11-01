@@ -22,6 +22,11 @@
     .thumbnail{
         padding-left: 20px;
         box-shadow: 0 3px 10px 0 rgba(0,0,0,.1);
+        border: 1px solid;
+        border-color: #f2f3fa !important;
+    }
+    .thumbnail:hover{
+            box-shadow: 0 1.5rem 4rem rgba(22, 28, 45, 0.1);
     }
     .caption h3{
         padding-left:10%;

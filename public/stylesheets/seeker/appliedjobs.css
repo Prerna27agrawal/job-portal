@@ -1,13 +1,14 @@
-
+*{
+    box-sizing: border-box;
+}
 body{
     background-color:rgb(243,247,247);
-    margin: 0px;
     line-height: 1.4em;
     font-family: "Whitney SSm A", "Whitney SSm B", Avenir, "Segoe UI", Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: normal;
 }
-div{
-    box-sizing: border-box;
+.container .alert{
+    margin:0;
 }
 header{
     background-color: #fff;
@@ -31,11 +32,10 @@ h3{
 }
 .container{
     box-sizing: border-box;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 5vw;
+    margin-right: 2vw;
     position: relative;
-    max-width: 1240px;
-    min-width: 1024px;
+    display: block;
     /* padding-left: 20px;
     padding-right: 20px; */
 }

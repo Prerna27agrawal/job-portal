@@ -8,8 +8,10 @@
     </header>
     <div class="container">
             <div class="row" style="margin-top:30px;">
-                <div class="col-md-2 col-sm-12">
+                <div class="col-md-2 col-sm-12 col-xs-12">
                     <ul class="ul-class">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-4 col-xs-4">
                         <li class="li-class">
                             <a class="nav-item-2 a-class" onclick="openCity( event , 'Pending' )" id="defaultOpen">
                                 <div class="list-item">
@@ -20,7 +22,7 @@
                                      <span style="margin-left:8px;font-size:18px;">Pending</span>
                                 </div>
                             </a>
-                        </li>
+                        </li></div><div class="col-md-12 col-sm-4 col-xs-4">
                         <li class="li-class">
                             <a class="nav-item-2 a-class" onclick="openCity( event , 'Accepted' )">
                                 <div class="list-item">
@@ -31,7 +33,7 @@
                                      <span style="margin-left:8px;font-size:18px;">Accepted</span>
                                 </div>
                             </a>
-                        </li>
+                        </li></div><div class="col-md-12 col-sm-4 col-xs-4">
                         <li class="li-class">
                             <a class="nav-item-2 a-class" onclick="openCity( event , 'Rejected' )">
                                 <div class="list-item">
@@ -42,10 +44,11 @@
                                      <span style="margin-left:8px;font-size:18px;">Rejected</span>
                                 </div>
                             </a>
-                        </li>
+                        </li></div>
+                        </div>
                     </ul>
                 </div>
-                <div class="col-md-10 col-sm-12">
+                <div class="col-md-10 col-sm-12 col-xs-12">
                     <div class="tabcontent" id="Pending">
                         <div class="row">
                             <% var count1=0;

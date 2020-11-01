@@ -524,3 +524,30 @@ line-height: 1rem;
     .white-color {
     color: #ffffff;
     }
+    .media{
+        line-height: 1.4em;
+    font-family: "Whitney SSm A", "Whitney SSm B", Avenir, "Segoe UI", Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    }
+    .tabcontent{
+    -webkit-animation: fadeEffect 1s;
+    animation: fadeEffect 1s;
+}
+.d-inline-block {
+    float: left;
+}
+
+.media-body {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+.media-body h5{
+    font-size: 20px;
+}
+.media-body h6{
+    font-size: 16px;
+}
+.media-body span{
+    font-size: 14px;
+}
