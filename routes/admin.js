@@ -21,7 +21,9 @@ var async = require("async");
 //crypto is part of express no need to install is
 var crypto = require("crypto");
 var nodemailer = require("nodemailer");
+
 router.use(express.static(__dirname+"/public"));
+const {check, validationResult} = require('express-validator');
 
 router.get("/admin/index",middleware.checkAdminOwnership,function(req,res){
     // Quiz.find({}).exec(function(err,quiz){

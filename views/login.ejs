@@ -36,7 +36,7 @@
             <input type="text" name="username" placeholder="Username" required/>
             <input type="email" name="email" placeholder="Email Address" required/>
 
-            <input type="password" name="password" id="password1" placeholder="Create Password" required/>
+            <input type="password" name="password" id="password1" placeholder="Create Password"/>
             <span toggle="#password1" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 
             <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required/>
@@ -71,9 +71,7 @@
         container.classList.toggle('active');
 </script>
 <% } %>
-  <script>
-
-
+   <script>
     $(".toggle-password").click(function() {
         console.log("toggle");
         $(this).toggleClass("fa-eye fa-eye-slash");

@@ -16,6 +16,7 @@
         <h1><img src="https://tppwebsolutions.com/wp-content/uploads/logo-demo3.png" height="50px"
                 width="50px"><%= company.name %><span>
                 <% if(currentUser && currentUser.isCompany == false){ %>
+
                 <% if(bool1){ %>
                 <a href="/seeker/<%= company._id %>/subscribe/<%= job._id %>" type="button"
                     class="btn btn-danger">Subscribe</a>
@@ -54,7 +55,9 @@
                         </div>
                             
                         <br><br>
+
                         <% if(currentUser && currentUser.isCompany == false){ %>
+
                         <% if(bool2){ %>
                         <form action="/seeker/<%= job._id %>/applyjob" method="POST">
                             <input type="submit" name="submit" value="Apply" class="btn btn-success active">
@@ -83,9 +86,11 @@
                             <h4><b>ABOUT <%= company.name %>: </b></h4>
                             <p><%= company.description %></p>
                             <form action="/company/<%= company._id %>/myprofile" method="GET">
+
                                 <input type="submit" value="Visit Company website" name="submit2"
                                     class="btn btn-info active">
                             </form>
+                            <% } %>
                         </div>
                     </div>
                 </div>

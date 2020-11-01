@@ -28,6 +28,7 @@
 								<tr>
 									<td scope="row"><%=i %></td>
 									<td> <a href="/seeker/<%= job._id%>/applyjob"><%= job.name %></a></td>
+
 									<td><%= job.location %></td>
 									<td><%= moment(job.createdAt).format('YYYY-MM-DD')%></td>
 									<td><%= job.experience %>+ years</td>

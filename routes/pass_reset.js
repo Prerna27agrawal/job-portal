@@ -1,6 +1,8 @@
 var express = require("express");
 var router = express.Router();
 var async = require("async");
+const {check, validationResult} = require('express-validator');
+
 //crypto is part of express no need to install is
 var crypto = require("crypto");
 var nodemailer = require("nodemailer");
@@ -31,7 +33,17 @@ router.get('/forgot', function(req, res) {
     res.render('forgot');
   });
 
-router.post('/forgot',function(req,res){
+
+router.post('/forgot',[ check('email', 'Your email is not valid').not().isEmpty().isEmail().isLength({ min: 10, max: 30 }).normalizeEmail()
+],function(req,res){
+    const errors = validationResult(req);
+    if(!errors.isEmpty())
+    {
+          var errorResponse = errors.array({ onlyFirstError: true });
+          req.flash("error",errorResponse[0].msg);
+          res.redirect("/register");
+    }
+    else{
     console.log(req.body.email);
     var email = req.body.email;
     if(!email)
@@ -103,7 +115,7 @@ router.post('/forgot',function(req,res){
               
         });
     }
-
+    }
 })
 
 router.get("/forgot/:token",function(req,res){
@@ -139,7 +151,19 @@ router.get("/forgot/:token",function(req,res){
 router.get("/reset/:id",function(req,res){
    res.render("reset",{id:req.params.id});
 });
-router.post("/reset/:id",function(req,res){
+router.post("/reset/:id",[
+    check('password','Password in not matching the format').not().isEmpty().isLength({min:8}),
+    check('confirm_password','Password Confirm is not in matching  format').not().isEmpty().isLength({min:8}),
+    check('confirm_password', 'Passwords do not match').custom((value, {req}) => (value === req.body.password))
+  ],function(req,res){
+        const errors = validationResult(req);
+        if(!errors.isEmpty())
+        {
+              var errorResponse = errors.array({ onlyFirstError: true });
+              req.flash("error",errorResponse[0].msg);
+              res.redirect("/register");
+        }
+        else{
     var password=req.body.password;
     var confirm_password = req.body.confirm;
     const id= req.params.id;
@@ -170,6 +194,7 @@ router.post("/reset/:id",function(req,res){
             });
         });
     }
+}
 });
 
 

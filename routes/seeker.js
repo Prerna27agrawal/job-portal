@@ -1,4 +1,6 @@
 var express = require("express");
+const {check, validationResult} = require('express-validator');
+
 var router = express.Router();
 var Company = require("../models/company");
 var  Seeker = require("../models/seeker");
@@ -66,11 +68,28 @@ function escapeRegex(text) {
 router.get("/register/seeker", middleware.checkSeekerOwnership,function (req, res) {
     res.render("seeker/seekerregister");
   });
-  
-   
- router.post("/register/seeker",middleware.checkSeekerOwnership,upload, function (req, res) {
+
+ router.post("/register/seeker",  [
+  check('firstname','Username is required').not().isEmpty(),
+  check('status','Current Status is required').not().isEmpty(),
+  check('gradyear','Graduation Year is required').not().isEmpty().isLength({min:4}),
+  check('education','College is required').not().isEmpty(),
+  check('degree','Degree is required').not().isEmpty(),
+  check('studyyear','Studying year is required').not().isEmpty(),
+  check('cgpa','cgpa is required').not().isEmpty(),
+  check('skills','Skill is required').not().isEmpty(),
+  check('phone','Phone Number should be atleast 10 digit number').isInt().isLength({min:10,max:12}),
+]
+ ,middleware.checkSeekerOwnership,upload, function (req, res) {
   //console.log(req.files); 
   //console.log(req.files.image);
+  const errors = validationResult(req);
+    if(!errors.isEmpty())
+    {
+          var errorResponse = errors.array({ onlyFirstError: true });
+          req.flash("error",errorResponse[0].msg);
+          res.redirect("/register");
+    }else{
   var status = req.body.status;
   var degree = req.body.degree;
 
@@ -124,6 +143,7 @@ Seeker.create(newSeeker,function(err, newSeekercreate) {
       req.flash("success","You are successfully registered .");
       res.redirect("/seeker/index");
   });
+}
 });
 
   

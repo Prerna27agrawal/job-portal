@@ -2,26 +2,83 @@
 <style>
     #hiddenDiv {
         display: none;
-         }
-    #btn1[disabled]:hover + #hiddenDiv{
-        display: block;
+    }
+
+    #btn1[disabled]:hover+#hiddenDiv {
+        display: inline-flex;
+    }
+
+    body {
+        background: rgb(243, 246, 247);
+    }
+
+    .card {
+        background-color: rgb(223, 233, 235);
+        margin-top: 150px;
+        text-align: center;
+        margin-left: 60px;
+        width:280px;
+        height:280px;
+        padding:10px;
+    }
+    .card-body{
+        padding:10px;
+    }
+    .card-title{
+        /* padding-top: 20px; */
+    }
+    #message{
+        background: rgb(143, 196, 150);
     }
 </style>
-<div class="container">
-<div class="row">
- <h1>Your Quiz stats <%= seeker.firstname %>  <%= seeker.lastname %></h1>
- <% quiz.forEach(function(quiz){ 
-    var check=false;
-    seeker.ScoreStatus.forEach(function(test){
-        if(String(test.test_id) == String(quiz._id))
-        {
-                check = true;
-        }
-    }); %>
-     <a href="/quiz/<%= quiz._id %>/takequiz"  class="btn btn-primary"  <% if(check){%> id="btn1" disabled <%}%> >Give quiz <%= quiz.title %></a>
-     <div class="main" id="hiddenDiv">You have already given this test</div>
- <% }); %>
-      
- </div>
-</div>
+<section>
+    <div id="message">
+        <div class=" mb-5">
+            <div class="container">
+                <h2 class="display-20 display-md-18 display-lg-16">TAKE A QUIZ</h2>
+            <p>Below Quizzes are designed to test your problem-solving, analytical and time-management skills.<br>
+                It will test you on the basis of different parameters of skills and knowledge.<br>
+                These tests are <b>not compulsory </b>but will give you an edge over other applicants for the same job. <br>
+                Scoring Good will increase you selection chance and at the same time will tell you where you stand in your analytical and problem-solving skills.<br>
+                Score of <b>Best of the 3</b> Quiz will be shared with the company you are applying to. So make sure,you perform well in these tests.</p>
+            </div>
+            
+        </div>
+    </div>
+    <div class="container">
+
+        <div class="row">
+            <% quiz.forEach(function(quiz,index){ %>
+            <%    var check=false;%>
+            <%   seeker.ScoreStatus.forEach(function(test){ %>
+            <%      if(String(test.test_id) == String(quiz._id)) { %>
+            <%       check = true; %>
+            <% }  }); %>
+            <div class="col-sm-6 col-lg-4 ">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Quiz <%= index+1%></h3>
+                        <h5 class="card-subtitle mb-2 text-muted">All the Best!</h5>
+                        <% if(index==0){%>
+                            <p class="card-text">Take Your first Quiz to build up your application.</p>
+                            <%}%>
+                            <% if(index==1){%>
+                                <p class="card-text">Want to improve your Score of previous Quiz?<br> Take this Second Quiz.</p>
+                                <%}%>
+                                <% if(index==2){%>
+                                    <p class="card-text">Improvement is the key to Success.
+                                        <br>But Remember it will be your last chance.</p>
+                                    <%}%>
+                       
+                            <a href="/quiz/<%= quiz._id %>/takequiz" class="btn btn-primary card-link" <% if(check){%> id="btn1"
+                                disabled <%}%> >Give quiz <%= quiz.title %></a>
+                                <div class="main " id="hiddenDiv">You Have Already Attempted This Test.</div>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
+            
+        </div>
+    </div>
+</section>
 <%- include("../partials/footer") %>
