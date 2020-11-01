@@ -1,22 +1,5 @@
 <%- include("../partials/header") %>
-<style>
-    .media{
-        line-height: 1.4em;
-    font-family: "Whitney SSm A", "Whitney SSm B", Avenir, "Segoe UI", Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: normal;
-    }
-    .tabcontent{
-    -webkit-animation: fadeEffect 1s;
-    animation: fadeEffect 1s;
-}
-.d-inline-block {
-    display: inline-block!important;
-}
-.media-body h5{
-    font-size: 1.25rem;
-}
-    
-</style>
+
 <div class="container">
 <div class="container">
     <div class="profile-wrapper">
@@ -203,13 +186,13 @@
                         <div class="col-sm-12 col-md-12 m-15px-tb">
                             <div class="media box-shadow-only-hover hover-top border-all-1 border-color-gray p-15px">
                                 <div class="d-inline-block">
-                                    <img src="<%= company.logo %>" width="50px" height="50px">
+                                    <img src="<%= company.logo %>" width="70px" height="70px">
                                 </div>
                                 <div class="p-20px-l media-body">
-                                    <h5 class="m-5px-tb"><%= company.name %></h5>
-                                    <h6 class="m-5px-tb"><%= job.name %></h6>
-                                    <p class="m-5px-tb"><%= job.location %></p>
-                                    <p class="m-5px-tb font-small"><%= job.experience %>+ years of experience</p>
+                                    <h5 class="m-5px-tb"><%= job.name %></h5>
+                                    <h6 class="m-5px-tb"><%= job.location %></h6>
+                                    <p class="m-5px-tb" style="font-size: 14px;"><%= job.experience %>+ years of experience</p>
+                                    <p class="m-5px-tb font-small" style="font-size: 12px;"><%= job.employementType %></p>
                                     <a href="/seeker/<%= job._id %>/applyjob" class="a-class">
                                     <span class="theme2nd-bg white-color p-0px-tb p-10px-lr font-small border-radius-15">More info</span>
                                     </a>
