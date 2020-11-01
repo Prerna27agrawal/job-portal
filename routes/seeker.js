@@ -133,6 +133,7 @@ function (req, res) {
           }
           req.user.isFill=true;
           req.user.save();
+          User.findOne({"isAdmin":true}).exec(function(err,admin){
 Seeker.create(newSeeker,function(err, newSeekercreate) {
     if (err) {
       console.log(err);
@@ -140,11 +141,13 @@ Seeker.create(newSeeker,function(err, newSeekercreate) {
       res.redirect("back");
     }
       
+       req.user.QuizCount = admin.QuizCount;
+       req.user.save();
       console.log(newSeekercreate);
       req.flash("success","You are successfully registered .");
       res.redirect("/seeker/index");
   });
-
+          });
 });
 
   
