@@ -234,6 +234,7 @@ router.get("/quiz/:id/takequiz", middleware.isLoggedInAdminSeeker, function (req
 });
 
 router.post("/quiz/:id/takequiz", middleware.checkSeekerOwnership, function (req, res) {
+        Quiz.findById(req.params.id,function(err,quiz){
         Seeker.findOne({ "seekerBy.id": req.user._id }).exec(function (err, seeker) {
                 var map = new Map();
                 for (var key in req.body) {
@@ -285,7 +286,9 @@ router.post("/quiz/:id/takequiz", middleware.checkSeekerOwnership, function (req
                         console.log("after");
                         var newScore = {
                                 score: score,
-                                test_id: req.params.id
+                                test_id: req.params.id,
+                                title:quiz.title
+
                         }
                         seeker.ScoreStatus.push(newScore);
                         seeker.ScoreCount++;
@@ -299,7 +302,7 @@ router.post("/quiz/:id/takequiz", middleware.checkSeekerOwnership, function (req
                         res.redirect("/seeker/index");
                      
                 }
-               
+        });
         });
 });
 module.exports = router;

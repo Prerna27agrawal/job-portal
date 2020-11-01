@@ -48,37 +48,47 @@
     <div class="container">
 
         <div class="row">
-            <% quiz.forEach(function(quiz,index){ %>
-            <%    var check=false;%>
-            <%   seeker.ScoreStatus.forEach(function(test){ %>
-            <%      if(String(test.test_id) == String(quiz._id)) { %>
-            <%       check = true; %>
-            <% }  }); %>
+            <% seeker.ScoreStatus.forEach(function(testgiven){ %>
             <div class="col-sm-6 col-lg-4 ">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="card-title">Quiz <%= index+1%></h3>
+                        <h3 class="card-title"><%= testgiven.title %></h3>
                         <h5 class="card-subtitle mb-2 text-muted">All the Best!</h5>
-                        <% if(index==0){%>
-                            <p class="card-text">Take Your first Quiz to build up your application.</p>
-                            <%}%>
-                            <% if(index==1){%>
-                                <p class="card-text">Want to improve your Score of previous Quiz?<br> Take this Second Quiz.</p>
-                                <%}%>
-                                <% if(index==2){%>
-                                    <p class="card-text">Improvement is the key to Success.
-                                        <br>But Remember it will be your last chance.</p>
-                                    <%}%>
+                        <p class="card-text">Take this quiz to build your application.</p>
+                                    <p class="card-text">Improvement is the key to Success.</p>
                        <!-- <form action="/quiz/<%= quiz._id %>/instructions" method="GET"> -->
-                            <a href="/quiz/<%= quiz._id %>/instructions" class="btn btn-primary card-link" <% if(check){%> id="btn1"
-                                disabled onclick="return false;" <%}%> >Give quiz <%= quiz.title %></a>
+                            <a href="/quiz/<%= quiz._id %>/instructions" class="btn btn-primary card-link" id="btn1"
+                                disabled onclick="return false;">Give</a>
                                 <div class="main " id="hiddenDiv">You Have Already Attempted This Test.</div>
                        <!-- </form> -->
                     </div>
                 </div>
             </div>
             <% }); %>
-            
+            <%    if(seeker.ScoreCount < currentUser.QuizCount){%>
+            <% quiz.forEach(function(quiz){
+                var check=false; %>
+            <%   seeker.ScoreStatus.forEach(function(test){ %>
+            <%      if(String(test.test_id) == String(quiz._id)) { 
+                     check= true; }%>
+            <% }); %>
+            <% if(!check){ %>
+                <div class="col-sm-6 col-lg-4 ">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title"><%= quiz.title %></h3>
+                            <h5 class="card-subtitle mb-2 text-muted">All the Best!</h5>
+                            <p class="card-text">Take this quiz to build your application.</p>
+                                        <p class="card-text">Improvement is the key to Success.</p>
+                           <!-- <form action="/quiz/<%= quiz._id %>/instructions" method="GET"> -->
+                                <a href="/quiz/<%= quiz._id %>/instructions" class="btn btn-primary card-link" >Give</a>
+                           <!-- </form> -->
+                        </div>
+                    </div>
+                </div>   
+            <% } %>
+                <% }); %>
+            <% } %>
         </div>
     </div>
 </section>

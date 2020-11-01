@@ -47,6 +47,7 @@ ScoreCount:{type:Number,default:0},
 ScoreStatus:[{
          score:Number,
          test_id:String,
+         title:String,
 }]
 //   test_title:String,
 
