@@ -76,7 +76,7 @@ router.get("/admin/jobs/:page",middleware.checkAdminOwnership,function(req,res){
 router.get("/admin/feedback/:page",middleware.checkAdminOwnership,function(req,res){
     var perPage = 3;
     var page =req.params.page || 1  
-    FeedBack.find({}).skip((perPage * page)-perPage).limit(perPage).exec(function(err,feedbacks){
+    FeedBack.find({}).sort('-createdAt').skip((perPage * page)-perPage).limit(perPage).exec(function(err,feedbacks){
         FeedBack.count().exec(function(err,count){
         if (err) {
             console.log(err);
