@@ -7,8 +7,8 @@
             <div class="profile-cover-img"><img
                     src="https://www.whiteheadassoc.com/wp-content/uploads/2018/09/iStock-998993038-768x384.jpg" alt="">
             </div>
-            <div class="profile-info-brief p-3"><img class="img-fluid user-profile-avatar" src="<%=company.logo%>"
-                    alt="">
+            <div class="profile-info-brief p-3 card img-responsive"><img class="img-fluid user-profile-avatar" src="<%=company.logo%>"
+                    alt="<%= company.name %>">
                 <div class="text-center">
                     <h5 class="text-uppercase mb-4"><b><%= company.name%></b></h5>
                     <p class=" fz-base" style="color:rgba(52, 10, 58, 0.678)"><i><%= company.tagline%></i></p>
@@ -99,7 +99,7 @@
                         <%  company.posts.forEach(function(post){%>
                         <div class="stream-post">
                             <div class="sp-author">
-                                <a href="#" class="sp-author-avatar"><img src="<%=company.logo%>" alt=""></a>
+                                <a href="#" class="sp-author-avatar"><img src="<%=company.logo%>" alt="<%= company.name %>" class="card img-responsive"></a>
                                 <h6 class="sp-author-name"><a href="#"><%= post.heading %></a></h6>
                             </div>
                             <div class="sp-content">
@@ -228,7 +228,7 @@ $(document).ready(function(){
     
 
     $(".closebtn").click(function(){
-        $('#myModal').modal('hide')
+        $('#myModal').modal('hide');
   });
 });
 </script>

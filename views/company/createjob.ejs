@@ -11,16 +11,16 @@
             <form action="/login/company/createjob" method="post">
                 <div class="form-group">
                     <label >Job Position</label>
-                    <input class="form-control" type="text" name="job[name]" placeholder=" Job Title/Position">
+                    <input class="form-control" type="text" name="job[name]" placeholder=" Job Title/Position" required>
                 </div>
 
                 <div class="form-group">
                     <label >Job Location</label>
-                    <input class="form-control" type="text" name="job[location]" placeholder="Job Location">
+                    <input class="form-control" type="text" name="job[location]" placeholder="Job Location" required>
                 </div>
                 <div class="form-group">
                     <label >Required Work-Experience in Years</label>
-                    <input class="form-control" type="number" name="job[experience]" placeholder="Work-Experience">
+                    <input class="form-control" type="number" name="job[experience]" placeholder="Work-Experience" required>
                 </div>
                 <div class="form-group">
                     <label for="skill-set">Required Skills </label>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="form-group">
                     <label>Employement Type:</label>
-                    <input  type="radio" class="choice" name="job[employementType]" value="Full-Time">
+                    <input  type="radio" class="choice" name="job[employementType]" value="Full-Time" required>
                     <label for="choice1">Full-Time</label>
                     <input  type="radio" class="choice" name="job[employementType]" value="Intern">
                     <label for="choice2">Intern</label>

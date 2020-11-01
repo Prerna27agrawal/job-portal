@@ -15,7 +15,7 @@
                     }); %>
         <h1><img src="<%= company.logo %>" height="50px"
                 width="50px"><%= company.name %><span>
-                <% if(currentUser && currentUser.isCompany == false){ %>
+                <% if(currentUser && currentUser.isCompany == false && currentUser.isAdmin == false){ %>
 
                 <% if(bool1){ %>
                 <a href="/seeker/<%= company._id %>/subscribe/<%= job._id %>" type="button"
@@ -56,7 +56,7 @@
                             
                         <br><br>
 
-                        <% if(currentUser && currentUser.isCompany == false){ %>
+                        <% if(currentUser && currentUser.isCompany == false && currentUser.isAdmin == false){ %>
 
                         <% if(bool2){ %>
                         <form action="/seeker/<%= job._id %>/applyjob" method="POST">

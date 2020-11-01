@@ -181,7 +181,7 @@ section .container1.active .signinBx .imgBx1 {
 left: -100%;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1500px) {
 section .container1 {
   max-width: 400px;
 }
