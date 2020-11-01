@@ -8,6 +8,7 @@ mongoose.set('useCreateIndex', true);
 
 var quizSchema = new mongoose.Schema({
     title: String,
+    time:{type:Number,default:15},
     toBeposted: {type:Boolean,default:false},
     posted: {type:Boolean,default:false},
     questions:[

@@ -6,7 +6,6 @@ const {check, validationResult} = require('express-validator');
 var Company = require("../models/company");
 var Seeker = require("../models/seeker");
 var Job = require("../models/job");
-var Job2 = require("../models/job");
 var User = require("../models/user");
 var Posts = require("../models/posts");
 var Quiz = require("../models/quiz");
@@ -40,7 +39,7 @@ router.post("/login/company/createjob", middleware.checkCompanyOwnership, functi
     id: req.user._id,
     username: req.user.username
   }
-  Job2.create(req.body.job, function (err, job) {
+  Job.create(req.body.job, function (err, job) {
     if (err) {
       console.log(err);
       req.flash("error", err.message);
@@ -154,8 +153,8 @@ router.get("/company/:id/show/jobstats", middleware.checkCompanyOwnership,
     // var perPage = 3;
     // var page =req.params.page || 1
     Job.findById(req.params.id).populate('postedBy').populate("appliedBy.postedBy").exec(function (err, foundJob) {
-      Seeker.find({}).exec(function (err, seekers) {
-       Seeker.count().exec(function(err,count){
+   Seeker.find({}).sort('Score').exec(async function (err, seekers) {
+     await Seeker.count().exec(function(err,count){
         if (err) {
           console.log(err);
           req.flash("error", err.message);
@@ -257,16 +256,21 @@ else{
   var filterParameter={}
 }
 console.log(filterParameter);
-Seeker.find(filterParameter).exec(function (err, seekers) {
+Seeker.find(filterParameter).sort('-Score').exec( function (err, seekers) {
    if (err) {
      console.log(err);
      req.flash("error", err.message);
      return res.redirect("back");
    }
    else {
+     console.log("At backend side")
      console.log(seekers);
+     seekers.forEach(function(seeker){
+       seeker.save();
+     });
      res.render("company/seekerview", { job: foundJob, seekers: seekers});
-   }
+
+    }
  });
   });     
 });

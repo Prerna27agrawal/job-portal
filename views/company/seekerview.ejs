@@ -5,6 +5,8 @@
     }
 </style>
 <div class="container">
+    <%= console.log("seekersiii") %>
+    <%= console.log(seekers) %>
         <h2 class="text-center"><b><%= job.name %></b></h2>
         <br>
         <div class="container">
@@ -118,21 +120,21 @@
                     <th scope="col">Reject</th>
                 </tr>
             </thead>
-            <% var i=1; %>
+            <% var j=1; %>
 <% job.appliedBy.forEach(function(user){%>
-<% seekers.forEach(function(seeker){%>
-    <% if(seeker.seekerBy.id.equals(user.postedBy.id)){%>
+    <% for(var i=0; i< seekers.length;i++){%>
+    <% if(seekers[i].seekerBy.id.equals(user.postedBy.id)){%>
 
        <tbody>
             <tr>
-                <th scope="row"><%=i %></th>
-                <td><%=seeker.firstname %></td>
-                <td><%=seeker.lastname %></td>
-                <td><%=seeker.status %></td>
-                <td><%=seeker.degree %></td>
-                <td><%=seeker.cgpa %></td>
+                <th scope="row"><%=j %></th>
+                <td><%=seekers[i].firstname %></td>
+                <td><%=seekers[i].lastname %></td>
+                <td><%=seekers[i].status %></td>
+                <td><%=seekers[i].degree %></td>
+                <td><%=seekers[i].cgpa %></td>
                 <td>
-                    <a class="btn btn-light" role="button" href="/resume_folder/<%= seeker.resume %>" download><i class="fa fa-file-text" style="font-size: 36px;color:red;"></i></a>
+                    <a class="btn btn-light" role="button" href="/resume_folder/<%= seekers[i].resume %>" download><i class="fa fa-file-text" style="font-size: 36px;color:red;"></i></a>
                 </td>
                 <% if(user.isStatus == 'Accepted'){ %>
                 <td  style="color:darkgreen;"><strong> Accepted</strong></td>
@@ -148,7 +150,7 @@
                   </td>
                  <% } %>
                  <% if((currentUser && currentUser.isCompany)){ %><td>
-                    <form onsubmit="return confirm('Do you really want to Accept the following?');" action="/job/<%= job._id %>/selected/<%= user.postedBy.id %>/seeker/<%= seeker._id %>" method="Post">
+                    <form onsubmit="return confirm('Do you really want to Accept the following?');" action="/job/<%= job._id %>/selected/<%= user.postedBy.id %>/seeker/<%= seekers[i]._id %>" method="Post">
                         <div>
                         <button  id="demo" class="btn btn-success" name="accept" value="" <% if(user.isStatus != 'Pending'){%> disabled <%}%> >
                             Select
@@ -158,7 +160,7 @@
                     </td>
                    <% } %>
                    <% if((currentUser && currentUser.isCompany)){ %><td>
-                    <form  onsubmit="return confirm('Do you really want to Reject the following?');" action="/job/<%= job._id %>/rejected/<%= user.postedBy.id %>/seeker/<%= seeker._id %>" method="Post">
+                    <form  onsubmit="return confirm('Do you really want to Reject the following?');" action="/job/<%= job._id %>/rejected/<%= user.postedBy.id %>/seeker/<%= seekers[i]._id %>" method="Post">
                         <div >
                         <button  id="demo1" <% if(user.isStatus != 'Pending'){%> disabled <%}%> class="btn btn-danger">
                             Reject
@@ -171,8 +173,8 @@
             </tbody>
 
 <% } %>
-<% }); %>
-<% i++ %>
+<% }; %>
+<% j++ %>
 <% }); %>
         </table>
         </div>

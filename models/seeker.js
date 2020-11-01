@@ -43,6 +43,7 @@ var seekerSchema = new mongoose.Schema({
           description:String,
   }],
 Score:{type:Number,default:0},
+ScoreCount:{type:Number,default:0},
 ScoreStatus:[{
          score:Number,
          test_id:String,

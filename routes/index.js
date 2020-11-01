@@ -46,11 +46,7 @@ router.get("/login", function (req, res) {
   });
 
 
-router.post("/login",[
-    check('username','Username is required').not().isEmpty(),
-    check('password').not().isEmpty().withMessage('Password Is required').isLength({min:8}).withMessage('Length should be atleast 8').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]){8,}/).withMessage('Password should contain atleast one number,one uppercase and lowercase letter, and should be atleast 8 characters long'),
-   // check('password','Password in not matching the format').not().isEmpty().isLength({min:8})
-  ],passport.authenticate('local',{failureRedirect:'/login',failureFlash: 'Invalid username or password.'}),function(req,res){
+router.post("/login",passport.authenticate('local',{failureRedirect:'/login',failureFlash: 'Invalid username or password.'}),function(req,res){
     const errors = validationResult(req);
     if(!errors.isEmpty())
     {
@@ -60,8 +56,8 @@ router.post("/login",[
     }else{
     console.log("Current user");
     console.log(req.user);
- if(req.user.isVerified == true  && req.user.isFill == false){
-    if(req.user.isCompany == true)
+      if(req.user.isVerified == true  && req.user.isFill == false){
+       if(req.user.isCompany == true)
     {
             req.flash("success","Logged You In");
             req.flash("error","Fill Your  details first");

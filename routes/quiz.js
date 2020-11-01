@@ -19,6 +19,7 @@ var path = require("path");
 const { networkInterfaces } = require("os");
 var async = require("async");
 const { where } = require("../models/company");
+const { time } = require("console");
 ////Multer config
 router.use(express.static(__dirname + "./public/"));
 
@@ -33,30 +34,47 @@ router.get("/quiz", middleware.checkAdminOwnership, function (req, res) {
         });
 });
 
+router.post("/quiz/quizCount",middleware.checkAdminOwnership,function(req,res){
+         User.find({}).exec(function(err,user){
+                 if(err)
+                 {
+                         console.log(err);
+                 }
+                 else{
+                         user.forEach(function(user){
+                         user.QuizCount = req.body.QuizCount;
+                         user.save();
+                         });
+                         res.redirect("/quiz");
+                 }
+         })
+});
 
 router.get("/quiz/new", function (req, res) {
         res.render("quiz/new");
 });
 router.post("/quiz/new", function (req, res) {
         var newQuiz = new Quiz({
-                title: req.body.title
+                title: req.body.title,
+                time:req.body.time
         })
         Quiz.create(newQuiz, function (err, quiz) {
                 req.flash("success", "Successfully Created New Quiz");
                 res.redirect("/quiz");
         });
 });
-router.post("/quiz/post/:quizid", function (req, res) {
+router.post("/quiz/post/:quizid",middleware.checkAdminOwnership,function (req, res) {
         //to be posted n seeker side
         //make tobepost == true
         //posted == true
+        User.findById({_id:req.user._id}).exec(function(err,user){
         Quiz.findById(req.params.quizid).exec(function (err, quiz) {
                 console.log(quiz);
                 Quiz.countDocuments({ posted: true }, function (err, count) {
                         console.log("count ")
                         console.log(count);
-                        if (count == 3) {
-                                req.flash("error", "You have already posted 3 quiz");
+                        if (Number(count) == Number(user.QuizCount)) {
+                                req.flash("error", "You have already posted maximum quiz");
                                 res.redirect("/quiz");
                         }
                         else {
@@ -71,7 +89,8 @@ router.post("/quiz/post/:quizid", function (req, res) {
                 });
         });
 });
-router.post("/quiz/unpost/:quizid", function (req, res) {
+});
+router.post("/quiz/unpost/:quizid",middleware.checkAdminOwnership,function (req, res) {
         Quiz.findById(req.params.quizid).exec(function (err, quiz) {
                 quiz.posted = false;
                 quiz.toBeposted = false;
@@ -193,6 +212,21 @@ router.delete('/quiz/:id/delete/:quesid', middleware.checkAdminOwnership, functi
                 res.redirect("/quiz/show/" + req.params.id);
         });
 });
+
+router.get("/quiz/:id/instructions", middleware.isLoggedIn, function (req, res) {
+        Quiz.findOne({ "_id": req.params.id }).populate('questions').exec(function (err, quiz) {
+                if (err) {
+                        req.flash("error", err.message);
+                        res.redirect("back");
+                }
+                else {
+                        console.log(quiz);
+                        res.render("seeker/quizinstructions", { quiz: quiz });
+                }
+        });
+});
+
+
 router.get("/quiz/:id/takequiz", middleware.isLoggedIn, function (req, res) {
         Quiz.findOne({ "_id": req.params.id }).populate('questions').exec(function (err, quiz) {
                 if (err) {
@@ -261,6 +295,7 @@ router.post("/quiz/:id/takequiz", middleware.checkSeekerOwnership, function (req
                                 test_id: req.params.id
                         }
                         seeker.ScoreStatus.push(newScore);
+                        seeker.ScoreCount++;
                         if (score > seeker.Score) {
                                 seeker.Score = score;
                         }

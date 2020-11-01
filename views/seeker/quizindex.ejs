@@ -38,9 +38,9 @@
                 <h2 class="display-20 display-md-18 display-lg-16">TAKE A QUIZ</h2>
             <p>Below Quizzes are designed to test your problem-solving, analytical and time-management skills.<br>
                 It will test you on the basis of different parameters of skills and knowledge.<br>
-                These tests are <b>not compulsory </b>but will give you an edge over other applicants for the same job. <br>
-                Scoring Good will increase you selection chance and at the same time will tell you where you stand in your analytical and problem-solving skills.<br>
-                Score of <b>Best of the 3</b> Quiz will be shared with the company you are applying to. So make sure,you perform well in these tests.</p>
+                These tests are <b>not compulsory </b>but might give you an edge over other applicants for the same job. <br>
+                Scoring Good might increase you selection chance and at the same time will tell you where you stand in your analytical and problem-solving skills.<br>
+                <!-- Score of <b>Best of the 3</b> Quiz will be shared with the company you are applying to. So make sure,you perform well in these tests.</p> -->
             </div>
             
         </div>
@@ -69,10 +69,11 @@
                                     <p class="card-text">Improvement is the key to Success.
                                         <br>But Remember it will be your last chance.</p>
                                     <%}%>
-                       
-                            <a href="/quiz/<%= quiz._id %>/takequiz" class="btn btn-primary card-link" <% if(check){%> id="btn1"
-                                disabled <%}%> >Give quiz <%= quiz.title %></a>
+                       <!-- <form action="/quiz/<%= quiz._id %>/instructions" method="GET"> -->
+                            <a href="/quiz/<%= quiz._id %>/instructions" class="btn btn-primary card-link" <% if(check){%> id="btn1"
+                                disabled onclick="return false;" <%}%> >Give quiz <%= quiz.title %></a>
                                 <div class="main " id="hiddenDiv">You Have Already Attempted This Test.</div>
+                       <!-- </form> -->
                     </div>
                 </div>
             </div>

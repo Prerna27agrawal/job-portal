@@ -15,7 +15,9 @@ var userSchema = new mongoose.Schema({
    role:String,
    isAdmin: {type:Boolean,default:false},
    adminCode :{type: String,default:''},
-      resetLink :{type: String,default:''}
+    resetLink :{type: String,default:''},
+   QuizCount:{type:Number,default:0},
+
 });
 
 userSchema.plugin(passportLocalMongoose);
