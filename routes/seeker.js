@@ -140,7 +140,6 @@ Seeker.create(newSeeker,function(err, newSeekercreate) {
       req.flash("error",err.message);
       res.redirect("back");
     }
-      
        req.user.QuizCount = admin.QuizCount;
        req.user.save();
       console.log(newSeekercreate);

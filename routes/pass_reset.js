@@ -167,16 +167,6 @@ router.post("/reset/:id",[
     var password=req.body.password;
     var confirm_password = req.body.confirm;
     const id= req.params.id;
-    if(!password || !confirm_password)
-    {
-        req.flash("error","Please fill all details");
-        res.redirect("back");
-    }
-    else if(password != confirm_password){
-        req.flash("error","Passwords does not match");
-        res.redirect("back");
-    }
-    else{
         bcryptjs.genSalt(10, (err, salt) => {
             bcryptjs.hash(password, salt, (err, hash) => {
                 if (err) throw err;
@@ -193,7 +183,6 @@ router.post("/reset/:id",[
                     });
             });
         });
-    }
 }
 });
 

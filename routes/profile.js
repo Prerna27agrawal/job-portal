@@ -107,7 +107,7 @@ router.get("/company/:id/myprofile",middleware.isLoggedIn,function(req,res){
             company.contactno=req.body.contactno;
             company.save();
             req.flash("success","Successfully Updated");
-            res.redirect("/company/"+company.createdBy.id+"/myprofile");
+            res.redirect("/company/"+company._id+"/myprofile");
           }
       }
     });
