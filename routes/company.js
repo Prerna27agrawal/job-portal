@@ -23,7 +23,7 @@ const { emitWarning } = require("process");
 
 var passport   = require("passport");
 var path= require("path");
-router.use(express.static(__dirname+"./public/"));
+router.use(express.static(__dirname+"/public"));
 
 //Multer and cloudinary config
 var multer = require('multer');
@@ -92,15 +92,21 @@ router.post("/register/company",middleware.checkCompanyOwnership,upload.single('
 
 
 router.get("/company/show",middleware.checkCompanyOwnership,function(req,res){
-    res.render("company/show",{company:req.user});
+  Company.findOne({"createdBy.id":req.user._id},function(err,company){
+    if (err) {
+      console.log(err);
+      req.flash("error",err.message);
+      return res.redirect("back");
+  }
+    res.render("company/show",{company:company});
 });
-
+});
 
 //saari jobs uss comapny ki show hongi
 router.get("/company/:id/viewjob/:page",middleware.checkCompanyOwnership,function(req,res){
-     var perPage = 3;
-     var page =req.params.page || 1
-  User.findById(req.params.id,function(err,foundUser){
+  var perPage = 3;
+  var page =req.params.page || 1
+User.findById(req.params.id,function(err,foundUser){
     if (err) {
       console.log(err);
       req.flash("error",err.message);

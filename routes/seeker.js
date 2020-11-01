@@ -14,7 +14,7 @@ var middleware = require("../middleware/index.js");
 const { runInContext } = require("vm");
 var path= require("path");
 ////Multer config
-router.use(express.static(__dirname+"./public/"));
+router.use(express.static(__dirname+"/public"));
 
  var multer = require('multer');
  var storage = multer.diskStorage({
@@ -237,7 +237,7 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
  });
 
    
-router.get("/seeker/:id/myprofile",function(req,res){
+router.get("/seeker/:id/myprofile",middleware.isLoggedIn,function(req,res){
   User.findById(req.params.id,function(err,foundUser){
     if (err) {
       console.log(err);

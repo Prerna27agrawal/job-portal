@@ -18,12 +18,12 @@ var Question = require("../models/question");
 var Submission = require("../models/submission");
 var FeedBack =require("../models/feedback");
 
-
 var middleware = require("../middleware/index.js");
 var passport   = require("passport");
 var path= require("path");
 const { emitKeypressEvents } = require("readline");
 const { log } = require("console");
+router.use(express.static(__dirname+"/public"));
 
 router.get("/", function (req, res) {
     res.render("landing");
@@ -124,7 +124,7 @@ router.post("/register",function(req,res){
                                 }
                                 });
                     const mailOptions = {
-                                from :'"JobPortal"',
+                                from :'"WeHire"',
                                 to :req.body.email,
                                 subject : 'Account Verification:',
                                 text : '',

@@ -4,6 +4,7 @@ body{
 .section {
   padding: 100px 0;
   position: relative;
+  box-shadow: 0 6px 16px 0 rgba(0,0,0,.2);
 }
 
 .gray-bg {

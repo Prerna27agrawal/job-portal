@@ -1,25 +1,6 @@
 <%- include("../partials/header") %>
 <div class="container">
-<style>
-    body{
-        background-color: #eaedf0;
-    }
-    .showform{
-        display: none;
-    }
-    #sendmailform {
-        margin: 5px 10px 5px 0;
-        padding: 10px;
-        background-color: #fff;
-        border: 1px solid #ddd;
-    }
-    #sendmailform input{
-        border: 1px solid #ddd;
-    }
-    #sendmailform textarea{
-        border: 1px solid #ddd;
-    }
-</style>
+
 <div class="container ">
     <div class="row">
         <div class="panel panel-default widget">
@@ -123,6 +104,7 @@
     </div>
 </div>
 <script>
+     $('head').append('<link rel="stylesheet" type="text/css" href="/stylesheets/admin/feedback.css">');
     document.querySelector('#sendmailbtn').addEventListener('click',()=>{
         document.querySelector('#sendmailform').classList.toggle('showform');
     })

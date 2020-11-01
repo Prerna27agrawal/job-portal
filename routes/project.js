@@ -18,7 +18,7 @@ var middleware = require("../middleware/index.js");
 
 var passport   = require("passport");
 var path= require("path");
-
+router.use(express.static(__dirname+"/public"));
 
  //POST route for adding new projects
  router.post("/seeker/:id/addproject",middleware.checkSeekerOwnership,function(req,res){

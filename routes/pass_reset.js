@@ -23,7 +23,7 @@ var middleware = require("../middleware/index.js");
 var passport   = require("passport");
 var path= require("path");
 const { emitKeypressEvents } = require("readline");
-
+router.use(express.static(__dirname+"/public"));
 
 
 
@@ -75,7 +75,7 @@ router.post('/forgot',function(req,res){
                             }
                             });
                             const mailOptions = {
-                            from :'"JobPortal"',
+                            from :'"WeHire"',
                             to :req.body.email,
                             subject : 'Account Verification:',
                             text : '',

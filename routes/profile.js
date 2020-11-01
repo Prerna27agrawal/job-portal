@@ -23,7 +23,7 @@ const { emitWarning } = require("process");
 
 var passport   = require("passport");
 var path= require("path");
-router.use(express.static(__dirname+"./public/"));
+router.use(express.static(__dirname+"/public"));
 
 //Multer and cloudinary config
 var multer = require('multer');
@@ -48,27 +48,20 @@ api_secret: process.env.CLOUDINARY_API_SECRET
 ////////////
 
 
-router.get("/company/:id/myprofile",function(req,res){
-    User.findById(req.params.id,function(err,foundUser){
-      if(err){
-        req.flash("error",err.message);
-        res.redirect("back");
-      console.log(err);
-      }
-      else{
-        Company.find().where('createdBy.id').equals(foundUser._id).populate("posts").exec(function(err,foundCompany){
+router.get("/company/:id/myprofile",middleware.isLoggedIn,function(req,res){
+  Company.findById(req.params.id).populate("posts").exec(function(err,foundCompany){
+    Job.find({"postedBy.id":foundCompany.createdBy.id}).exec(function(err,alljobs){
           if(err){
           console.log(err);
          req.flash("error",err.message);
          res.redirect("back");
           }
           else{
-            res.render("company/myprofile",{user: foundUser,company: foundCompany});       
+            res.render("company/myprofile",{company:foundCompany,jobs:alljobs});       
           }
         });
-      }
+      });
     });
-  });
   
   //search for user model and then for company model
   router.get("/company/:id/editprofile",middleware.checkCompanyOwnership,function(req,res){

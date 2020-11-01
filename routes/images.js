@@ -12,7 +12,7 @@ const { emitWarning } = require("process");
 
 var passport   = require("passport");
 var path= require("path");
-router.use(express.static(__dirname+"./public/"));
+router.use(express.static(__dirname+"/public"));
 
 //Multer and cloudinary config
 var multer = require('multer');
@@ -53,11 +53,11 @@ router.post("/company/:id/images",middleware.checkCompanyOwnership,upload.single
             return res.redirect("back");
           }
           else{
-                foundcompany.photos.push(newimage);
+                foundcompany.photos.unshift(newimage);
                 foundcompany.save();
                 console.log("successfully added image");
                 req.flash("success","Successfully added image");
-                res.redirect('/company/'+foundcompany.createdBy.id+'/myprofile');
+                res.redirect('/company/'+foundcompany._id+'/myprofile');
           }
       });
     });

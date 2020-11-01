@@ -24,7 +24,7 @@ const { use } = require("passport");
 
 
 var path= require("path");
-router.use(express.static(__dirname+"./public/"));
+router.use(express.static(__dirname+"/public"));
 
 
 
@@ -162,7 +162,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id", middleware
                 //console.log('Preview Url : %s',nodemailer.getTestMessageUrl(info));
                 // req.flash('success',"Password reset link sent to email ID. Please follow the instructions.");
                 req.flash('success', "Mail has been sent to the Seeker Regarding your Decision");
-                res.redirect("/company/" + req.params.id + "/show/jobstats/1");
+                res.redirect("back");
               }
             });
             // res.redirect("/company/"+req.params.id+"/show/jobstats");
