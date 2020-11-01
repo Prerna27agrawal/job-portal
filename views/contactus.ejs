@@ -98,9 +98,11 @@
                 <li><a class="dropdown-item" href="/admin/jobs/1">Jobs Posted</a></li>
                 <li><a class="dropdown-item" href="/admin/feedback/1">Feedbacks</a></li>
                 <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                <% } else if(currentUser) {%>
+                <% } else if(currentUser) {
+                  if(currentUser.isCompany==false){%
                 <!-- <li ><a class="dropdown-item" href="/contactus">Edit Profile</a></li>   -->
                 <li><a class="dropdown-item" href="/seeker/<%= currentUser._id %>/myprofile">My Profile</a></li>
+                <% } %>
                 <li><a class="dropdown-item" href="/seeker/:seeker_id/appliedJobs">My Applied Jobs</a></li>
                 <li><a class="dropdown-item" href="/quiz/show">Take A Quiz</a></li>
                 <li><a class="dropdown-item" href="/logout">Logout</a></li>
@@ -157,22 +159,22 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <input id="name" type="text" placeholder="Fisrt Name" name="FirstName" class="form-control"> 
+                                        <input id="name" type="text" placeholder="Fisrt Name" name="FirstName" class="form-control" required> 
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                      <input id="name" type="text" placeholder="Last Name"  name="LastName" class="form-control"> 
+                                      <input id="name" type="text" placeholder="Last Name"  name="LastName" class="form-control" required> 
                                   </div>
                               </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input id="email" type="text" placeholder="Email Address" name="email" class="form-control">  
+                                        <input id="email" type="text" placeholder="Email Address" name="email" class="form-control" required>  
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <textarea id="message" placeholder="Message" name="message" class="form-control" rows="3"></textarea> 
+                                        <textarea id="message" placeholder="Message" name="message" class="form-control" rows="3" required></textarea> 
                                     </div>
                                 </div>
                                 <div class="col-md-12">

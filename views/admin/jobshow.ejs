@@ -28,10 +28,10 @@
 							<tbody>
 								<tr>
 									<th scope="row"><%=i %></th>
-									<td><%= job.name %></td>
+									<td><a href="/seeker/<%= job._id%>/applyjob"><%= job.name %></a></td>
                                     <td><%= job.location %></td>
-									<td><a href="/company/<%= job.postedBy.id %>/myprofile">
-                                        <%= job.postedBy.username %></a></td>
+									<td>
+                                        <%= job.postedBy.username %></td>
 									<td><%= moment(job.createdAt).format('YYYY-MM-DD')%></td>
 									<td><%= job.experience %></td>
                                     <td><%= job.description %></td>
