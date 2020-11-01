@@ -50,21 +50,21 @@ router.post("/login",passport.authenticate('local',{failureRedirect:'/login',fai
  if(req.user.isVerified == true  && req.user.isFill == false){
     if(req.user.isCompany == true)
     {
-            req.flash("success","Logged You In");
-            req.flash("error","Fill Your  details first");
+            req.flash("success","Successfully Logged You In !");
+            req.flash("error","Fill Your  details to build up your profile.");
             res.redirect("/register/company");
     }
     else
     {
         req.flash("success","Logged You In");
-        req.flash("error","Fill Your  details first");
+        req.flash("error","Fill Your  details to build up your profile.");
         res.redirect("/register/seeker");
     }
 }
 else if(req.user.isVerified == true && req.user.isFill == true){
   if(req.user.isCompany == true)
   {
-    req.flash("success","Logged You In");
+    req.flash("success","Successfully Logged You In !");
         res.redirect("/company/show");
   }
   else if(req.user.isAdmin == true)
@@ -74,7 +74,7 @@ else if(req.user.isVerified == true && req.user.isFill == true){
   }
   else 
   {
-    req.flash("success","Logged You In");
+    req.flash("success","Successfully Logged You In");
     res.redirect("/seeker/index");
   }
 }
