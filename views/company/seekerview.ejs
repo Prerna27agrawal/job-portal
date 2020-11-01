@@ -121,10 +121,9 @@
                 </tr>
             </thead>
             <% var j=1; %>
-<% job.appliedBy.forEach(function(user){%>
     <% for(var i=0; i< seekers.length;i++){%>
+<% job.appliedBy.forEach(function(user){%>
     <% if(seekers[i].seekerBy.id.equals(user.postedBy.id)){%>
-
        <tbody>
             <tr>
                 <th scope="row"><%=j %></th>
@@ -173,9 +172,9 @@
             </tbody>
 
 <% } %>
-<% }; %>
-<% j++ %>
 <% }); %>
+<% j++ %>
+<% }; %>
         </table>
         </div>
         <div>

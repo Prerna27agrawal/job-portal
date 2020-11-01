@@ -167,7 +167,7 @@ router.get("/company/:id/show/jobstats", middleware.checkCompanyOwnership,
     // var perPage = 3;
     // var page =req.params.page || 1
     Job.findById(req.params.id).populate('postedBy').populate("appliedBy.postedBy").exec(function (err, foundJob) {
-   Seeker.find({}).sort('Score').exec(async function (err, seekers) {
+   Seeker.find({}).sort('-Score').exec(async function (err, seekers) {
      await Seeker.count().exec(function(err,count){
         if (err) {
           console.log(err);
