@@ -1,27 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    
-    <title>WeHire</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeHire</title>
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
-    <!-- <link rel="stylesheet" href="path/to/intlTelInput.css"> -->
-    <link ref="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-    <script type="text/javascript"
-        src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&key=AIzaSyCXFJ-lc7cHHcEklG2_oIhTnPKTWsLwHEU"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <style>
         .qstn {
             background-color: rgb(96, 134, 168);
@@ -45,74 +35,9 @@
             margin-bottom: 40px;
         }
     </style>
-    
 </head>
-
-<body onload="timeout()">
+<body onload="timeout()" onunload="myFunction()">
       
-
-<!-- <script type="text.javascript">
-    function noback()
-    {
-        window.history.forward();
-    }
-    setTimeout(function(){preback()},0);
-    window.onunload = function(){null};
-</script> -->
-<script type="text/javascript">
-      function timeout()
-      {
-          var hour = Math.floor(timeLeft/3600);
-          var rem1 = Math.floor(timeLeft%3600);
-          var minute= Math.floor(rem1/60);
-          var rem2= Math.floor(rem1%60);
-          var second = rem2;
-          var hrs=checktime(hour);
-          var min=checktime(minute);
-          var sec=checktime(second);
-          if(timeLeft <= 0)
-          {
-              clearTimeout(tm);
-              setTimeout(() => {'document.quiz.submit()'}, 1);
-               document.getElementById("form1").submit();
-          }
-          else{
-            document.getElementById("time").innerHTML= hrs+":"+min+":"+sec;
-          }
-          //seconds dec
-         timeLeft--;
-          var tm= setTimeout(function(){timeout()},1000);
-      }
-      function checktime(msg)
-      {
-          if(msg<10)
-          {
-              msg="0"+msg;
-          }
-          return msg;
-    }
-</script>
-<script type="text/javascript">
-//     function finishpage()
-//    {
-//      //alert("unload event detected!");
-//     setTimeout(() => {'document.quiz.submit()'}, 1);  
-//      //document.quiz.submit();
-//    }
-//        window.onbeforeunload= function(finishpage) {
-//          return ;
-//     // setTimeout(() => {'document.quiz.submit()'}, 1);
-    
-//    }
-// $(window).on('beforeunload',function(){
-//     finishpage();
-//     return "Bye";
-// });
-// window.addEventListener('beforeunload', function (e) {
-//   e.returnValue = 'You will loose';
-//   return finishpage;
-// });
-   </script>
 <div class="container">
     <h1 id="quiztitle"><%= quiz.title %><div id="time" style="float:right">timeout</div></h1>
    <script type="text/javascript">
@@ -120,7 +45,7 @@
        var timeLeft=timeLeft1*60;
    </script>
     <!-- <h1>Time: <h2 id="time">200</h2></h1> -->
-    <form id="form1" name="quiz" action="/quiz/<%= quiz._id %>/takequiz" method="POST">
+    <form id="quiz" name="quiz" action="/quiz/<%= quiz._id %>/takequiz" method="POST">
         <% function shuffleArray(array) { 
                     for (var i = array.length - 1; i > 0; i--) { 
                         
@@ -152,8 +77,102 @@
 <center><button type="submit" value="submit" class="btn btn-success pull-right">Submit</button></center>
 </form>
 </div>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!-- <script>
+    window.onbeforeunload = closingCode;
+    function closingCode(){
+       document.getElementById("quiz").submit();
+       return null;
+    }
+    </script> -->
+    <!-- <script>
+        function myFunction()
+        {
+            
+            clearTimeout(tm);
+            setTimeout(() => {'document.quiz.submit()'}, 1);
+             document.getElementById("quiz").submit();
+        }
+        window.onbeforeunload = function(){
+        myfun();
+        return true;
+      };
+      </script> -->
+<!-- <script type="text/javascript">
+    function checkRequest(event){
+        event.preventDefault();
+        event.returnValue = '';
+        var __type= event.currentTarget.performance.navigation.type;
+        if(__type === 1 || __type === 0){
+            // alert("Browser refresh button is clicked...");
+            document.getElementById('quiz').submit();
+        }
+        else if(__type ==2){
+            document.getElementById('quiz').submit();
+        }
+    }
+</script> -->
+<script> 
+    function finishpage()
+   {
+     //alert("unload event detected!");
+    setTimeout(() => {'document.quiz.submit()'}, 1);  
+     //document.quiz.submit();
+   }
+       window.onbeforeunload= function(finishpage) {
+         return true ;
+    setTimeout(() => {'document.quiz.submit()'}, 1);
+    
+   }
+// $(window).on('beforeunload',function(){
+//     finishpage();
+//     return "Bye"
+//window.addEventListener('beforeunload', function (e) {
+  //e.returnValue = 'You will loose';
+  //return finishpage;
+</script> 
+<script type="text/javascript">
+    function timeout()
+    {
+        var hour = Math.floor(timeLeft/3600);
+        var rem1 = Math.floor(timeLeft%3600);
+        var minute= Math.floor(rem1/60);
+        var rem2= Math.floor(rem1%60);
+        var second = rem2;
+        var hrs=checktime(hour);
+        var min=checktime(minute);
+        var sec=checktime(second);
+        if(timeLeft <= 0)
+        {
+            clearTimeout(tm);
+            setTimeout(() => {'document.quiz.submit()'}, 1);
+             document.getElementById("quiz").submit();
+        }
+        else{
+          document.getElementById("time").innerHTML= hrs+":"+min+":"+sec;
+        }
+        //seconds dec
+       timeLeft--;
+        var tm= setTimeout(function(){timeout()},1000);
+    }
+    function checktime(msg)
+    {
+        if(msg<10)
+        {
+            msg="0"+msg;
+        }
+        return msg;
+  }
+</script>
 </body>
 </html>
+
+
+<!-- <script type="text.javascript">
+    function noback()
+    {
+        window.history.forward();
+    }
+    setTimeout(function(){preback()},0);
+    window.onunload = function(){null};
+</script> -->
+ 
