@@ -46,12 +46,6 @@ router.post('/forgot',[ check('email', 'Your email is not valid').not().isEmpty(
     else{
     console.log(req.body.email);
     var email = req.body.email;
-    if(!email)
-    {
-        req.flash("error","Please enter the email!");
-        res.redirect("back");
-    }
-    else{
         User.findOne({email:email}).then(user=>{
             if(!user)
             {
@@ -114,7 +108,6 @@ router.post('/forgot',[ check('email', 'Your email is not valid').not().isEmpty(
             }
               
         });
-    }
     }
 })
 

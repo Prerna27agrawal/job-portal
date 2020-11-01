@@ -18,7 +18,6 @@ var path= require("path");
 const { networkInterfaces } = require("os");
 const { mapLimit } = require("async");
 var async = require("async");
-//crypto is part of express no need to install is
 var crypto = require("crypto");
 var nodemailer = require("nodemailer");
 
@@ -26,10 +25,7 @@ router.use(express.static(__dirname+"/public"));
 const {check, validationResult} = require('express-validator');
 
 router.get("/admin/index",middleware.checkAdminOwnership,function(req,res){
-    // Quiz.find({}).exec(function(err,quiz){
     res.render("admin/index",{admin:req.user}); 
-// });
-
 });
 
 router.get("/admin/companies/:page",middleware.checkAdminOwnership,function(req,res){
@@ -135,7 +131,7 @@ router.delete("/feedback/delete/:id",middleware.checkAdminOwnership,function(req
     });
 });
 
-router.post("/feedback/sendmail",function(req,res){
+router.post("/feedback/sendmail",middleware.checkAdminOwnership,function(req,res){
           const output =`<p> ${req.body.content} <p>
       <p>NOTE: You are receiving this mail because you are submitted feedback </p>
       `;

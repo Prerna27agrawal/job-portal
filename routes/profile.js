@@ -7,7 +7,6 @@ const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const {check, validationResult} = require('express-validator');
 
-
 var Company = require("../models/company");
 var  Seeker = require("../models/seeker");
 var  Job = require("../models/job");
@@ -154,6 +153,5 @@ router.get("/company/:id/myprofile",middleware.isLoggedIn,function(req,res){
     });
     });
   });
-
 
   module.exports = router;

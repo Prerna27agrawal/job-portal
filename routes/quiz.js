@@ -24,13 +24,12 @@ const { time } = require("console");
 router.use(express.static(__dirname+"/public"));
 
 
-
-
-
 router.get("/quiz", middleware.checkAdminOwnership, function (req, res) {
         Quiz.find({}).exec(function (err, quiz) {
                 Quiz.count({}).exec(function (err, count) {
-                        res.render("quiz/index", { quiz: quiz, count: count });
+                Quiz.countDocuments({ posted: true }, function (err, countposted) {
+                        res.render("quiz/index", { quiz: quiz, count: count,countposted:countposted });
+                });
                 });
         });
 });
@@ -51,10 +50,10 @@ router.post("/quiz/quizCount",middleware.checkAdminOwnership,function(req,res){
          })
 });
 
-router.get("/quiz/new", function (req, res) {
+router.get("/quiz/new",middleware.checkAdminOwnership,function (req, res) {
         res.render("quiz/new");
 });
-router.post("/quiz/new", function (req, res) {
+router.post("/quiz/new",middleware.checkAdminOwnership,function (req, res) {
         var newQuiz = new Quiz({
                 title: req.body.title,
                 time:req.body.time
@@ -100,7 +99,7 @@ router.post("/quiz/unpost/:quizid",middleware.checkAdminOwnership,function (req,
                 res.redirect("/quiz");
         });
 });
-router.delete("/quiz/delete/:quizid", function (req, res) {
+router.delete("/quiz/delete/:quizid",middleware.checkAdminOwnership,function (req, res) {
         Quiz.findById(req.params.quizid, function (err, quiz) {
                 console.log("remove");
                 quiz.questions.forEach(function (question) {
@@ -113,13 +112,6 @@ router.delete("/quiz/delete/:quizid", function (req, res) {
                 req.flash("success", "Removed Quiz");
                 res.redirect("/quiz");
         });
-
-        // res.send("to delte");
-        // Quiz.findById(req.params.quizid).exec(function(err,quiz){
-        //         quiz.posted = true;
-        //         quiz.toBeposted =true;
-        //         quiz.save();
-        //  });
 });
 
 router.get("/quiz/show", middleware.checkSeekerOwnership, function (req, res) {
@@ -135,7 +127,7 @@ router.get("/quiz/show", middleware.checkSeekerOwnership, function (req, res) {
         });
 });
 
-router.get("/quiz/show/:id", function (req, res) {
+router.get("/quiz/show/:id",middleware.checkAdminOwnership,function (req, res) {
         Quiz.findById(req.params.id).populate('questions').exec(function (err, quiz) {
                 res.render("quiz/quiz_index", { quiz: quiz });
         });
@@ -214,7 +206,7 @@ router.delete('/quiz/:id/delete/:quesid', middleware.checkAdminOwnership, functi
         });
 });
 
-router.get("/quiz/:id/instructions", middleware.isLoggedIn, function (req, res) {
+router.get("/quiz/:id/instructions", middleware.isLoggedInAdminSeeker, function (req, res) {
         Quiz.findOne({ "_id": req.params.id }).populate('questions').exec(function (err, quiz) {
                 if (err) {
                         req.flash("error", err.message);
@@ -228,7 +220,7 @@ router.get("/quiz/:id/instructions", middleware.isLoggedIn, function (req, res) 
 });
 
 
-router.get("/quiz/:id/takequiz", middleware.isLoggedIn, function (req, res) {
+router.get("/quiz/:id/takequiz", middleware.isLoggedInAdminSeeker, function (req, res) {
         Quiz.findOne({ "_id": req.params.id }).populate('questions').exec(function (err, quiz) {
                 if (err) {
                         req.flash("error", err.message);
@@ -305,114 +297,10 @@ router.post("/quiz/:id/takequiz", middleware.checkSeekerOwnership, function (req
                         console.log(seeker.Score);
                         req.flash("success", "Your response has been submitted");
                         res.redirect("/seeker/index");
-                        // Member.aggregate([
-                        //         { "$match": { "_id": userid } },
-                        //         { "$unwind": "$friends" },
-                        //         { "$match": { "friends.status": 0 } }],
-                        //         function( err, data ) {
-
-                        //           if ( err )
-                        //             throw err;
-
-                        //           console.log( JSON.stringify( data, undefined, 2 ) );
-
-                        //         }
-                        //       );
-                        // Seeker.aggregate([{"$match":{"seekerBy.id":req.user._id}},{$project:{len:{$size: '$ScoreStatus'}}}],function(err,data){
-                        //       console.log( JSON.stringify( data, undefined, 2 ) );       
-                        //         console.log(data);
-                        // });
-                        //console.log("len of array");
-                        //console.log(len);
-                        //        var len=15;
-                        //         var avg=0;
-                        //         seeker.ScoreStatus.forEach(function(test,index){
-                        //            avg = avg+ test.score;
-                        //            console.log("avg");
-                        //            console.log(avg);
-                        //            if(index == (len-1))
-                        //            {
-                        //                     var avg_act = calculate(avg,len);
-                        //                     console.log("actual average");
-                        //                     console.log(avg_act);
-                        //                       seeker.Score = avg_act;
-                        //                       seeker.save();
-                        //            }
-                        //         });
-
-                        // res.redirect("/score/"+req.params.id+"/cal/5f99694ad045515b9836b31d");
+                     
                 }
-                // function calculate(avg, len)
-                // {
-                //         return (avg/len);
-                // }
+               
         });
 });
 module.exports = router;
 
-
-// router.get("/score/:quizid/cal/:userid",function(req,res){
-//                 Seeker.findOne({"seekerBy.id":req.params.userid}).exec(function(err,seeker){
-//                         let score=0;
-//                         let count=0;
-//                 Submission.find({"submittedBy.id":req.params.userid,"submissionOfQuiz.id":req.params.quizid}).populate('submissionOf').
-//                 exec(function(err,submission){
-//                         console.log(submission);
-//                         // Submission.countDocuments({}).exec(function(err,count){
-//                              submission.forEach(function(submission,index){
-//                                         count++;
-//                                      Question.findOne({"_id":submission.submissionOf.id}).exec(function(err,question){
-//                                     if(String(submission.answer) == String(question.correct)){
-//                                             score++;
-//                                             if(index == (count-1)){
-//                                                    check();
-//                                               }  
-//                                     } 
-//                                 });
-//                              });
-//                 function check(){
-//                         var newScore ={
-//                                 score:score,
-//                                 test_id:req.params.quizid
-//                         }
-//                         seeker.ScoreStatus.push(newScore);
-//                         console.log(seeker);
-//                         seeker.save();
-//                         req.flash("success","Your response has been submitted");
-//                         res.redirect("/login");
-//                  }
-//                 });
-//              });
-//         });
-
-
-  // console.log(key);
-                // console.log(typeof(map.get(key)));
-                // console.log(map.get(key));
-        //         var myDocument = Quiz1.findOne({"_id":"key","answers.correct":"map.get(key)"});
-        //         if(myDocument)
-        //         {
-        //                 console.log(score);
-        //                 score++;
-        //         }
-//   Quiz1.find({_id:key,"answers.correct":item}).exec(function(err,Question){
-        //             console.log(Question);
-        //             i++;
-        //         //   console.log('check');
-        // //           if(Question == 1)
-        // //           {
-        // //                   console.log("hi");
-        // //                   score++;
-        // //                   console.log(score);
-        // //           }
-        // // console.log(score);
-
-        //         //   score= Number(score) + Number(Question);
-        //         //   console.log(typeof(Question));
-        //         //   if( String(Question.answers.correct) == String(item) )
-        //         //   {
-        //         //           console.log("hi");
-        //         //           score++;
-        //         //   }
-        //    });
-        // console.log(score);

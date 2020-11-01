@@ -65,11 +65,11 @@ function escapeRegex(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-router.get("/register/seeker", middleware.checkSeekerOwnership,function (req, res) {
+router.get("/register/seeker", middleware.isLoggedInSeeker,function (req, res) {
     res.render("seeker/seekerregister");
   });
 
- router.post("/register/seeker",middleware.checkSeekerOwnership,upload,
+ router.post("/register/seeker",middleware.isLoggedInSeeker,upload,
 // [
 //   check('firstname','FirstName is required').not().isEmpty(),
 //   check('status','Current Status is required').not().isEmpty(),
@@ -82,15 +82,6 @@ router.get("/register/seeker", middleware.checkSeekerOwnership,function (req, re
 //   check('phone','Phone Number should be atleast 10 digit number').isInt().isLength({min:10,max:12}),
 // ] 
 function (req, res) {
-  //console.log(req.files); 
-  //console.log(req.files.image);
- // const errors = validationResult(req);
-  //console.log(errors);
-   //
-    //       var errorResponse = errors.array({ onlyFirstError: true });
-    //       req.flash("error",errorResponse[0].msg);
-    //       res.redirect("/register");
-    // }else{
   var status = req.body.status;
   var degree = req.body.degree;
 
@@ -115,7 +106,6 @@ function (req, res) {
           website:req.body.website,
           skills:req.body.skills,
           resume:req.files.resume[0].filename,
-         // image:req.files.image[0].filename
           });
           newSeeker.seekerBy = {
           id : req.user._id,
@@ -177,8 +167,6 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
                   console.log("no such job");
                   req.flash("error","No Job with this title found");
                 }
-                  //console.log("these jobs");
-                 // req.flash("success","Following Jobs match with your search");
                  res.render("seeker/index",{jobs:alljobs,companies:allcompany,seeker:Seeker});
                 }
               
@@ -193,7 +181,6 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
                 return res.redirect("back");
             }
             else{
-              //console.log(alljobs);
               var len=Number(alljobs.length);
               //console.log(len);
                if(len == 0)
@@ -201,8 +188,6 @@ router.get("/seeker/index",middleware.checkSeekerOwnership,function(req,res){
                  console.log("no such job");
                  req.flash("error","No Job at this location found");
                }
-                 //console.log("these jobs");
-                // req.flash("success","Following Jobs match with your search");
                 res.render("seeker/index",{jobs:alljobs,companies:allcompany,seeker:seeker});
                
              }

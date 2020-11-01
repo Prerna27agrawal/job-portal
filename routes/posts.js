@@ -4,8 +4,6 @@ var async = require("async");
 var crypto = require("crypto");
 const {check, validationResult} = require('express-validator');
 
-
-
 var Company = require("../models/company");
 var  Seeker = require("../models/seeker");
 var  Job = require("../models/job");

@@ -2,7 +2,6 @@
 var router = express.Router();
 const {check, validationResult} = require('express-validator');
 
-
 var Company = require("../models/company");
 var Seeker = require("../models/seeker");
 var Job = require("../models/job");
@@ -13,16 +12,11 @@ var Question = require("../models/question");
 var Submission = require("../models/submission");
 var FeedBack =require("../models/feedback");
 
-
-
 var middleware = require("../middleware/index.js");
 const company = require("../models/company");
-// const { route } = require("./company");
-//const job = require("../models/job");
 
 var nodemailer = require("nodemailer");
 const { use } = require("passport");
-//const { response } = require("express");
 
 
 var path= require("path");
@@ -161,11 +155,8 @@ router.delete("/company/jobdelete/:id", middleware.checkCompanyOwnership, functi
 
 
 //for applied by seekrs view
-//id of job
 router.get("/company/:id/show/jobstats", middleware.checkCompanyOwnership,
   function (req, res) {
-    // var perPage = 3;
-    // var page =req.params.page || 1
     Job.findById(req.params.id).populate('postedBy').populate("appliedBy.postedBy").exec(function (err, foundJob) {
    Seeker.find({}).sort('-Score').exec(async function (err, seekers) {
      await Seeker.count().exec(function(err,count){
@@ -184,13 +175,11 @@ router.get("/company/:id/show/jobstats", middleware.checkCompanyOwnership,
 
 router.post("/company/:id/show/jobstats/search",middleware.checkCompanyOwnership,
 function(req,res){
- // var filteryear=req.body.filteryear;
   var filtercgpa=req.body.filtercgpa;
   var filterdegree1 = req.body.filterdegree;
   var filterdegree= filterdegree1.toUpperCase();
   var filterstatus1 = req.body.filterstatus;
   var filterstatus= filterstatus1.toUpperCase();
-
   var lesser;
   var greater;
   if(filtercgpa != '')
@@ -198,78 +187,58 @@ function(req,res){
     console.log("hi");
     console.log(filtercgpa);
     //greater then equal to
-    //less than
-      
-       if(filtercgpa == '0.0')
-       {
+    //less than equal to
+       if(filtercgpa == '0.0'){
            lesser=10;
            greater=0;
-       }
-       else if(filtercgpa == '9.0'){
+       }else if(filtercgpa == '9.0'){
         lesser=10;
         greater=9;
-       }
-       else if(filtercgpa == '8.5')
-       {
+       } else if(filtercgpa == '8.5'){
            lesser=10;
            greater=8.5;
-       }
-       else if(filtercgpa == '8.0'){
+       } else if(filtercgpa == '8.0'){
         lesser=10;
         greater=8;
-       }
-       else if(filtercgpa == '7.5'){
+       }else if(filtercgpa == '7.5'){
         lesser=10;
         greater=7.5;
-       }
-       else if(filtercgpa == '7.0'){
+       } else if(filtercgpa == '7.0'){
         lesser=10;
         greater=7;
-       }
-       else if(filtercgpa == '6.0'){
+       } else if(filtercgpa == '6.0'){
         lesser=10;
         greater=6;
-       }
-       else if(filtercgpa == '5.0'){
+       }else if(filtercgpa == '5.0'){
         lesser=10;
         greater=5;
-       }
-       else if(filtercgpa == '4.0')
-       {
+       }else if(filtercgpa == '4.0'){
            lesser=10;
            greater=4;
-       }  else if(filtercgpa == '3.0')
-       {
+       }else if(filtercgpa == '3.0'){
            lesser=10;
            greater=3;
-       }  else if(filtercgpa == '2.0')
-       {
+       }else if(filtercgpa == '2.0'){
            lesser=10;
            greater=2;
-       }  
-       else {
+       }  else {
         lesser=5;
         greater=1;
        }
   }
   Job.findById(req.params.id).populate('postedBy').populate("appliedBy.postedBy").exec(function (err, foundJob) {
-     
-if(filtercgpa!= '' && filterdegree!='' && filterstatus!= ''){
-  var filterParameter = {status:filterstatus,degree:filterdegree,cgpa:{$lte:lesser,$gte:greater}}
-}
-else if(filtercgpa!= '' && filterdegree!='' && filterstatus== ''){
-  var filterParameter = {degree:filterdegree,cgpa:{$lte:lesser,$gte:greater}}
-}
-else if(filtercgpa!= '' && filterdegree=='' && filterstatus!= ''){
-  var filterParameter = {status:filterstatus,cgpa:{$lte:lesser,$gte:greater}}
-}
-else if(filtercgpa!= '' && filterdegree=='' && filterstatus == ''){
-  var filterParameter = {cgpa:{$lte:lesser,$gte:greater}}
-}
-else{
-  var filterParameter={}
-}
-console.log(filterParameter);
+      if(filtercgpa!= '' && filterdegree!='' && filterstatus!= ''){
+        var filterParameter = {status:filterstatus,degree:filterdegree,cgpa:{$lte:lesser,$gte:greater}}
+      }else if(filtercgpa!= '' && filterdegree!='' && filterstatus== ''){
+        var filterParameter = {degree:filterdegree,cgpa:{$lte:lesser,$gte:greater}}
+      }else if(filtercgpa!= '' && filterdegree=='' && filterstatus!= ''){
+        var filterParameter = {status:filterstatus,cgpa:{$lte:lesser,$gte:greater}}
+      }else if(filtercgpa!= '' && filterdegree=='' && filterstatus == ''){
+        var filterParameter = {cgpa:{$lte:lesser,$gte:greater}}
+      }else{
+        var filterParameter={}
+      }
+  console.log(filterParameter);
 Seeker.find(filterParameter).sort('-Score').exec( function (err, seekers) {
    if (err) {
      console.log(err);
@@ -289,7 +258,7 @@ Seeker.find(filterParameter).sort('-Score').exec( function (err, seekers) {
   });     
 });
 
-router.get("/seeker/:id/applyjob", middleware.isLoggedIn, function (req, res) {
+router.get("/seeker/:id/applyjob",middleware.isLoggedIn,function (req, res) {
   Job.findById(req.params.id, function (err, job) {
     company.findOne({"createdBy.id":job.postedBy.id}).exec(function (err, company) {
       if (err) {
@@ -304,7 +273,7 @@ router.get("/seeker/:id/applyjob", middleware.isLoggedIn, function (req, res) {
   });
 });
 
-router.post("/seeker/:id/applyjob", middleware.isLoggedIn, function (req, res) {
+router.post("/seeker/:id/applyjob", middleware.checkSeekerOwnership, function (req, res) {
   Job.findById(req.params.id).populate('postedBy').populate("appliedBy.postedBy").exec(function (err, foundJob) {
     if (err) {
 

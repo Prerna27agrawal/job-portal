@@ -12,7 +12,7 @@ var FeedBack =require("../models/feedback");
 var middlewareObj ={};
 middlewareObj.checkCompanyOwnership = function(req,res,next)
 {
-   if(req.isAuthenticated() && (req.user.isCompany == true))
+   if(req.isAuthenticated() && (req.user.isCompany == true) && (req.user.isFill == true)&& (req.user.isAdmin == false))
    {
       res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, post-check=0, pre-check=0');
      next();
@@ -26,7 +26,7 @@ middlewareObj.checkCompanyOwnership = function(req,res,next)
 
 middlewareObj.checkSeekerOwnership = function(req,res,next)
 {
-   if(req.isAuthenticated() && (req.user.isCompany == false))
+   if(req.isAuthenticated() && (req.user.isCompany == false) && (req.user.isFill == true)&& (req.user.isAdmin == false))
    {
       res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, post-check=0, pre-check=0');
      next();
@@ -50,21 +50,51 @@ middlewareObj.checkAdminOwnership = function(req,res,next)
       res.redirect("/");
    }
 }
- middlewareObj.isLoggedIn = function(req,res,next){
-     if(req.isAuthenticated())
+middlewareObj.isLoggedIn = function(req,res,next){
+   if(req.isAuthenticated())
+   {
+      res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, post-check=0, pre-check=0');
+        return next();
+   }
+   req.flash("error","You need to login");
+   res.redirect("/login");
+}
+ middlewareObj.isLoggedInSeeker = function(req,res,next){
+     if(req.isAuthenticated() && (req.user.isCompany== false) && (req.user.isAdmin == false))
      {
-        //  if(req.user.isCompany == true)
-        //  {
-        //      res.redirect("")
-        //  }
-        //  else{
-        //         res.redirect("");
-        //  }
         res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, post-check=0, pre-check=0');
           return next();
      }
      req.flash("error","You need to login");
      res.redirect("/login");
  }
+ middlewareObj.isLoggedInCompany = function(req,res,next){
+   if(req.isAuthenticated() && (req.user.isCompany== true) && (req.user.isAdmin == false))
+   {
+      res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, post-check=0, pre-check=0');
+        return next();
+   }
+   req.flash("error","You need to login");
+   res.redirect("/login");
+}
+middlewareObj.isLoggedInAdminSeeker = function(req,res,next){
+   if(req.isAuthenticated() && ((req.user.isCompany== false) || (req.user.isAdmin == true)) && (req.user.isFill == true))
+   {
+      res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, post-check=0, pre-check=0');
+        return next();
+   }
+   req.flash("error","You need to login");
+   res.redirect("/login");
+}
+
+middlewareObj.isLoggedInAdmin = function(req,res,next){
+   if(req.isAuthenticated() && (req.user.isAdmin == true) && (req.isFill == true))
+   {
+      res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, post-check=0, pre-check=0');
+        return next();
+   }
+   req.flash("error","You need to login");
+   res.redirect("/login");
+}
 
  module.exports = middlewareObj;

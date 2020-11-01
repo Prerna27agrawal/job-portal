@@ -16,7 +16,9 @@
    
         <h1>Total Quiz: <%= count %> </h1>
         <br>
-        <h3>No. Of Quiz To Be Posted: <%= currentUser.QuizCount %>
+        <h3>Max No. Of Quiz To Be Posted: <%= currentUser.QuizCount %>
+        </h3>
+        <h3>No. Of Quiz  Posted: <%= countposted %>
         </h3>
         <br>
         <form  action="/quiz/quizCount" class="form-inline" method="Post">
