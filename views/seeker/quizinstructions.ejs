@@ -10,6 +10,35 @@
     }
     
 </style>
+<!-- <script type="text/javascript">
+    function noback()
+    {
+        window.history.forward();
+    }
+    setTimeout(function(){noback()},0);
+    window.onunload = function(){null};
+</script> -->
+<!--     
+<script type="text/javascript"> 
+    // window.history.forward(); 
+    // function noBack() { 
+    //     window.history.forward(); 
+    // }
+    window.onbeforeunload = function() { return "Your work will be lost."; }; 
+</script>  -->
+<script type="text/javascript">
+    function finishpage()
+   {
+     alert("unload event detected!");
+    setTimeout(() => {'document.quiz.submit()'}, 1);  
+     //document.quiz.submit();
+   }
+       window.onbeforeunload= function(finishpage) {
+         return ;
+    // setTimeout(() => {'document.quiz.submit()'}, 1);
+    
+   }
+   </script>
 <div class="container">
     <div class="instruction">
         <h2>INSTRUCTIONS</h2>
@@ -29,10 +58,11 @@
             We recommend that you close all other windows and tabs to ensure that there are no distractions
         </li>
         <li> You must click <b>Submit</b> after completing the test.</li>
-        <li>Timer will start as soon as you will click the Start Test button.</li>
+        <li>Test will start as soon as you will click the Start Test button.</li>
     </ul>
     <div>
-        <button class="btn btn-primary btn-block " id="testbtn">START TEST</button>
+        <a href="/quiz/<%= quiz._id %>/takequiz" class="btn btn-primary btn-block" id="testbtn" >START TEST</a>
+        <!-- <button class="btn btn-primary btn-block " id="testbtn">START TEST</button> -->
     </div>
     
     </div>

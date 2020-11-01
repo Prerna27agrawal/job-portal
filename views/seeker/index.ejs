@@ -1,15 +1,26 @@
 <%- include("../partials/header")%>
-
+<style>
+    #message {
+        margin-bottom: 10px;
+        background-color: rgb(185, 224, 211);
+    }
+    #message-content{
+        padding-top: 10px; height: 50px;
+    }
+</style>
+<%= console.log(seeker) %>
+<% if(!currentUser.isCompany && (seeker.ScoreCount < currentUser.QuizCount)){%>
 <div id="message">
     <div class="container text-center">
         <div id="message-content">
             <div id="inner-message"> 
                 <button type="button" class="close" id="closebtn" data-dismiss="alert">&times;</button>
-                <h5>To Increase your Chance Of Selection, Take A Quiz . You can attempt at max 3 times. <a href="/quiz/show"> Take A Quiz</a></h5>
+                <h5>Take A Quiz .Attempts Left <%= currentUser.QuizCount - seeker.ScoreCount %> <a href="/quiz/show"> Take A Quiz</a></h5>
             </div>
         </div>
     </div>
 </div>
+<% } %>
 <div class="container">
 <div class="container">
     <header class="jumbotron">

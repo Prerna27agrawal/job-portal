@@ -55,19 +55,21 @@ router.get("/register/company",middleware.checkCompanyOwnership,function (req, r
 
 //company register page 
 
-router.post("/register/company",[
-  check('name','Name is required').not().isEmpty(),
-  check('tagline','Tagline is required').not().isEmpty(),
-  check('establishmentDate','EstablishmentDate is required').not().isEmpty(),
-],middleware.checkCompanyOwnership,upload.single('logo'), function (req, res) {
-  const errors = validationResult(req);
-  if(!errors.isEmpty())
-  {
-        var errorResponse = errors.array({ onlyFirstError: true });
-        req.flash("error",errorResponse[0].msg);
-        res.redirect("/register/commpany");
-  }
-  else{
+router.post("/register/company",
+// [
+//   check('name','Name is required').not().isEmpty(),
+//   check('tagline','Tagline is required').not().isEmpty(),
+//   check('establishmentDate','EstablishmentDate is required').not().isEmpty(),
+// ],
+middleware.checkCompanyOwnership,upload.single('logo'), function (req, res) {
+  // const errors = validationResult(req);
+  // if(!errors.isEmpty())
+  // {
+  //       var errorResponse = errors.array({ onlyFirstError: true });
+  //       req.flash("error",errorResponse[0].msg);
+  //       res.redirect("/register/company");
+  // }
+  // else{
     cloudinary.uploader.upload(req.file.path, function(result) {
       // add cloudinary url for the image to the campground object under image property
       req.body.logo = result.secure_url;
@@ -101,7 +103,7 @@ router.post("/register/company",[
           res.redirect("/company/show");
       });
     });
-  }
+  
 });
  
 

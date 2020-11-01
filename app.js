@@ -12,6 +12,8 @@ var app = express();
 var bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 var passport   = require("passport");
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 var LocalStrategy= require("passport-local");
 var path= require("path");
 var passportLocalMongoose = require('passport-local-mongoose'); 
@@ -64,14 +66,24 @@ app.use(methodOverride("_method"));
 app.use(flash());
 app.locals.moment= require("moment");
 
-
+app.use(cookieParser('secret'));
 // ////////passport-authenticate
-app.use(require("express-session")({
-     secret: "It is a Job Portal",
-     resave :false,
-     saveUninitialized: false	
+app.use(session({
+     secret: 'secret',
+     maxAge:3600000,
+     resave: true,
+     saveUninitialized: true,
+    //  resave :false,
+    //  saveUninitialized: false	
  }));
-
+//  const checkAuthenticated = function (req, res, next) {
+//     if (req.isAuthenticated()) {
+//         res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, post-check=0, pre-check=0');
+//         return next();
+//     } else {
+//         res.redirect('/');
+//     }
+//  }
 
  app.use(passport.initialize());
  app.use(passport.session());
