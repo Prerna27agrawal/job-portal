@@ -6,7 +6,6 @@ const {check, validationResult} = require('express-validator');
 var Company = require("../models/company");
 var Seeker = require("../models/seeker");
 var Job = require("../models/job");
-var Job2 = require("../models/job");
 var User = require("../models/user");
 var Posts = require("../models/posts");
 var Quiz = require("../models/quiz");
@@ -40,7 +39,7 @@ router.post("/login/company/createjob", middleware.checkCompanyOwnership, functi
     id: req.user._id,
     username: req.user.username
   }
-  Job2.create(req.body.job, function (err, job) {
+  Job.create(req.body.job, function (err, job) {
     if (err) {
       console.log(err);
       req.flash("error", err.message);
