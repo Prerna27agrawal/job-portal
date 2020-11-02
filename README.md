@@ -3,6 +3,7 @@
  TOOLS/ TECHNOLOGIES :- Front End – HTML, CSS,JavasScript
    Back End – NodeJS, Express, Mongo DB
     Editor – Visual Studio Code
+Demo At:  https://damp-stream-77053.herokuapp.com/
 PROGRESS OF THE PROJECT:-
 1.	Created separate login/ register page for company and developers.
 2.	Registration page for developer have the following fields a. Name b. Password (with Confirm password feature) c. Email d. Country e. User Type (Student or Professional) f. LinkedIn URL g. Upload Resume h. Skills (Multiple options can be selected)
@@ -24,4 +25,4 @@ PROGRESS OF THE PROJECT:-
 10.	Home page has all the current openings with company name, position, location listed and users can filter the list by search jobs option. 
 11.	A link to user profile is also added where they can build their portfolio and keep track of the previous applications.
 12.	Logout link to redirect users to login page. 
-13.live demo  https://damp-stream-77053.herokuapp.com/
+
