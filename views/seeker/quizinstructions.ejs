@@ -8,7 +8,24 @@
         width:400px;
         margin-top:40px;
     }
-    
+    *{
+        box-sizing: border-box;
+    }
+    @media(max-width: 1200px) {
+    .btn{
+        display: block;
+        max-width: 200px;
+        white-space: normal;
+    }
+    /* .content{
+        margin-top:20px;
+    }
+    .content a{
+        font-size: 20px;
+        font-weight: 900;
+       
+    } */
+}
 </style>
 <script type="text/javascript">
     function noback()
@@ -62,12 +79,15 @@
         <li>Test will start as soon as you will click the Start Test button.</li>
     </ul>
     <div>
-        <a href="/quiz/<%= quiz._id %>/takequiz" class="btn btn-primary btn-block" id="testbtn" >START TEST</a>
+        <a href="/quiz/<%= quiz._id %>/takequiz" class="btn btn-primary btn-lg" id="testbtn" >START TEST</a>
         <!-- <button class="btn btn-primary btn-block " id="testbtn">START TEST</button> -->
     </div>
     
     </div>
-    
+    <div class="content" style="margin: 30px;">
+    <a href="/quiz/show" style="font-size: 20px;">Go back</a>
+    </div>
+</div>
 </div>
 
 <%- include("../partials/footer") %>

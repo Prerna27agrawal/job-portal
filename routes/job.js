@@ -134,7 +134,7 @@ router.delete("/seeker/:job_id/withdraw/:id",middleware.checkSeekerOwnership,fun
       return res.redirect("back");
     }
     console.log("removed the application");
-    req.flash('success', "Your application has been withdrawn");
+    // req.flash('success', "Your application has been withdrawn");
     res.redirect("/seeker/" + req.user._id + "/appliedJobs");
   });
   
