@@ -94,7 +94,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id", middleware
                 console.log('Message sent: %s', info.messageId);
                 console.log('Preview Url : %s', nodemailer.getTestMessageUrl(info));
                 req.flash('success', "Mail has been sent to the Seeker Regarding your Decision");
-                res.redirect("back");
+               // res.redirect("back");
                 res.redirect("/company/"+req.params.id+"/show/jobstats");
               }
             });
