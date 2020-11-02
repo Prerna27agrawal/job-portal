@@ -36,7 +36,7 @@
         }
     </style>
 </head>
-<body onload="timeout()" onunload="myFunction()">
+<body onload="timeout()"  onbeforeunload="myFunction()">
       
 <div class="container">
     <h1 id="quiztitle"><%= quiz.title %><div id="time" style="float:right">timeout</div></h1>
@@ -84,7 +84,7 @@
        return null;
     }
     </script> -->
-    <!-- <script>
+     <script>
         function myFunction()
         {
             
@@ -92,11 +92,7 @@
             setTimeout(() => {'document.quiz.submit()'}, 1);
              document.getElementById("quiz").submit();
         }
-        window.onbeforeunload = function(){
-        myfun();
-        return true;
-      };
-      </script> -->
+      </script>
 <!-- <script type="text/javascript">
     function checkRequest(event){
         event.preventDefault();
@@ -111,7 +107,7 @@
         }
     }
 </script> -->
-<script> 
+<!-- <script> 
     function finishpage()
    {
      //alert("unload event detected!");
@@ -122,14 +118,14 @@
          return true ;
     setTimeout(() => {'document.quiz.submit()'}, 1);
     
-   }
-// $(window).on('beforeunload',function(){
+   } -->
+<!-- // $(window).on('beforeunload',function(){
 //     finishpage();
 //     return "Bye"
 //window.addEventListener('beforeunload', function (e) {
   //e.returnValue = 'You will loose';
   //return finishpage;
-</script> 
+</script>  -->
 <script type="text/javascript">
     function timeout()
     {

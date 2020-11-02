@@ -95,7 +95,7 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id", middleware
                 console.log('Preview Url : %s', nodemailer.getTestMessageUrl(info));
                 req.flash('success', "Mail has been sent to the Seeker Regarding your Decision");
                 res.redirect("back");
-                //console.log("hi");
+                res.redirect("/company/"+req.params.id+"/show/jobstats");
               }
             });
             //res.redirect("/company/"+req.params.id+"/show/jobstats");
@@ -119,7 +119,6 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id", middleware
                 console.log(user.isStatus);
                 foundjob.save();
               }
-  
             });
             const output = `
                      <p> Sorry!You have been  rejected for the following job</p>
@@ -164,7 +163,8 @@ router.post("/job/:id/selected/:appliedByarray_id/seeker/:seeker_id", middleware
                 //console.log('Preview Url : %s',nodemailer.getTestMessageUrl(info));
                 // req.flash('success',"Password reset link sent to email ID. Please follow the instructions.");
                 req.flash('success', "Mail has been sent to the Seeker Regarding your Decision");
-                res.redirect("back");
+                res.redirect("/company/"+req.params.id+"/show/jobstats");
+                // res.redirect("back");
               }
             });
             // res.redirect("/company/"+req.params.id+"/show/jobstats");
