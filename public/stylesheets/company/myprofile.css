@@ -2,6 +2,10 @@
     *{
         box-sizing: border-box;
     }
+    .hidden-sm-down{
+        overflow-x: scroll;
+    }
+
     .post-editor,
     .stream-post {
         padding: .75rem;
@@ -20,6 +24,7 @@
         -ms-flex-direction: column;
         flex-direction: column
     }
+
 
     @media (min-width:768px) {
         .profile-wrapper {
@@ -54,6 +59,7 @@
             -ms-flex-preferred-size: 30%;
             flex-basis: 20%;
         }
+       
     }
 
     .profile-section-user table {
@@ -550,4 +556,13 @@ line-height: 1rem;
 }
 .media-body span{
     font-size: 14px;
+}
+@media (max-width:700px){
+    .container{
+        margin:0;
+    }
+    .stream-post{
+        margin-left:0;
+        margin-right: 0;
+    }
 }

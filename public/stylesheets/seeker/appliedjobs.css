@@ -7,9 +7,6 @@ body{
     font-family: "Whitney SSm A", "Whitney SSm B", Avenir, "Segoe UI", Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: normal;
 }
-.container .alert{
-    margin:0;
-}
 header{
     background-color: #fff;
     box-shadow: 0.1px 1px 4px 0 #e7eeef;
