@@ -11,14 +11,17 @@
     body {
         background: rgb(243, 246, 247);
     }
-
+    .row{
+        margin-bottom: 50px;
+    }
     .card {
         background-color: rgb(223, 233, 235);
-        margin-top: 150px;
+        margin-top: 70px;
+        margin-bottom: 30px;
         text-align: center;
-        margin-left: 60px;
+        margin-left: 30px;
         width:280px;
-        height:280px;
+        min-height:280px;
         padding:10px;
     }
     .card-body{
@@ -27,20 +30,39 @@
     /* .card-title{
         padding-top: 20px; 
     } */
+    @media(max-width: 1200px) {
+     .row{
+         margin: 0;
+        
+     }
+     .card{
+         margin-left: 10px;
+     }
+        
+}
     #message{
-        background: rgb(143, 196, 150);
+        background: rgb(180, 238, 188);
+        margin: 20px 0 20px;
+        padding: 20px;
     }
+    
+    
 </style>
 <section>
     <div id="message">
         <div class=" mb-5">
             <div class="container">
-                <h2 class="display-20 display-md-18 display-lg-16">TAKE A QUIZ</h2>
-            <p>Below Quizzes are designed to test your problem-solving, analytical and time-management skills.<br>
+                <h2 class="display-20 display-md-18 display-lg-16">TAKE A QUIZ</h2><ul>
+                    <li>Below Quizzes are designed to test your problem-solving, analytical and time-management skills.</li>
+                    <li> It will test you on the basis of different parameters of skills and knowledge.</li>
+                    <li>These tests are <b>not compulsory </b>but might give you an edge over other applicants for the same job.</li>
+                    <li>Scoring Good might increase you selection chance and at the same time will tell you where you stand in your analytical and problem-solving skills.</li>
+                </ul>
+            <!-- <p>Below Quizzes are designed to test your problem-solving, analytical and time-management skills.<br>
                 It will test you on the basis of different parameters of skills and knowledge.<br>
                 These tests are <b>not compulsory </b>but might give you an edge over other applicants for the same job. <br>
                 Scoring Good might increase you selection chance and at the same time will tell you where you stand in your analytical and problem-solving skills.<br>
-                <!-- Score of <b>Best of the 3</b> Quiz will be shared with the company you are applying to. So make sure,you perform well in these tests.</p> -->
+                Score of <b>Best of the 3</b> Quiz will be shared with the company you are applying to. So make sure,you perform well in these tests.</p> -->
             </div>
             
         </div>
@@ -49,7 +71,7 @@
 
         <div class="row">
             <% seeker.ScoreStatus.forEach(function(testgiven){ %>
-            <div class="col-sm-6 col-lg-4 ">
+            <div class="col-sm-12 col-lg-4 d-flex">
                 <div class="card">
                     <div class="card-body">
                         <h3 class="card-title"><%= testgiven.title %></h3>
@@ -73,7 +95,7 @@
                      check= true; }%>
             <% }); %>
             <% if(!check){ %>
-                <div class="col-sm-6 col-lg-4 ">
+                <div class="col-sm-12 col-lg-4">
                     <div class="card">
                         <div class="card-body">
                             <h3 class="card-title"><%= quiz.title %></h3>
@@ -90,6 +112,7 @@
                 <% }); %>
             <% } %>
         </div>
+        
     </div>
 </section>
 <%- include("../partials/footer") %>
