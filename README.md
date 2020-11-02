@@ -24,3 +24,4 @@ PROGRESS OF THE PROJECT:-
 10.	Home page has all the current openings with company name, position, location listed and users can filter the list by search jobs option. 
 11.	A link to user profile is also added where they can build their portfolio and keep track of the previous applications.
 12.	Logout link to redirect users to login page. 
+13.live demo  https://damp-stream-77053.herokuapp.com/
