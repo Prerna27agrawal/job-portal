@@ -9,7 +9,7 @@ var jobSchema = new mongoose.Schema({
     company: String,
     name: String,
     location: String,
-    experience: Number,
+    experience: String,
     description: String,
     ctc:Number,
     employementType:String,

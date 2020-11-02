@@ -77,55 +77,6 @@
 <center><button type="submit" value="submit" class="btn btn-success pull-right">Submit</button></center>
 </form>
 </div>
-<!-- <script>
-    window.onbeforeunload = closingCode;
-    function closingCode(){
-       document.getElementById("quiz").submit();
-       return null;
-    }
-    </script> -->
-     <script>
-        function myFunction()
-        {
-            
-            clearTimeout(tm);
-            setTimeout(() => {'document.quiz.submit()'}, 1);
-             document.getElementById("quiz").submit();
-        }
-      </script>
-<!-- <script type="text/javascript">
-    function checkRequest(event){
-        event.preventDefault();
-        event.returnValue = '';
-        var __type= event.currentTarget.performance.navigation.type;
-        if(__type === 1 || __type === 0){
-            // alert("Browser refresh button is clicked...");
-            document.getElementById('quiz').submit();
-        }
-        else if(__type ==2){
-            document.getElementById('quiz').submit();
-        }
-    }
-</script> -->
-<!-- <script> 
-    function finishpage()
-   {
-     //alert("unload event detected!");
-    setTimeout(() => {'document.quiz.submit()'}, 1);  
-     //document.quiz.submit();
-   }
-       window.onbeforeunload= function(finishpage) {
-         return true ;
-    setTimeout(() => {'document.quiz.submit()'}, 1);
-    
-   } -->
-<!-- // $(window).on('beforeunload',function(){
-//     finishpage();
-//     return "Bye"
-//window.addEventListener('beforeunload', function (e) {
-  //e.returnValue = 'You will loose';
-  //return finishpage;
-</script>  -->
 <script type="text/javascript">
     function timeout()
     {
@@ -158,17 +109,22 @@
         }
         return msg;
   }
+  function myFunction()
+        {
+             document.getElementById("quiz").submit();
+        }
+    if (window.performance) {
+        console.info("window.performance works fine on this browser");
+      }
+      console.info(performance.navigation.type);
+      if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+        console.info( "This page is reloaded" );   
+        myFunction();
+      } else {
+        console.info( "This page is not reloaded");
+    }
 </script>
 </body>
 </html>
 
-
-<!-- <script type="text.javascript">
-    function noback()
-    {
-        window.history.forward();
-    }
-    setTimeout(function(){preback()},0);
-    window.onunload = function(){null};
-</script> -->
  
