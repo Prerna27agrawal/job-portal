@@ -2,7 +2,7 @@
 
  TOOLS/ TECHNOLOGIES :- Front End – HTML, CSS,JavasScript
    Back End – NodeJS, Express, Mongo DB
-    Editor – Visual Studio Code
+    Editor – Visual Studio Code\n
 Demo At:  https://damp-stream-77053.herokuapp.com/
 PROGRESS OF THE PROJECT:-
 1.	Created separate login/ register page for company and developers.
