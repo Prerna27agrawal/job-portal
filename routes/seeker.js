@@ -361,4 +361,28 @@ Company.findOneAndUpdate({_id:req.params.id},{$pull:{"subscribedBy":req.user._id
   }
 });
 });
+ //delete from all three schema
+ router.delete("/seeker/:id",middleware.checkAdminOwnership,function(req,res){
+  User.findById(req.params.id, function(err,user){
+    if(err)
+    {
+      console.log(err);
+      req.flash("error",err.message);
+      return res.redirect("back");
+    }
+    Seeker.findOne().where('seekerBy.id').equals(user._id).exec(function(err,seeker){
+      Submission.find().where('submittedBy.id').equals(user._id).exec(function(err,submissions){
+     seeker.remove();
+      submissions.forEach(function(submission){
+        submission.remove();
+      });
+      user.remove();
+      console.log("removed the seeker");
+      req.flash('success',"Seeker Removed Successfully!");
+      res.redirect("/");
+    });
+  });
+  });
+});
+
 module.exports = router;

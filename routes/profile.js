@@ -113,7 +113,7 @@ router.get("/company/:id/myprofile",middleware.isLoggedIn,function(req,res){
   });
   
   //delete from all three schema
-  router.delete("/company/:id",middleware.checkCompanyOwnership,function(req,res){
+  router.delete("/company/:id",middleware.checkAdminOwnership,function(req,res){
     User.findById(req.params.id, function(err,user){
       if(err)
       {

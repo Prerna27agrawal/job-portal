@@ -21,6 +21,7 @@
                 <th scope="col">Graduation Year</th>
                 <th scope="col">Stream</th>
                 <th scope="col">More Info</th>
+                <th scope="col">Delete</th>
 			</tr>
 		</thead>
 				     <% var i=1; %>
@@ -36,6 +37,10 @@
                                     <td>
                                         <a class="btn btn-primary" role="button" href="/seeker/<%= seeker.seekerBy.id %>/myprofile">More Info</a>
                                     </td>
+                                    <td><form   onsubmit="return confirm('Do you really want to Delete the following?');"class="delete-form" action="/seeker/<%=seeker.seekerBy.id%>?_method=DELETE"
+										method="POST">
+										<input class="btn btn-xs btn-danger" type="Submit" value="Delete">
+									</form></td>
 								</tr>
 							</tbody>
 				<% i++ %>

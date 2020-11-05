@@ -19,6 +19,7 @@
                 <th scope="col">tagline</th>
                 <th scope="col">EstablishmentDate</th>
 				<th scope="col">ContactNo</th>
+				<th scope="col">Delete</th>
 			</tr>
 		</thead>
 				     <% var i=1; %>
@@ -30,6 +31,10 @@
                                     <td><%= company.tagline %></td>
 									<td><%= company.establishmentDate %></td>
 									<td><%= company.contactno %></td>
+									<td><form   onsubmit="return confirm('Do you really want to Delete the following?');"class="delete-form" action="/company/<%=company.createdBy.id%>?_method=DELETE"
+										method="POST">
+										<input class="btn btn-xs btn-danger" type="Submit" value="Delete">
+									</form></td>
 								</tr>
 							</tbody>
 				<% i++ %>
