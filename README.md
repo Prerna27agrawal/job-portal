@@ -1,8 +1,10 @@
 # WeHire - Job Portal
 
+# Search Application for both job seekers and hiring managers.
+
  TOOLS/ TECHNOLOGIES :- Front End – HTML, CSS,JavasScript
-   Back End – NodeJS, Express, Mongo DB
-    Editor – Visual Studio Code 
+                        Back End – NodeJS, Express, Mongo DB
+                        Editor – Visual Studio Code 
     
 Demo At:  https://damp-stream-77053.herokuapp.com/
 
@@ -27,4 +29,9 @@ PROGRESS OF THE PROJECT:-
 10.	Home page has all the current openings with company name, position, location listed and users can filter the list by search jobs option. 
 11.	A link to user profile is also added where they can build their portfolio and keep track of the previous applications.
 12.	Logout link to redirect users to login page. 
+
+# LOCAL DEVELOPMENT ENVIORNMENT
+1. Clone the repo
+2. Pull out all dependecies using npm init
+3. Run node app.js
 
